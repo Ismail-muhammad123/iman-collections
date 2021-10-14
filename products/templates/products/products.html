@@ -3,38 +3,54 @@
 {% block content %}
 
 <div class="row" style="width: 100%;">
-    <div class="pl-4 col-10" id="products-grid">
-        {% for i in products %}
-        <div id="product-card" class="card">
+    <div class="pl-4 col-10">
+        {% for i in categories%}
+        <div class="card" style="border-width: 1px; margin: 15px; border-color: indigo;">
+            <div class="card-header" style="background-color: indigo;">
+                <h5><a class="text-white text-capitalize" href="#">{{ i }}</a></h5>
+            </div>
             <div class="card-body">
-                <div class="row">
-                    <div class="col-5">
-                        <img src="{% static 'products/images/tailor.jpg' %}" height="100" alt="" />
+                <div id="products-grid">
+                    {% for i in products %}
+                    <div id="product-card" class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-5">
+                                    <img src="{% static 'products/images/tailor.jpg' %}" height="100" alt="" />
+                                </div>
+                                <div class="col-7">
+                                    <p class="text-primary">Seller's Name</p>
+                                    <p class="text-uppercase fw-3"><span class="text-dark text-capitalize">Name:
+                                        </span>Item Name
+                                    </p>
+                                    <p class="text-danger"><span class="text-dark text-capitalize">price: </span> N50
+                                    </p>
+                                    <p>Lorem ipsum dolor,oris, eius eaque accusantium est minima.</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <form action="#" method="post">
+                                        <label for="quentity">insert quentity:</label>
+                                        <br />
+                                        <input class="input-group" height="50px" type="number" name="quentity"
+                                            id="quentity" />
+                                    </form>
+                                </div>
+                                <div class="col-6">
+                                    <br />
+                                    <button class="btn btn-success">Add to Cart</button>
+                                    <button class="btn btn-primary">Buy</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-7">
-                        <p class="text-primary">Seller's Name</p>
-                        <p class="text-uppercase fw-3"><span class="text-dark text-capitalize">Name: </span>Item Name
-                        </p>
-                        <p class="text-danger"><span class="text-dark text-capitalize">price: </span> N50</p>
-                        <p>Lorem ipsum dolor,oris, eius eaque accusantium est minima.</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-6">
-                        <form action="#" method="post">
-                            <label for="quentity">insert quentity:</label>
-                            <br />
-                            <input class="input-group" height="50px" type="number" name="quentity" id="quentity" />
-                        </form>
-                    </div>
-                    <div class="col-6">
-                        <br />
-                        <button class="btn btn-success">Remove from Cart</button>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
         {% endfor %}
+
     </div>
     <div class="col-2">
         <div class="card py-3  mx-0 my-4">
