@@ -1,0 +1,32 @@
+{% extends 'home/base.html'%}
+{% load static%}
+{% block content %}
+<div class="container" id="products-grid">
+    {% for i in order_items %}
+    <div id="product-card" class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-5">
+                    <img src="{% static 'products/images/tailor.jpg' %}" height="100" alt="" />
+                </div>
+                <div class="col-7">
+                    <p class="text-primary">Men's designer shirt</p>
+                    <p class="text-uppercase fw-3">Lorem ipsum dolor sit amet.</p>
+                    <p class="text-danger">N50</p>
+                    <p>Lorem ipsum dolor,oris, eius eaque accusantium est minima.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+
+                </div>
+                <div class="col-6">
+                    <p class="text-right">2 days ago</p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

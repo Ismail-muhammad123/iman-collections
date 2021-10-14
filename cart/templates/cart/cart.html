@@ -1,0 +1,61 @@
+{% extends 'home/base.html'%}
+{% load static%}
+{% block content %}
+
+<div class="row" style="width: 100%;">
+    <div class="pl-4 col-10" id="products-grid">
+        {% for i in cart_items %}
+        <div id="product-card" class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-5">
+                        <img src="{% static 'products/images/tailor.jpg' %}" height="100" alt="" />
+                    </div>
+                    <div class="col-7">
+                        <p style="color: indigo; font-weight: 800;">Men's designer shirt</p>
+                        <p class="text-uppercase fw-3" style="font-weight: 800;">Lorem ipsum dolor sit amet.</p>
+                        <p class="text-danger" style="font-weight: 900;">N50</p>
+                        <p>Lorem ipsum dolor,oris, eius eaque accusantium est minima.
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <form action="#" method="post">
+                            <label for="quentity">insert quentity:</label>
+                            <br />
+                            <input class="input-group" height="50px" type="number" name="quentity" id="quentity" />
+                        </form>
+                    </div>
+                    <div class="col-6">
+                        <br />
+                        <button class="btn btn-success">Remove from Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="col-2">
+        <div class="card py-3  mx-0 my-4">
+            <div class="card-body">
+                <strong>Total Quentity:</strong>
+                <p class="text-right">8</p>
+                <strong>Number of Items:</strong>
+                <p class="text-right">4</p>
+                <strong>Total amount:</strong>
+                <p class="text-right">N200</p>
+                <strong>Total Discount:</strong>
+                <p class="text-right">00</p>
+                <a class="btn btn-success" style="width: 150px;" href="#">Checkout</a>
+                <br>
+                <br>
+                <a class="btn btn-danger" style="width: 150px;" href="#">Clear</a>
+                <br>
+                <br>
+                <a class="btn btn-primary" style="width: 150px;" href="#">Keep Shping</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
