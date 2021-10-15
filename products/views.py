@@ -13,3 +13,23 @@ def products(request):
 
 def home(request):
     return render(request, template_name='home/index.html')
+
+
+def category(request, cat):
+    context = {
+        "products": range(14),
+        "categories": [cat]
+    }
+    return render(request, template_name="products/products.html", context=context)
+
+
+def fabrics(request):
+    return render(request, template_name='products/fabrics.html')
+
+
+def tailored(request):
+    return render(request, template_name='products/tailored.html')
+
+
+def saved(request):
+    return render(request, template_name="products/saved.html")

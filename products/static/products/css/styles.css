@@ -19,8 +19,8 @@ html {
 }
 
 #product-card > div > div > div > img {
-  width: 180px;
-  height: 200px;
+  width: 50%;
+  height: 70%;
   border-radius: 5%;
 }
 
