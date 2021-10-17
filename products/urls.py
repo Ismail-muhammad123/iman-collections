@@ -6,5 +6,7 @@ urlpatterns = [
     path("categories/<cat>", views.category),
     path('tailored/', views.tailored),
     path("fabrics/", views.fabrics),
-    path("saved", views.saved),
+    path("saved/", views.saved),
+    path('detail/', views.product_detaiil),
+
 ]

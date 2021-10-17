@@ -4,43 +4,152 @@
 
 <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Bootstrap core CSS -->
-    <!-- <link href="https://getbootstrap.com/docs/4.4/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="{% static 'products/css/styles.css' %}">
-
     <link href="{% static 'products/css/bootstrap.css' %}" rel="stylesheet" />
-    <title>Products</title>
+    <link href="{% static 'products/fontawesome/css/all.css' %}" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'products/css/styles.css' %}">
+    <style>
+        #products-grid,
+        #cart-items {
+            display: grid;
+            grid-column-gap: 20px;
+            grid-row-gap: 20px;
+            grid-template-columns: repeat(2, 1fr);
+            padding: 20px;
+            align-items: center;
+        }
+
+        html {
+            margin: 0;
+            padding: 0;
+        }
+
+        #product-card>a>img {
+            width: 100%;
+            height: 80%px;
+            border-radius: 5% 5% 0 0;
+        }
+
+        #product-details-image {
+            width: 100%;
+            border-radius: 0;
+            margin: auto;
+            padding: auto;
+            height: 70%;
+        }
+
+        #details-info {
+            font-size: 24px;
+            padding: 10px;
+        }
+
+        .form-signin {
+            width: 100%;
+            max-width: 330px;
+            padding: 15px;
+            margin: auto;
+        }
+
+        .form-signin .checkbox {
+            font-weight: 400;
+        }
+
+        .form-signin .form-floating:focus-within {
+            z-index: 2;
+        }
+
+        .form-signin input[type="email"] {
+            margin-bottom: -1px;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        .form-signin input[type="password"] {
+            margin-bottom: 10px;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+
+
+
+        @media only screen and (min-width: 760px) {
+            #products-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                padding: 20px;
+            }
+
+            #filter-section {
+                list-style: none;
+                display: none;
+            }
+        }
+    </style>
+
+    {% block title %}
+    <title>Fashiona</title>
+    {% endblock %}
 </head>
 
 <body>
-    <nav class="site-header sticky-top py-1" style="background-color: indigo;">
-        <div class="container d-flex flex-column flex-md-row justify-content-between">
-            <a href="/" aria-label="Product">
-                <h2 class="text-white title">Fashiona</h2>
-            </a>
-            <div>
-                <a class="py-2 text-white px-2 d-none d-md-inline-block" href="/">Home</a>
-                <a class="py-2 text-white px-2 d-none d-md-inline-block" href="/products">Products</a>
-                <a class="py-2 text-white px-2 d-none d-md-inline-block" href="/products/tailored">Tailored</a>
-                <a class="py-2 text-white px-2 d-none d-md-inline-block" href="/products/saved">Saved</a>
-                <a class="py-2 text-white px-2 d-none d-md-inline-block" href="/order">My Orders</a>
-                <a class="py-2 text-white px-2 d-none d-md-inline-block" href="/cart">Cart</a>
-                <a href="#" class="btn btn-primary">My Acoount</a>
-            </div>
+    <nav class="navbar navbar-expand-md navbar-dark" style="background-color: indigo;">
+        <a class="navbar-brand" href="/">Fashiona</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbar">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <form class="form-inline my-2 my-md-0">
+                        <input class="form-control" type="text" placeholder="Search">
+                    </form>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">Products</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown04">
+                        <a class="dropdown-item" href="#">Tailored</a>
+                        <a class="dropdown-item" href="/products">Finished</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/cart">Cart <span><i
+                                class="fa-regular fa-cart-circle-plus"></i></span></a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">My Account</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown04">
+                        <a class="dropdown-item" href="/user/register">Sign In</a>
+                        <a class="dropdown-item" href="/user/login">LogIn</a>
+                        <a class="dropdown-item" href="#">My Profile</a>
+                        <a class="dropdown-item" href="/products/saved/">saved products</a>
+                        <a class="dropdown-item" href="/order">My Orders</a>
+                    </div>
+                </li>
+            </ul>
         </div>
     </nav>
-    {% block content %}
-    {% endblock %}
-    <footer class="py-3" style="background-color: indigo;height: 50px;align-items: center; justify-content: center;">
-        <div class="container">
+    <div style="padding-bottom: 50px;">
+        {% block content %}
+        {% endblock %}
+    </div>
+    <footer class="py-3"
+        style="background-color: indigo;height: 50px;align-items: center; justify-content: center; position: fixed; bottom: 0; width: 100%;">
+        <div class="px-lg-5 px-md-5 px-1">
             <p class="float-right"><a class="text-white" href="#">Back to top</a></p>
             <p class="text-white">&copy; 2021-2023 Fashiona, Inc. | <a href="#">Privacy</a> &middot; <a
                     href="#">Terms</a></p>
         </div>
     </footer>
+    <script src="{% static 'products/js/jquery.js' %}"></script>
+    <script src="{% static 'products/js/bootstrap.min.js' %}"></script>
+    <script>window.jQuery</script>
 </body>
 
 </html>

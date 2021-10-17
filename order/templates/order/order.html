@@ -1,33 +1,34 @@
 {% extends 'home/base.html'%}
 {% load static%}
 {% block content %}
-<div class="container" id="products-grid">
-    {% for i in order_items %}
-    <div id="product-card" class="card">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-5">
-                    <img src="{% static 'products/images/tailor.jpg' %}" height="100" alt="" />
-                </div>
-                <div class="col-7">
-                    <p class="text-primary">Men's designer shirt</p>
-                    <p class="text-uppercase fw-3">Lorem ipsum dolor sit amet.</p>
-                    <p class="text-danger">N50</p>
-                    <p>Lorem ipsum dolor,oris, eius eaque accusantium est minima.</p>
-                </div>
-            </div>
-            <hr>
-            <div class="row">
-                <div class="col-6">
-                    <span>Order Code: </span> <span>000030272</span>
-                </div>
-                <div class="col-6">
-                    <p class="text-right">2 days ago</p>
+<h5
+    style="width: 100%; background-color: blueviolet; padding: 10px; color: white; font-weight: 700; font-size: 22.0px;">
+    Items You Ordered
+</h5>
 
-                </div>
-            </div>
-        </div>
-    </div>
-    {% endfor %}
+<div style="width: 100%; overflow-x: auto;">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Item Name</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Date</th>
+                <th scope="col">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            {% for item in order_items %}
+            <tr>
+                <td>item {{item}}</td>
+                <td>4</td>
+                <td>7,000</td>
+                <td>12/02/2021</td>
+                <td>processing</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 {% endblock %}
