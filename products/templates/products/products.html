@@ -1,0 +1,34 @@
+{% extends 'home/base.html'%}
+{% load static%}
+{% block content %}
+<h5
+    style="width: 100%; background-color: blueviolet; padding: 10px; color: white; font-weight: 700; font-size: 22.0px;">
+    Category
+</h5>
+
+
+<div id="products-grid">
+    {% for j in products %}
+    <div id="product-card" style="border-width: 3px;">
+        <a href="/products/detail"> <img src="{% static 'products/images/tailor.jpg' %}" height="70%" alt="" /></a>
+        <div class="text-uppercase fw-3"><span class="text-dark text-capitalize">Name:
+            </span>Item Name
+        </div>
+        <div class="text-danger">
+            <span class="text-dark text-capitalize">price: </span> N50
+        </div>
+        <div class="text-danger">
+            <span class="text-dark"> Available Quantity:</span>
+        </div>
+        <p><span>Quantity Sold: </span> 200</p>
+    </div>
+    {% endfor %}
+</div>
+<center style="font-size: 24px;" id="pagination">
+    <a href="#">1</a>
+    <a href="#">2</a>
+    <a href="#">3</a>
+    <a href="#">4</a>
+    <a href="#">5</a>
+</center>
+{% endblock %}

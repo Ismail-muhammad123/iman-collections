@@ -1,0 +1,85 @@
+{% extends 'home/base.html'%}
+{% load static%}
+{% block content %}
+<h5
+    style="width: 100%; background-color: blueviolet; padding: 10px; color: white; font-weight: 700; font-size: 22.0px;">
+    Checkout
+</h5>
+
+<br>
+<h6
+    style="width: 100%; background-color: blueviolet; padding: 10px; color: white; font-weight: 500; font-size: 18.0px;">
+    Checkout
+</h6>
+<div style="width: 100%; overflow-x: auto;">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Item Name</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Date</th>
+                <th scope="col">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            {% for item in order_items %}
+            <tr>
+                <td>item {{item}}</td>
+                <td>4</td>
+                <td>7,000</td>
+                <td>12/02/2021</td>
+                <td>processing</td>
+            </tr>
+            {% endfor %}
+
+            <tr style="border-width: 5px">
+                <td>Total</td>
+                <td>4</td>
+                <td>7,000</td>
+                <td>12/02/2021</td>
+                <td>processing</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<h6
+    style="width: 100%; background-color: blueviolet; padding: 10px; color: white; font-weight: 500; font-size: 18.0px;">
+    Card Details
+</h6>
+<div class="card-details">
+
+    <div class="card border py-5">
+        <center>
+            <div class="card-body bg-primary"
+                style="padding-bottom: 50px; border-radius: 3%; justify-content: space-evenly;">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Card Name</span>
+                    <input type="text" class="form-control" placeholder="0000 0000 0000 0000" aria-label="Username"
+                        aria-describedby="basic-addon1">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Card Name</span>
+                    <input type="text" class="form-control" placeholder="Card Number" aria-label="Card name"
+                        aria-describedby="basic-addon1">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Expiry Date</span>
+                    <input type="text" class="form-control" placeholder="00/00" aria-label="expiry-date"
+                        aria-describedby="basic-addon1">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">CVV</span>
+                    <input type="text" class="form-control" placeholder="000" aria-label="cvv"
+                        aria-describedby="basic-addon1">
+                </div>
+
+                <br>
+                <center><a class="btn btn-success" href="#">Submit Detail</a></center>
+            </div>
+        </center>
+    </div>
+</div>
+{% endblock %}
