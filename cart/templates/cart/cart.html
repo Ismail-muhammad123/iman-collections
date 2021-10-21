@@ -5,22 +5,22 @@
     <div class="card-body row">
         <div class="col-8" id="summary">
             <strong>Total Quantity:</strong>
-            <span class="float-right px-5">8</span>
+            <span class="float-right px-5">{{total_quantity}}</span>
             <hr>
             <strong>No. of Items:</strong>
-            <span class="float-right px-5">4</span>
+            <span class="float-right px-5">{{number_of_items}}</span>
             <hr>
             <strong>Total Price:</strong>
-            <span class="float-right px-5">N200</span>
+            <span class="float-right px-5">N{{total_price}}</span>
         </div>
         <div class="col-4" id="actions">
             <a class="btn btn-success float-right" style="width: 150px;" href="/payment">Checkout</a>
             <br>
             <br>
-            <a class="btn btn-danger float-right" style="width: 150px;" href="#">Clear All</a>
+            <a class="btn btn-danger float-right" style="width: 150px;" href="/cart/clear">Clear All</a>
             <br>
             <br>
-            <a class="btn btn-primary float-right" style="width: 150px;" href="#">Keep Shopping</a>
+            <a class="btn btn-primary float-right" style="width: 150px;" href="/products">Keep Shopping</a>
         </div>
     </div>
 </div>
@@ -36,19 +36,22 @@
     <div id="product-card" style="border-width: 3px;">
         <a href="#"><img src="{% static 'products/images/tailor.jpg' %}" height="70%" alt="" /></a>
         <div class="text-uppercase fw-3"><span class="text-dark text-capitalize">Name:
-            </span>Item Name
+            </span>{{item.item.name}}
         </div>
         <div class="text-danger">
-            <span class="text-dark text-capitalize">price: </span> N50
+            <span class="text-dark text-capitalize">price: </span> N{{item.item.price}}
+        </div>
+        <div class="text-dark">
+            <span class="text-dark text-capitalize">Size: </span> {{item.size}}
+        </div>
+        <div class="text-dark">
+            <span class="text-dark text-capitalize">quantity: </span> {{item.quantity}}
         </div>
         <div class="text-danger">
-            <span class="text-dark"> Available Quantity:</span>
+            <span class="text-dark"> Available Quantity: {{item.item.available_quantity}}</span>
         </div>
-        <p><span>Quantity Sold: </span> 200</p>
-        <div class="row">
-            <div class="col-6"><a href="#" class="btn btn-danger">Remove</a></div>
-            <div class="col-6"><a href="#" class="btn btn-primary">Later</a></div>
-        </div>
+        <p><span>Quantity Sold: </span> {{item.item.quantity_sold}}</p>
+        <a style="width: 100%;" href="/cart/remove?id={{item.id}}" class="btn btn-danger">Remove</a>
     </div>
     {% endfor %}
 </div>

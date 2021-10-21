@@ -29,6 +29,11 @@ ALLOWED_HOSTS = []
 
 AUTH_USER_MODEL = 'user.Account'
 
+STATIC_ROOT = '/static/'
+
+LOGIN_URL = '/user/login'
+
+
 # Application definition
 
 INSTALLED_APPS = [

@@ -1,6 +1,7 @@
+from typing import Sized
 from django.db import models
 
-from products.models import Suplier
+from django.conf import settings
 
 # Create your models here.
 
@@ -9,8 +10,11 @@ class Cart(models.Model):
     # TODO: set the relation of Cart to a customer account
 
     item = models.ForeignKey("products.Product", on_delete=models.DO_NOTHING)
-    supplier = models.ForeignKey(
-        "products.Suplier", on_delete=models.DO_NOTHING)
-
-    quentity = models.IntegerField()
+    quantity = models.IntegerField()
     date_added = models.DateTimeField(auto_now_add=True)
+    size = models.CharField(max_length=20)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.DO_NOTHING)
+
+    def __str__(self) -> str:
+        return self.size

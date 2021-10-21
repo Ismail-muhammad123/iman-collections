@@ -1,14 +1,35 @@
 from django.shortcuts import render
+from .models import Product
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
 
 def products(request):
+    products = Product.objects.all().values(
+        'id',
+        'name',
+        'image',
+        'price',
+        'available_quantity',
+        'quantity_sold')
+
     context = {
-        "products": range(8),
-        "categories": ['shirts', 'trousers', 'caps', 'shoes']
+        "products": products,
     }
     return render(request, template_name="products/products.html", context=context)
+
+
+def product_detaiil(request, id):
+    product = Product.objects.get(id=id)
+    name = product.name
+
+    sizes = product.sizes.split(',')
+    context = {
+        "product_sizes": sizes,
+        "id" : product.id
+    }
+    return render(request, template_name='products/product_detail.html', context=context)
 
 
 def home(request):
@@ -27,14 +48,6 @@ def fabrics(request):
     return render(request, template_name='products/fabrics.html')
 
 
-def product_detaiil(request):
-    context = {
-        "product_sizes": ['sm', 'md', 'lg', 'xl'],
-        "simialr_items": range(5),
-    }
-    return render(request, template_name='products/product_detail.html', context=context)
-
-
 def not_found(request):
     return render(request, template_name='home/not_found.html')
 
@@ -46,6 +59,6 @@ def tailored(request):
     }
     return render(request, template_name='products/tailored.html', context=context)
 
-
+@login_required
 def saved(request):
     return render(request, template_name="products/saved.html")

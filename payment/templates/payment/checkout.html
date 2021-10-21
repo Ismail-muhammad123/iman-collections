@@ -1,85 +1,71 @@
 {% extends 'home/base.html'%}
 {% load static%}
 {% block content %}
-<h5
-    style="width: 100%; background-color: blueviolet; padding: 10px; color: white; font-weight: 700; font-size: 22.0px;">
-    Checkout
-</h5>
-
-<br>
-<h6
-    style="width: 100%; background-color: blueviolet; padding: 10px; color: white; font-weight: 500; font-size: 18.0px;">
-    Checkout
-</h6>
-<div style="width: 100%; overflow-x: auto;">
-    <table class="table">
+<center>
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th scope="col">Item Name</th>
                 <th scope="col">Quantity</th>
-                <th scope="col">Amount</th>
-                <th scope="col">Date</th>
-                <th scope="col">Status</th>
+                <th scope="col">Price(NGN)</th>
+                <th scope="col">Total Amount</th>
             </tr>
         </thead>
         <tbody>
-
-            {% for item in order_items %}
+            {% for item in cart_items %}
             <tr>
-                <td>item {{item}}</td>
-                <td>4</td>
-                <td>7,000</td>
-                <td>12/02/2021</td>
-                <td>processing</td>
+                {% for j in item %}
+                <td scope="row">{{j}}</td>
+                {% endfor %}
             </tr>
             {% endfor %}
-
-            <tr style="border-width: 5px">
-                <td>Total</td>
-                <td>4</td>
-                <td>7,000</td>
-                <td>12/02/2021</td>
-                <td>processing</td>
+            <tr class="bg-secondary text-light fs-3">
+                <th scope="row">Total</th>
+                <td>{{total_quantity}}</td>
+                <td>{{total_price}}</td>
+                <td>{{total_amount}}</td>
             </tr>
         </tbody>
     </table>
-</div>
 
-<h6
-    style="width: 100%; background-color: blueviolet; padding: 10px; color: white; font-weight: 500; font-size: 18.0px;">
-    Card Details
-</h6>
-<div class="card-details">
 
-    <div class="card border py-5">
-        <center>
-            <div class="card-body bg-primary"
-                style="padding-bottom: 50px; border-radius: 3%; justify-content: space-evenly;">
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1">Card Name</span>
-                    <input type="text" class="form-control" placeholder="0000 0000 0000 0000" aria-label="Username"
-                        aria-describedby="basic-addon1">
-                </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1">Card Name</span>
-                    <input type="text" class="form-control" placeholder="Card Number" aria-label="Card name"
-                        aria-describedby="basic-addon1">
-                </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1">Expiry Date</span>
-                    <input type="text" class="form-control" placeholder="00/00" aria-label="expiry-date"
-                        aria-describedby="basic-addon1">
-                </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1">CVV</span>
-                    <input type="text" class="form-control" placeholder="000" aria-label="cvv"
-                        aria-describedby="basic-addon1">
-                </div>
+    <!-- <form id="paymentForm">
+        <div class="form-group">
+            <input type="email" hidden value="{{user_email}}" id="email-address" required />
+        </div>
+        <div class="form-group">
+            <input type="tel" hidden value="{{total_amount}}" id="amount" required />
+        </div>
+        <div class="form-submit">
+            
+        </div>
+    </form> -->
+    <a href="{% url 'initialize_payment' %}" class="btn btn-primary"> Pay Now </a>
+    <a href="/cart" class="btn btn-warning">Edit Cart</a>
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+    <!-- <script>
+        var paymentForm = document.getElementById('paymentForm');
+        function payWithPaystack() {
+            var handler = PaystackPop.setup({
+                key: 'pk_test_af46e2e0bf5d896a389260f26f99ec1b0498114b', // Replace with your public key
+                email: document.getElementById('email-address').value,
+                amount: document.getElementById('amount').value * 100, // the amount value is multiplied by 100 to convert to the lowest currency unit
+                currency: 'NGN', // Use GHS for Ghana Cedis or USD for US Dollars
+                ref: document.getElementById('email-address'), // Replace with a reference you generated
+                callback: function (response) {
+                    //this happens after the payment is completed successfully
+                    document.location = 'success/'
+                    // Make an AJAX call to your server with the reference to verify the transaction
+                },
+                onClose: function () {
+                    document.location = 'canceled/'
+                },
+            });
+            handler.openIframe();
+        }
+        paymentForm.addEventListener('submit', payWithPaystack, false);
 
-                <br>
-                <center><a class="btn btn-success" href="#">Submit Detail</a></center>
-            </div>
-        </center>
-    </div>
-</div>
+
+    </script> -->
+</center>
 {% endblock %}

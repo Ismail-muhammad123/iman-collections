@@ -8,27 +8,24 @@
 
 
 <div id="products-grid">
-    {% for j in products %}
+    {% for product in products %}
+    <!-- TODO set up url for product-image in the products listing page -->
     <div id="product-card" style="border-width: 3px;">
-        <a href="/products/detail"> <img src="{% static 'products/images/tailor.jpg' %}" height="70%" alt="" /></a>
+        <a href="/products/detail/{{product.id}}"> <img src="{{product.image.url}}" height="70%" alt="" /></a>
         <div class="text-uppercase fw-3"><span class="text-dark text-capitalize">Name:
-            </span>Item Name
+            </span>{{product.name}}
         </div>
         <div class="text-danger">
-            <span class="text-dark text-capitalize">price: </span> N50
+            <span class="text-dark text-capitalize">price: N{{product.price}}</span>
         </div>
         <div class="text-danger">
-            <span class="text-dark"> Available Quantity:</span>
+            <span class="text-dark"> Available Quantity: {{product.available_quantity}}</span>
         </div>
-        <p><span>Quantity Sold: </span> 200</p>
+        <p><span>Quantity Sold: </span> {{product.quantity_sold}}</p>
     </div>
     {% endfor %}
 </div>
-<center style="font-size: 24px;" id="pagination">
-    <a href="#">1</a>
-    <a href="#">2</a>
-    <a href="#">3</a>
-    <a href="#">4</a>
-    <a href="#">5</a>
-</center>
+<div style="font-size: 24px; text-align: end; margin: 20px ;" id="pagination">
+    <a class="btn btn-primary" href="#">Next</a>
+</div>
 {% endblock %}

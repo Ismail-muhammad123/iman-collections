@@ -70,12 +70,25 @@
             border-top-right-radius: 0;
         }
 
+        #product-detail-container {
+            width: 100%;
+        }
+
 
 
         @media only screen and (min-width: 760px) {
-            #products-grid {
+            .card-details {
+                width: 50%;
+                margin: auto;
+                padding: auto;
+            }
+
+            #products-grid,
+            #cart-items {
                 display: grid;
-                grid-template-columns: repeat(3, 1fr);
+                grid-template-columns: repeat(4, 1fr);
+                grid-row-gap: 20px;
+                grid-column-gap: 20px;
                 padding: 20px;
             }
 

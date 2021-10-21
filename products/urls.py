@@ -7,6 +7,5 @@ urlpatterns = [
     path('tailored/', views.tailored),
     path("fabrics/", views.fabrics),
     path("saved/", views.saved),
-    path('detail/', views.product_detaiil),
-
+    path('detail/<id>', views.product_detaiil),
 ]

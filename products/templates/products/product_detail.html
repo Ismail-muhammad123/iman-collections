@@ -24,20 +24,23 @@
             ab blanditiis?</span>
     </p>
     <br>
-    <form action="#">
+    <form method="GET" action="/cart/">
+        <!-- {% csrf_token %} -->
         <label for="quantity">Quantity:</label>
         <br>
-        <input type="number" name="quantity" id="quantity">
+        <input type="number" name="quantity" value=1 id="quantity">
         <br>
         <label>Size: </label>
+        <input hidden type="text" value="{{id}}" name="id">
         <br>
         {% for size in product_sizes %}
-        <input type="radio" name="size" value="{{size}}" id="size">
+        <input type="radio" checked name="size" value="{{size}}" id="size">
         <label for="{{size}}">{{size}}</label>
         {% endfor %}
         <br>
-        <a class="btn btn-primary" style="width: 50%;" href="/cart">Add to cart</a>
-        <a class="btn btn-success" href="/cart">Buy</a>
+        <div style="text-align: center;">
+            <input type="submit" class="btn btn-primary" style="width: 50%;" value="Add to cart" />
+        </div>
     </form>
     <br>
 </div>

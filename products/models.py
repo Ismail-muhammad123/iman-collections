@@ -15,13 +15,12 @@ class Suplier(models.Model):
     email = models.EmailField()
 
 
-
 class Product(models.Model):
     GENDER_CHOICES = [
         ("M", "Male"),
         ("F", "Female")
     ]
-    
+
     CATEGORY_CHOICES = [
         ("TD", "Tailored"),
         ("SH", "Shoes"),
@@ -35,7 +34,13 @@ class Product(models.Model):
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
     name = models.CharField(max_length=30)
     price = models.FloatField()
+    sizes = models.CharField(max_length=300)
     delivery_days = models.DurationField()
+    available_quantity = models.PositiveIntegerField()
+    quantity_sold = models.PositiveIntegerField()
     description = models.TextField()
     image = models.ImageField()
-    suplier = models.ForeignKey(Suplier, on_delete=models.DO_NOTHING)
+    brand_name = models.CharField(max_length=250)
+
+    def __str__(self) -> str:
+        return self.name
