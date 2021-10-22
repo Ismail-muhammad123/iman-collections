@@ -1,0 +1,32 @@
+#products-grid {
+  display: grid;
+  grid-column-gap: 20px;
+  grid-row-gap: 20px;
+  grid-template-columns: repeat(1, 1fr);
+  padding: 20px;
+  align-items: center;
+}
+
+html {
+  margin: 0;
+  padding: 0;
+}
+
+#product-card > a > img {
+  width: 100%;
+  height: 80%;
+  border-radius: 5% 5% 0 0;
+}
+
+@media only screen and (min-width: 760px) {
+  #products-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 20px;
+  }
+
+  #filter-section {
+    list-style: none;
+    display: none;
+  }
+}
