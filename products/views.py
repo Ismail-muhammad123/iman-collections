@@ -27,7 +27,17 @@ def product_detaiil(request, id):
     sizes = product.sizes.split(',')
     context = {
         "product_sizes": sizes,
-        "id" : product.id
+        "id" : product.id,
+        "name" : product.name,
+        "price" : product.price,
+        "available_quantity" : product.available_quantity,
+        "quantity_sold": product.quantity_sold,
+        "brand": product.brand_name,
+        "image_url" : product.image.url,
+        "delivery_days": product.delivery_days,
+        "cartegory" : product.category,
+        "color" : product.color
+
     }
     return render(request, template_name='products/product_detail.html', context=context)
 

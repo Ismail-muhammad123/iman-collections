@@ -48,9 +48,9 @@
             <span class="text-dark text-capitalize">quantity: </span> {{item.quantity}}
         </div>
         <div class="text-danger">
-            <span class="text-dark"> Available Quantity: {{item.item.available_quantity}}</span>
+            <span class="text-dark"> Available: {{item.item.available_quantity}}</span>
         </div>
-        <p><span>Quantity Sold: </span> {{item.item.quantity_sold}}</p>
+        <p><span>Sold: </span> {{item.item.quantity_sold}}</p>
         <a style="width: 100%;" href="/cart/remove?id={{item.id}}" class="btn btn-danger">Remove</a>
     </div>
     {% endfor %}

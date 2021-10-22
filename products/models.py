@@ -41,6 +41,7 @@ class Product(models.Model):
     description = models.TextField()
     image = models.ImageField()
     brand_name = models.CharField(max_length=250)
+    color = models.CharField(max_length=200)
 
     def __str__(self) -> str:
         return self.name

@@ -2,46 +2,84 @@
 {% load static %}
 {% block content %}
 
-<img id="product-details-image" height="100%" width="100%" src="{% static 'products/images/tailor.jpg' %}" alt="">
-<div id="details-info">
-    <p>
-        Item Name: <span>name of item</span>
-    </p>
-    <p>
-        Price(NGN): <span>2,000</span>
-    </p>
-    <p>
-        Available Quantity: <span>20</span>
-    </p>
-    <p>
-        Delivery in: <span>3 days</span>
-    </p>
-    <p>
-        Description: <span>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ratione quis consectetur
-            dit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto ea,
-            quae
-            sed eos magni saepe, magnam nemo labore culpa
-            ab blanditiis?</span>
-    </p>
-    <br>
-    <form method="GET" action="/cart/">
-        <!-- {% csrf_token %} -->
-        <label for="quantity">Quantity:</label>
-        <br>
-        <input type="number" name="quantity" value=1 id="quantity">
-        <br>
-        <label>Size: </label>
-        <input hidden type="text" value="{{id}}" name="id">
-        <br>
-        {% for size in product_sizes %}
-        <input type="radio" checked name="size" value="{{size}}" id="size">
-        <label for="{{size}}">{{size}}</label>
-        {% endfor %}
-        <br>
-        <div style="text-align: center;">
-            <input type="submit" class="btn btn-primary" style="width: 50%;" value="Add to cart" />
-        </div>
-    </form>
-    <br>
+<div id="product-details">
+    <!-- TODO set the image url to a template value -->
+    <img id="product-details-image" height="100%" style="padding-top: 20px; margin: 0;" width="100%"
+        src="{% static 'products/images/tailor.jpg' %}" alt="">
+    <div id="details-info">
+        <ul
+            style="list-style: none;font-size: 18px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 500; padding-top: 20px;">
+            <li>
+                <header
+                    style="font-size: 30px; text-transform: uppercase; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 600; color: indigo;">
+                    {{name}}</header>
+            </li>
+            <hr>
+            <li>
+                Brand: <span>{{brand | upper}}</span>
+            </li>
+            <li>
+                Price(NGN): <span>{{price }}</span>
+            </li>
+
+            <li>
+                Delivery in: <span>{{delivery_days}} days</span>
+            </li>
+
+            <form method="GET" action="/cart/">
+
+                <input hidden type="text" value="{{id}}" name="id">
+                <br>
+                <div class="input-group" style="width: 250px;">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="">Quantity</span>
+                    </div>
+                    <input type="number" name="quantity" class="form-control" min=1 max={{available_quantity}} value=1>
+                </div>
+                <br>
+                <div style="width: 250px;" class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="inputGroupSelect01">Size</label>
+                    </div>
+                    <select name="size" class="custom-select" id="inputGroupSelect01">
+
+                        {% for size in product_sizes %}
+                        <option value="{{size}}">{{size}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <br>
+                <div style="text-align: center;">
+                    <input type="submit" class="btn btn-primary" style="width: 50%; margin-bottom: 20px;"
+                        value="Add to cart" />
+                </div>
+            </form>
+            <br>
+        </ul>
+    </div>
+
+    <!-- {% csrf_token %} -->
+
+    <script>
+        // handle increment of quantity
+
+        $('#increment').click(function () {
+            var v = $('#quantity').val();
+            $('#quantity').val(parseInt(v) + 1);
+        })
+
+        // handle decrement of quantity
+        $('#decrement').click(function () {
+            var v = $('#quantity').val();
+            if (parseInt(v) - 1 > 0) {
+                $('#quantity').val(parseInt(v) - 1);
+            } else {
+                $('#quantity').val(parseInt(1));
+            }
+
+        })
+
+    </script>
 </div>
 {% endblock content %}

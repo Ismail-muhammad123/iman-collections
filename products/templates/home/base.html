@@ -8,6 +8,8 @@
     <link href="{% static 'products/css/bootstrap.css' %}" rel="stylesheet" />
     <link href="{% static 'products/fontawesome/css/all.css' %}" rel="stylesheet" />
     <link rel="stylesheet" href="{% static 'products/css/styles.css' %}">
+    <script src="{% static 'products/js/jquery.js' %}"></script>
+
     <style>
         #products-grid,
         #cart-items {
@@ -36,6 +38,10 @@
             margin: auto;
             padding: auto;
             height: 70%;
+        }
+
+        #product-details {
+            height: 90vh;
         }
 
         #details-info {
@@ -70,11 +76,6 @@
             border-top-right-radius: 0;
         }
 
-        #product-detail-container {
-            width: 100%;
-        }
-
-
 
         @media only screen and (min-width: 760px) {
             .card-details {
@@ -96,6 +97,23 @@
                 list-style: none;
                 display: none;
             }
+
+            #product-details {
+                display: flex;
+                flex-direction: row;
+            }
+
+            #product-details-image {
+                flex: 30%;
+                width: 40%;
+                margin-left: 10px;
+                padding-left: 10px;
+            }
+
+            #details-info {
+                flex: 70%;
+            }
+
         }
     </style>
 
@@ -186,7 +204,6 @@
                     href="#">Terms</a></p>
         </div>
     </footer>
-    <script src="{% static 'products/js/jquery.js' %}"></script>
     <script src="{% static 'products/js/bootstrap.min.js' %}"></script>
     <script>window.jQuery; $('.alert').alert()
     </script>

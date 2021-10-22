@@ -14,7 +14,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-o47&kilmpi3vgmw*u29c3yoip(t8^0&)yp%squ)u3!j6ianghk'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['fashiona-ap.herokuapp.com', '*']
 
@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'order',
     'payment',
     'user',
+
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -78,26 +80,10 @@ WSGI_APPLICATION = 'fashionaWeb.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3',
-    # }
-
-    # 'default': {
-
-    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
-
-    #     'NAME': 'postgres://rrzltolgujedps:e503c5e717fd97c73fd5df219b56c1272ee12b9271c3f2b0ca48a71eba066d61@ec2-54-208-17-82.compute-1.amazonaws.com:5432/d3r0oqm6iptpjv',
-
-    #     'USER': 'rrzltolgujedps',
-
-    #     'PASSWORD': 'e503c5e717fd97c73fd5df219b56c1272ee12b9271c3f2b0ca48a71eba066d61',
-
-    #     'HOST': 'ec2-54-208-17-82.compute-1.amazonaws.com',
-
-    #     'PORT': '5432',
-
-    # }
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
 
 
@@ -144,17 +130,24 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.11/howto/static-files/
-# PROJECT_ROOT   =   os.path.join(os.path.abspath(__file__))
 STATIC_ROOT  =   os.path.join(BASE_DIR, 'staticfiles')
+
 STATIC_URL = '/static/'
 
-#  Add configuration for static files storage using whitenoise
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+if not DEBUG:
+    DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
 
 
-DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'
+# STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+
+
+AWS_ACCESS_KEY_ID = 'AKIAQXLZN6YA4RPUTUG3'
+AWS_SECRET_ACCESS_KEY = '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'
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_STORAGE_BUCKET_NAME = 'fashiona-store'
+AWS_S3_REGION_NAME = 'us-east-2'
