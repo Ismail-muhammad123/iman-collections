@@ -2,6 +2,7 @@ import os
 
 import django_heroku
 import dj_database_url
+from decouple import config
 
 from pathlib import Path
 
@@ -85,7 +86,23 @@ DATABASES = {
     #     'NAME': BASE_DIR / 'db.sqlite3',
     # }
 
+    # 'default': {
+
+    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+
+    #     'NAME': 'postgres://rrzltolgujedps:e503c5e717fd97c73fd5df219b56c1272ee12b9271c3f2b0ca48a71eba066d61@ec2-54-208-17-82.compute-1.amazonaws.com:5432/d3r0oqm6iptpjv',
+
+    #     'USER': 'rrzltolgujedps',
+
+    #     'PASSWORD': 'e503c5e717fd97c73fd5df219b56c1272ee12b9271c3f2b0ca48a71eba066d61',
+
+    #     'HOST': 'ec2-54-208-17-82.compute-1.amazonaws.com',
+
+    #     'PORT': '5432',
+
+    # }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -141,13 +158,6 @@ STATIC_URL = '/static/'
 # STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-
-# DATABASES = {
-#     'default': dj_database_url.config(
-#         default=config('DATABASE_URL')
-#     )
-# }
 
 
 DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
