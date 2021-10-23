@@ -1,6 +1,5 @@
 from django.db import models
-
-from products.models import Suplier
+from django.conf import settings
 
 # Create your models here.
 
@@ -9,12 +8,12 @@ class Order(models.Model):
     # TODO set the order relation to the cumstomer account
 
     date_added = models.DateTimeField(auto_now_add=True)
-    quentity = models.IntegerField()
-    total_amount = models.FloatField()
+    price = models.FloatField()
+    discount = models.FloatField()
+    quantity = models.IntegerField()
+    amount = models.FloatField()
     product = models.ForeignKey(
         "products.Product", on_delete=models.DO_NOTHING)
     delivery_date = models.DateField()
-    supplier = models.ForeignKey(
-        "products.Suplier", on_delete=models.DO_NOTHING)
-    tailor_reciever = models.ForeignKey(
-        "products.Suplier", null=True, on_delete=models.DO_NOTHING, related_name='tailor')
+    status = models.CharField(max_length=3)
+    customer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING)

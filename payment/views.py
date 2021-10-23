@@ -46,28 +46,33 @@ def checkout(request):
 
 @login_required
 def success(request):
+    data = request.GET.dict()
 
-    data = request.GET
+    print(dict(data))
+
     ref = data['reference']
 
     trxref = data['trxref']
 
-    req = requests.get('https://api.paystack.co/transaction/verify/:{ref}', headers={
+    req = requests.get('https://api.paystack.co/transaction/verify/{ref}', headers={
         "Authorization": "Bearer " + settings.PAYSTACK_SECRET_KEY
     })
 
+    print('response status: ', req.status_code)
+    print('data: ', req.text)
     if req.status_code == 200:
         result = json.dumps(req.text)
         if result['status']:
             print("payment successfull")
             return render(request, 'payment/success.html')
+        else:
+            return render(request, 'payment/canceled.html')
 
     else:
-        canceled(request)
+        return render(request, 'payment/canceled.html')
 
 @login_required
 def canceled(request):
-    data = request.GET['']
     return render(request, 'payment/canceled.html')
 
 @login_required

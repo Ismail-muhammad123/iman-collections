@@ -12,20 +12,27 @@
             <tr>
                 <th scope="col">Item Name</th>
                 <th scope="col">Quantity</th>
+                <th scope="col">Price</th>
+                <th scope="col">Discount</th>
                 <th scope="col">Amount</th>
-                <th scope="col">Date</th>
+                <th scope="col">Date Ordered</th>
+                <th scope="col">Arrival on</th>
                 <th scope="col">Status</th>
+
             </tr>
         </thead>
         <tbody>
 
             {% for item in order_items %}
             <tr>
-                <td>item {{item}}</td>
-                <td>4</td>
-                <td>7,000</td>
-                <td>12/02/2021</td>
-                <td>processing</td>
+                <td>{{item.product}}</td>
+                <td>{{item.quantity}}</td>
+                <td>{{item.product.price}}</td>
+                <td>{{item.discount}}</td>
+                <td>{{item.amount}}</td>
+                <td>{{item.date_added}}</td>
+                <td>{{item.delivery_date}}</td>
+                <td>{{item.status}}</td>
             </tr>
             {% endfor %}
         </tbody>
