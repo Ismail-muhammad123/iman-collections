@@ -4,6 +4,7 @@ from cart.models import Cart
 from django.contrib.auth.decorators import login_required
 import requests
 import json
+from django.conf import settings
 from payment.models import Payment
 
 
@@ -45,7 +46,24 @@ def checkout(request):
 
 @login_required
 def success(request):
-    return render(request, 'payment/success.html')
+
+    data = request.GET
+    ref = data['reference']
+
+    trxref = data['trxref']
+
+    req = requests.get('https://api.paystack.co/transaction/verify/:{ref}', headers={
+        "Authorization": "Bearer " + settings.PAYSTACK_SECRET_KEY
+    })
+
+    if req.status_code == 200:
+        result = json.dumps(req.text)
+        if result['status']:
+            print("payment successfull")
+            return render(request, 'payment/success.html')
+
+    else:
+        canceled(request)
 
 @login_required
 def canceled(request):
@@ -57,7 +75,7 @@ def initialize(request):
     req = requests.post(url='https://api.paystack.co/transaction/initialize', data=json.dumps({
         "email": "ismaeelmuhammad123@gmail.com", "amount": "1000"
     }), headers={
-        "Authorization": "Bearer "+"sk_test_523a831b7b20473684cb9da3690a5933d28fa218",
+        "Authorization": "Bearer "+settings.PAYSTACK_SECRET_KEY,
         "Content-Type": "application/json"
     })
 

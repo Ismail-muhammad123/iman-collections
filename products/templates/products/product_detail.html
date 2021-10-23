@@ -4,8 +4,8 @@
 
 <div id="product-details">
     <!-- TODO set the image url to a template value -->
-    <img id="product-details-image" height="100%" style="padding-top: 20px; margin: 0;" width="100%"
-        src="{% static 'products/images/tailor.jpg' %}" alt="">
+    <img id="product-details-image" height="90vh" style="padding-top: 20px; margin: 0;object-fit: cover;" width="100%"
+        src="{{image}}" alt="">
     <div id="details-info">
         <ul
             style="list-style: none;font-size: 18px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 500; padding-top: 20px;">
@@ -18,10 +18,19 @@
             <li>
                 Brand: <span>{{brand | upper}}</span>
             </li>
+
+            <li>
+                Color: <span>{{color}}</span>
+            </li>
             <li>
                 Price(NGN): <span>{{price }}</span>
             </li>
-
+            <li>
+                Available: <span>{{available_quantity}}</span>
+            </li>
+            <li>
+                Sold: <span>{{quantity_sold}}</span>
+            </li>
             <li>
                 Delivery in: <span>{{delivery_days}} days</span>
             </li>

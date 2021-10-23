@@ -6,13 +6,10 @@ from django.contrib.auth.decorators import login_required
 
 
 def products(request):
-    products = Product.objects.all().values(
-        'id',
-        'name',
-        'image',
-        'price',
-        'available_quantity',
-        'quantity_sold')
+    products = Product.objects.all()
+
+    for i in products:
+        i.image = i.image.url
 
     context = {
         "products": products,
@@ -22,8 +19,7 @@ def products(request):
 
 def product_detaiil(request, id):
     product = Product.objects.get(id=id)
-    name = product.name
-
+    print(product.image.url)
     sizes = product.sizes.split(',')
     context = {
         "product_sizes": sizes,
@@ -33,9 +29,8 @@ def product_detaiil(request, id):
         "available_quantity" : product.available_quantity,
         "quantity_sold": product.quantity_sold,
         "brand": product.brand_name,
-        "image_url" : product.image.url,
+        "image" : product.image.url,
         "delivery_days": product.delivery_days,
-        "cartegory" : product.category,
         "color" : product.color
 
     }

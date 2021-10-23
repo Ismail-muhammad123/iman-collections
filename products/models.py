@@ -35,11 +35,11 @@ class Product(models.Model):
     name = models.CharField(max_length=30)
     price = models.FloatField()
     sizes = models.CharField(max_length=300)
-    delivery_days = models.DurationField()
+    delivery_days = models.PositiveIntegerField()
     available_quantity = models.PositiveIntegerField()
     quantity_sold = models.PositiveIntegerField()
     description = models.TextField()
-    image = models.ImageField()
+    image = models.ImageField(upload_to='productImages')
     brand_name = models.CharField(max_length=250)
     color = models.CharField(max_length=200)
 

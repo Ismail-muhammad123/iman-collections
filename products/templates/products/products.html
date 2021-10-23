@@ -11,7 +11,9 @@
     {% for product in products %}
     <!-- TODO set up url for product-image in the products listing page -->
     <div id="product-card" style="border-width: 3px;">
-        <a href="/products/detail/{{product.id}}"> <img src="{{product.image.url}}" height="70%" alt="" /></a>
+        <a href="{% url 'details' id=product.id  %}">
+            <img src="{{product.image}}" style="width: 180px; height: 250px;" alt="" />
+        </a>
         <div class="text-uppercase fw-3"><span class="text-dark text-capitalize">Name:
             </span>{{product.name}}
         </div>
@@ -26,6 +28,15 @@
     {% endfor %}
 </div>
 <div style="font-size: 24px; text-align: end; margin: 20px ;" id="pagination">
-    <a class="btn btn-primary" href="#">Next</a>
+    <ul style="list-style: none;">
+        <li style=" display: inline;"><a class="link" href="#">1</a>
+        </li>
+        <li style=" display: inline;"><a class="link" href="#">2</a>
+        </li>
+        <li style=" display: inline;"><a class="link" href="#">3</a>
+        </li>
+        <li style=" display: inline;"><a class="link" href="#">4</a>
+        </li>
+    </ul>
 </div>
 {% endblock %}

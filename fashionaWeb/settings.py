@@ -134,6 +134,9 @@ STATIC_ROOT  =   os.path.join(BASE_DIR, 'staticfiles')
 
 STATIC_URL = '/static/'
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
 if not DEBUG:
     DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
 
@@ -151,3 +154,6 @@ AWS_SECRET_ACCESS_KEY = '/98FjexGbD//poyuZ7rh+TjS2H7MTdUvlLs7C2sX'
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 AWS_STORAGE_BUCKET_NAME = 'fashiona-store'
 AWS_S3_REGION_NAME = 'us-east-2'
+
+
+PAYSTACK_SECRET_KEY = 'sk_test_523a831b7b20473684cb9da3690a5933d28fa218'
