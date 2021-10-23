@@ -28,6 +28,7 @@ LOGIN_URL = '/user/login'
 # Application definition
 
 INSTALLED_APPS = [
+    'user',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,7 +40,6 @@ INSTALLED_APPS = [
     'cart',
     'order',
     'payment',
-    'user',
 
     'storages',
 ]

@@ -7,26 +7,31 @@
 </h5>
 
 
+{% if products %}
 <div id="products-grid">
     {% for product in products %}
     <!-- TODO set up url for product-image in the products listing page -->
-    <div id="product-card" style="border-width: 3px;">
-        <a href="{% url 'details' id=product.id  %}">
-            <img src="{{product.image}}" style="width: 180px; height: 250px;" alt="" />
-        </a>
-        <div class="text-uppercase fw-3"><span class="text-dark text-capitalize">Name:
-            </span>{{product.name}}
+    <div class="card">
+        <div id="product-card" class="card-body shadow border bg-white rounded">
+            <a href="{% url 'details' id=product.id  %}">
+                <img src="{{product.image}}" style="width: 100%; height: 60%;" alt="" />
+            </a>
+            <div class="text-uppercase fw-3"><span class="text-dark text-capitalize">Name:
+                </span>{{product.name}}
+            </div>
+            <div class="text-danger">
+                <span class="text-dark text-capitalize">price: N{{product.price}}</span>
+            </div>
+            <div class="text-danger">
+                <span class="text-dark"> Available Quantity: {{product.available_quantity}}</span>
+            </div>
+            <p><span>Quantity Sold: </span> {{product.quantity_sold}}</p>
         </div>
-        <div class="text-danger">
-            <span class="text-dark text-capitalize">price: N{{product.price}}</span>
-        </div>
-        <div class="text-danger">
-            <span class="text-dark"> Available Quantity: {{product.available_quantity}}</span>
-        </div>
-        <p><span>Quantity Sold: </span> {{product.quantity_sold}}</p>
     </div>
+
     {% endfor %}
 </div>
+{% endif %}
 <div style="font-size: 24px; text-align: end; margin: 20px ;" id="pagination">
     <ul style="list-style: none;">
         <li style=" display: inline;"><a class="link" href="#">1</a>

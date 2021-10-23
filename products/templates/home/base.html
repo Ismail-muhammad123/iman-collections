@@ -28,14 +28,12 @@
         }
 
         #product-card>a>img {
-            width: 100%;
-            height: 80%px;
-            border-radius: 5% 5% 0 0;
+            width: 80%;
+            height: 80%;
         }
 
         #product-details-image {
             width: 100%;
-            border-radius: 0;
             margin: auto;
             padding: auto;
             height: 70%;
@@ -95,6 +93,10 @@
                 overflow: scroll;
             }
 
+            #product-card {
+                width: auto;
+            }
+
             #filter-section {
                 list-style: none;
                 display: none;
@@ -107,7 +109,8 @@
 
             #product-details-image {
                 flex: 40%;
-                width: 40%;
+                /* width: 40%; */
+                width: auto;
                 margin-left: 10px;
                 padding-left: 10px;
                 height: 80vh;
@@ -148,8 +151,8 @@
                     <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">Products</a>
                     <div class="dropdown-menu" aria-labelledby="dropdown04">
-                        <a class="dropdown-item disabled" href="#">Tailored</a>
-                        <a class="dropdown-item" href="/products">Finished</a>
+                        <a class="dropdown-item disabled" href="#">Native Clothes</a>
+                        <a class="dropdown-item" href="/products">Accesories</a>
                     </div>
                 </li>
                 <li class="nav-item">
