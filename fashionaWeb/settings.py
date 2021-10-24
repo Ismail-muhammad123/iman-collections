@@ -80,10 +80,10 @@ WSGI_APPLICATION = 'fashionaWeb.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
 }
 
 
@@ -130,7 +130,7 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-STATIC_ROOT  =   os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATIC_URL = '/static/'
 
@@ -138,8 +138,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 if not DEBUG:
-    DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
-
+    DATABASES['default'] = dj_database_url.config(
+        conn_max_age=600, ssl_require=True)
+else:
+    DATABASES['default'] = dj_database_url.config(
+        default='postgres://rrzltolgujedps:e503c5e717fd97c73fd5df219b56c1272ee12b9271c3f2b0ca48a71eba066d61@ec2-54-208-17-82.compute-1.amazonaws.com:5432/d3r0oqm6iptpjv')
 
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'

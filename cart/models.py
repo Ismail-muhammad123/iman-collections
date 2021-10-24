@@ -7,8 +7,6 @@ from django.conf import settings
 
 
 class Cart(models.Model):
-    # TODO: set the relation of Cart to a customer account
-
     item = models.ForeignKey("products.Product", on_delete=models.DO_NOTHING)
     quantity = models.IntegerField()
     date_added = models.DateTimeField(auto_now_add=True)
@@ -16,5 +14,5 @@ class Cart(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.DO_NOTHING)
 
-    def __str__(self) -> str:
-        return self.size
+    def __str__(self):
+        return self.item.name

@@ -19,7 +19,7 @@ def user_login(request):
             return redirect('/products')
         else:
             messages.error(request, 'Invalid Username or password')
-            return render(request, template_name='user/signUp.html')
+            return render(request, template_name='user/signIn.html')
     else:
         if request.user.is_authenticated:
             messages.info(request, 'Your are already login in.')

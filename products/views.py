@@ -10,6 +10,7 @@ def products(request):
 
     for i in products:
         i.image = i.image.url
+        i.sizes = [j.strip() for j in i.sizes.split(',')]
 
     context = {
         "products": products,
@@ -30,7 +31,7 @@ def product_detaiil(request, id):
         "quantity_sold": product.quantity_sold,
         "brand": product.brand_name,
         "image" : product.image.url,
-        "delivery_days": product.delivery_days,
+        "delivery_days": product.delivery_in,
         "color" : product.color
 
     }

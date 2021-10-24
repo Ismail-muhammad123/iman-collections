@@ -1,11 +1,15 @@
 from django.contrib.auth import login
 from django.shortcuts import redirect, render
+from django.utils.functional import new_method_proxy
 from cart.models import Cart
 from django.contrib.auth.decorators import login_required
 import requests
 import json
 from django.conf import settings
 from payment.models import Payment
+import datetime
+
+from order.models import Order, OrderProduct
 
 
 # Create your views here.Content-Type
@@ -16,7 +20,6 @@ def checkout(request):
     total_quantity = 0.0
     total_price = 0.0
     total_amount = 0.0
-    user_email = request.user.email
 
     items = []
 
@@ -28,76 +31,158 @@ def checkout(request):
             i.item.price * i.quantity,
         ])
 
-        total_price =+ i.item.price
+        total_price = + i.item.price
         total_quantity += i.quantity
         total_amount += i.item.price * i.quantity
 
     context = {
-        'cart_items' : items,
-        'total_quantity' : total_quantity,
-        'total_price' : total_price,
-        'total_amount' : total_amount,
-        'user_email' : user_email,
+        'cart_items': items,
+        'total_quantity': total_quantity,
+        'total_price': total_price,
+        'total_amount': total_amount,
+        'user': request.user,
 
     }
-
-
     return render(request, template_name='payment/checkout.html', context=context)
+
 
 @login_required
 def success(request):
+
+    # get the response params
     data = request.GET.dict()
 
-    print(dict(data))
-
     ref = data['reference']
-
     trxref = data['trxref']
 
+    # verify transaction on paystack api with the params recieved
     req = requests.get('https://api.paystack.co/transaction/verify/'+ref, headers={
         "Authorization": "Bearer " + settings.PAYSTACK_SECRET_KEY
     })
 
-    print('response status: ', req.status_code)
-    print('data: ', req.text)
+    # if request succreeded
     if req.status_code == 200:
         result = json.loads(req.text)
-        print(result)
+        # print(result)
+
+        payment = Payment.objects.get(
+            refrence_code=result['data']['reference'])
+        order = Order.objects.get(payment=payment)
+
+        # if verified
         if result['data']['status']:
-            print("payment successfull")
+            # print("payment successfull")
+
+            res = result['data']
+            # set current transaction payment object fields
+            # with data from the verify-transaction response
+            # and then save it
+            payment.status = 1
+            payment.currency = res['currency']
+            payment.channel = res['channel']
+            payment.card_type = res['authorization']['card_type']
+            payment.bank = res['authorization']['bank']
+            payment.card_last_four = res['authorization']['last4']
+            payment.country_code = res['authorization']['country_code']
+            payment.account_name = res['authorization']['account_name']
+            payment.save()
+
+            # set order status to processing
+            # and save it
+            order.status = 'PRC'
+            order.save()
+
+            # clear user's cart
+            cart = Cart.objects.all().filter(user=request.user)
+            for c in cart:
+                c.delete()
+
             return render(request, 'payment/success.html')
+
         else:
+            # set payment status to failed
+            payment.status = 0
             return render(request, 'payment/canceled.html')
 
     else:
         return render(request, 'payment/canceled.html')
 
+
 @login_required
 def canceled(request):
     return render(request, 'payment/canceled.html')
 
+
 @login_required
 def initialize(request):
+
+    # extraxt the data sent from the form in the webpage
+    data = request.POST.dict()
+    email = data['email']
+    phone_number = data['phone_number']
+    delivery_address = data['delivery_address']
+    full_name = data['full_name']
+    amount = data['total_amount']
+    quantity = float(data['total_quantity'])
+
+    # get the items currently in the cart of user
+    cart_items = Cart.objects.filter(user=request.user)
+    print(cart_items)
+
+    # create a new Order object and add the order information
+    new_order = Order.objects.create(email=email,
+                                     name=full_name,
+                                     address=delivery_address,
+                                     mobile_number=phone_number,
+                                     customer=request.user,
+                                     quantity=quantity,
+                                     amount=float(amount)
+                                     )
+    new_order.amount = float(amount)
+    print('cart_items:')
+    for c in cart_items:
+        item = OrderProduct.objects.create(
+            item=c.item,
+            quantity=c.quantity,
+            size=c.size,
+            user=request.user
+        )
+        item.save()
+        new_order.products.add(item)
+
+    delivery_days = [d.item.delivery_in for d in cart_items]
+    days = max(delivery_days)
+    new_order.delivery_date = datetime.datetime.today() + datetime.timedelta(days=days)
+    # send a transaction initialization request to paystack with the current email and amount
+    # and get transaction reference
     req = requests.post(url='https://api.paystack.co/transaction/initialize', data=json.dumps({
-        "email": "ismaeelmuhammad123@gmail.com", "amount": "1000"
+        "email": email, "amount": amount
     }), headers={
         "Authorization": "Bearer "+settings.PAYSTACK_SECRET_KEY,
         "Content-Type": "application/json"
     })
 
+    # print(req.text)
 
-    print(req.text)
+    # if request is not successfull, cancel transaction
     if req.status_code != 200:
         return canceled(request)
 
     result = json.loads(req.text)
 
-    print(result)
-
+    # if transaction initiated successfully
     if result['status'] == True:
+        # create a new payment object with the reference from the response
         p = Payment.objects.create(
             user=request.user,
-            refrence_code = result['data']['reference']
+            refrence_code=result['data']['reference'],
+            amount=float(amount)
         )
         p.save()
+
+        # set the created transaction object as payment field of the created order object
+        new_order.payment = p
+        new_order.save()
+
+        # reirect to the paystack payment page
         return redirect(result['data']['authorization_url'])

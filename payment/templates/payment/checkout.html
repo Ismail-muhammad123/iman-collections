@@ -1,9 +1,9 @@
 {% extends 'home/base.html'%}
 {% load static%}
 {% block content %}
-<center>
+<div class="container py-5">
     <table class="table table-striped">
-        <thead>
+        <thead style="background-color: indigo; color: white;">
             <tr>
                 <th scope="col">Item Name</th>
                 <th scope="col">Quantity</th>
@@ -27,7 +27,38 @@
             </tr>
         </tbody>
     </table>
-    <a href="{% url 'initialize_payment' %}" class="btn btn-primary"> Pay Now </a>
-    <a href="/cart" class="btn btn-warning">Edit Cart</a>  
-</center>
-{% endblock %}
+    <br>
+    <hr>
+    <br>
+    <form action="{% url 'initialize_payment' %}" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="full_name">Full Name</label>
+            <input name="full_name" type="text" class="form-control" id="full_name" placeholder=" Full Name"
+                value="{{user.name}}">
+        </div>
+        <input name="total_amount" type="number" hidden value="{{total_amount}}">
+        <input name="total_quantity" type="number" hidden value="{{total_quantity}}">
+        <div class="form-group">
+            <label for="exampleFormControlInput1">Email address</label>
+            <input name="email" type="email" class="form-control" id="exampleFormControlInput1"
+                placeholder="name@example.com" value="{{user.email}}">
+        </div>
+        <div class="form-group">
+            <label for="phone_number">Mobile Number</label>
+            <input name="phone_number" type="tel" class="form-control" id="phone_number" placeholder="08712234587"
+                value="{{user.phone_number}}">
+        </div>
+        <div class="form-group">
+            <label for="address">Delivery Address</label>
+            <textarea name="delivery_address" class="form-control" id="delivery_address" rows="4"></textarea>
+        </div>
+        <div class="text-center p-y4">
+            <button class="btn btn-primary" type="submit">Pay Now</button>
+            <a href="/cart" class="btn btn-warning">Edit Cart</a>
+        </div>
+    </form>
+
+</div>
+{% endblock %}<button class="btn btn-primary" type="submit">Pay Now</button>
+<a href="/cart" class="btn btn-warning">Edit Cart</a>
