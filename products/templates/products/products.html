@@ -12,7 +12,7 @@
     {% for product in products %}
     <!-- TODO set up url for product-image in the products listing page -->
     <div class="card">
-        <div id="product-card" class="card-body shadow border bg-white rounded">
+        <div id="product-card" class="card-body m-sm-0 shadow border bg-white rounded">
             <a href="{% url 'details' id=product.id  %}">
                 <img src="{{product.image}}" style="width: 100%; height: 60%;" alt="" />
             </a>
