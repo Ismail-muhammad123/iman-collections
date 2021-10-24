@@ -3,39 +3,58 @@
 {% block content %}
 <h5
     style="width: 100%; background-color: blueviolet; padding: 10px; color: white; font-weight: 700; font-size: 22.0px;">
-    Items You Ordered
+    Your Oders
 </h5>
+<div class="px-2">
 
-<div style="width: 100%; overflow-x: auto;">
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Item Name</th>
-                <th scope="col">Quantity</th>
-                <th scope="col">Price</th>
-                <th scope="col">Discount</th>
-                <th scope="col">Amount</th>
-                <th scope="col">Date Ordered</th>
-                <th scope="col">Arrival on</th>
-                <th scope="col">Status</th>
+    <div style="width: 100%; overflow-x: auto;">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">View Items</th>
+                    <th scope="col">Order ID</th>
+                    <th scope="col">Full Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Mobile Number</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Discount</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Date Ordered</th>
+                    <th scope="col">Arrival on</th>
+                    <th scope="col">Status</th>
 
-            </tr>
-        </thead>
-        <tbody>
+                </tr>
+            </thead>
+            <tbody>
 
-            {% for item in order_items %}
-            <tr>
-                <td>{{item.product}}</td>
-                <td>{{item.quantity}}</td>
-                <td>{{item.product.price}}</td>
-                <td>{{item.discount}}</td>
-                <td>{{item.amount}}</td>
-                <td>{{item.date_added}}</td>
-                <td>{{item.delivery_date}}</td>
-                <td>{{item.status}}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                {% for order in orders %}
+                <tr>
+                    <td><a href="{% url 'order_details' order_id=order.id  %}" class="btn btn-primary">Items</a>
+                    </td>
+                    <td>{{order.id}}</td>
+                    <td>{{order.name}}</td>
+                    <td>{{order.email}}</td>
+                    <td>{{order.mobile_number}}</td>
+                    <td>{{order.address}}</td>
+                    <td>{{order.quantity}}</td>
+                    <td>{{order.discount}}</td>
+                    <td>{{order.amount}}</td>
+                    <td>{{order.date_added}}</td>
+                    <td>{{order.delivery_date}}</td>
+                    <td>
+                        {% if order.status == 'PND' %}
+                        <div class="text-danger">Failed</div>
+                        {% elif order.status == 'PRC' %}
+                        <div class="text-primary">Processing</div>
+                        {% elif order.status == 'CMP' %}
+                        <div class="text-success">Completed</div>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endblock %}

@@ -95,6 +95,10 @@ def success(request):
             # clear user's cart
             cart = Cart.objects.all().filter(user=request.user)
             for c in cart:
+                i = c.item
+                i.available_quantity = i.available_quantity - c.quantity
+                i.quantity_sold = i.quantity_sold + c.quantity
+                i.save()
                 c.delete()
 
             return render(request, 'payment/success.html')
@@ -140,19 +144,7 @@ def initialize(request):
                                      )
     new_order.amount = float(amount)
     print('cart_items:')
-    for c in cart_items:
-        item = OrderProduct.objects.create(
-            item=c.item,
-            quantity=c.quantity,
-            size=c.size,
-            user=request.user
-        )
-        item.save()
-        new_order.products.add(item)
 
-    delivery_days = [d.item.delivery_in for d in cart_items]
-    days = max(delivery_days)
-    new_order.delivery_date = datetime.datetime.today() + datetime.timedelta(days=days)
     # send a transaction initialization request to paystack with the current email and amount
     # and get transaction reference
     req = requests.post(url='https://api.paystack.co/transaction/initialize', data=json.dumps({
@@ -182,7 +174,20 @@ def initialize(request):
 
         # set the created transaction object as payment field of the created order object
         new_order.payment = p
+        delivery_days = [d.item.delivery_in for d in cart_items]
+        days = max(delivery_days)
+        new_order.delivery_date = datetime.datetime.today() + datetime.timedelta(days=days)
         new_order.save()
+
+        for c in cart_items:
+            item = OrderProduct.objects.create(
+                item=c.item,
+                quantity=c.quantity,
+                size=c.size,
+                user=request.user,
+                order=new_order
+            )
+            item.save()
 
         # reirect to the paystack payment page
         return redirect(result['data']['authorization_url'])

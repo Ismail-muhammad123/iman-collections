@@ -3,15 +3,6 @@ from django.conf import settings
 from payment.models import Payment
 
 
-class OrderProduct(models.Model):
-    item = models.ForeignKey("products.Product", on_delete=models.DO_NOTHING)
-    quantity = models.IntegerField()
-    date_added = models.DateTimeField(auto_now_add=True)
-    size = models.CharField(max_length=20)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             on_delete=models.DO_NOTHING)
-
-
 class Order(models.Model):
     STATUS_CHOICES = [
         ('PND', "Pending"),
@@ -30,9 +21,19 @@ class Order(models.Model):
     payment = models.OneToOneField(
         Payment, on_delete=models.SET_NULL, null=True, related_name="order_payment")
     amount = models.FloatField()
-    products = models.ManyToManyField(
-        OrderProduct, related_name="order_products")
     delivery_date = models.DateField(null=True)
-    status = models.CharField(max_length=3, default='PND')
+    status = models.CharField(
+        max_length=3, default='PND', choices=STATUS_CHOICES)
     customer = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING)
+
+
+class OrderProduct(models.Model):
+    item = models.ForeignKey("products.Product", on_delete=models.DO_NOTHING)
+    quantity = models.IntegerField()
+    date_added = models.DateTimeField(auto_now_add=True)
+    size = models.CharField(max_length=20)
+    order = models.ForeignKey(
+        Order, on_delete=models.DO_NOTHING, related_name="order_products")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.DO_NOTHING)
