@@ -35,7 +35,7 @@ class Product(models.Model):
     name = models.CharField(max_length=30)
     price = models.FloatField()
     sizes = models.CharField(max_length=300)
-    # delivery_days = models.PositiveIntegerField()
+    delivery_days = models.PositiveIntegerField()
     available_quantity = models.PositiveIntegerField()
     quantity_sold = models.PositiveIntegerField()
     description = models.TextField()
