@@ -106,7 +106,7 @@ def success(request):
         else:
             # set payment status to failed
             payment.status = 0
-            return render(request, 'payment/canceled.html')
+            return redirect('/canceled.html')
 
     else:
         return render(request, 'payment/canceled.html')

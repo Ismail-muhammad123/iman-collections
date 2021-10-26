@@ -31,7 +31,7 @@
                 Sold: <span>{{quantity_sold}}</span>
             </li>
             <li>
-                Delivery in: <span>{{delivery_days}} days</span>
+                Delivery in: <span>{{delivery_days}} day(s)</span>
             </li>
 
             <form method="GET" action="/cart/">
@@ -49,12 +49,7 @@
                     <div class="input-group-prepend">
                         <label class="input-group-text" for="inputGroupSelect01">Size</label>
                     </div>
-                    <select name="size" class="custom-select" id="inputGroupSelect01">
-
-                        {% for size in product_sizes %}
-                        <option value="{{size}}">{{size}}</option>
-                        {% endfor %}
-                    </select>
+                    <input type="text" disabled name="size" value="{{size}}" class="form-control" />
                 </div>
 
                 <br>

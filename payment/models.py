@@ -21,6 +21,6 @@ class Payment(models.Model):
     refrence_code = models.CharField(max_length=200)
     status = models.IntegerField(choices=STATUS_CHOICES, null=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING)
-
+    
 
 

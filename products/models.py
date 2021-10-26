@@ -1,6 +1,24 @@
 from django.db import models
 
 
+class Category(models.Model):
+
+    GENDER_CHOICES = [
+        ("U", "Unisex"),
+        ("M", "Male"),
+        ("F", "Female")
+    ]
+
+    name = models.CharField(max_length=50)
+    gender = models.CharField(
+        max_length=1, choices=GENDER_CHOICES, default="U")
+    image = models.ImageField(upload_to='CategoriesImages')
+    added_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return self.name
+
+
 class Suplier(models.Model):
     SUPPLIE_TYPE_CHOICES = [
         ("T", "Tailor"),
@@ -14,27 +32,15 @@ class Suplier(models.Model):
     phone_number = models.CharField(max_length=15)
     email = models.EmailField()
 
+    def __str__(self) -> str:
+        return self.name
+
 
 class Product(models.Model):
-    GENDER_CHOICES = [
-        ("M", "Male"),
-        ("F", "Female")
-    ]
-
-    CATEGORY_CHOICES = [
-        ("TD", "Tailored"),
-        ("SH", "Shoes"),
-        ("ST", "Shirts"),
-        ("CP", "Caps"),
-        ("TR", "trousers"),
-        ("OTH", "Others")
-    ]
-
-    gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
-    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
+    product_category = models.ForeignKey(Category, on_delete=models.DO_NOTHING)
     name = models.CharField(max_length=30)
     price = models.FloatField()
-    sizes = models.CharField(max_length=300)
+    size = models.CharField(max_length=300)
     delivery_in = models.PositiveIntegerField()
     available_quantity = models.PositiveIntegerField()
     quantity_sold = models.PositiveIntegerField()

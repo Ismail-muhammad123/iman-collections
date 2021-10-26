@@ -1,34 +1,146 @@
 {% extends 'home/base.html'%}
 {% load static%}
 {% block content %}
-<div class="container">
+<div class="container py-4">
     <h5
-    style="width: 100%; background-color: blueviolet; padding: 10px; color: white; font-weight: 700; font-size: 22.0px;">
-    Items You Ordered
-</h5>
+        style="width: 100%; background-color: blueviolet; padding: 10px; color: white; font-weight: 700; font-size: 22.0px;">
+        Invoice
+    </h5>
 
-<div style="width: 100%; overflow-x: auto;">
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Item Name</th>
-                <th scope="col">Quantity</th>
-                <th scope="col">Size</th>
+    <div class="container py-3" style="font-weight: 500;">
+        <div class="row">
+            <div class="float-left col-6">
+                Name:
+            </div>
+            <div class="float-right text-capitalize col-6">
+                {{order.name }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="float-left col-6">
+                Email:
+            </div>
+            <div class="col-6">
+                {{order.email}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="float-left col-6">
+                Phone Number:
+            </div>
+            <div class="float-right col-6">
+                {{order.mobile_number}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="float-left col-6">
+                Address:
+            </div>
+            <div class="float-right col-6">
+                {{order.address}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="float-left col-6">
+                Total Quantity:
+            </div>
+            <div class="float-right col-6">
+                {{order.quantity}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="float-left col-6">
+                Total Amount:
+            </div>
+            <div class="float-right col-6">
+                {{order.amount}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="float-left col-6">
+                Delivery Date:
+            </div>
+            <div class="float-right col-6">
+                {{order.delivery_data}}
+            </div>
+        </div>
+        <div class="row">
+            <div class="float-left col-6">
+                Payment status:
+            </div>
+            <div class="float-right col-6">
+                {% if order.payment.status == 0 %}
+                <div class="text-danger">Not Paid</div>
+                {% elif order.payment.status == 1 %}
+                <div class="text-success">Paid</div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="float-left col-6">
+                Status Order:
+            </div>
+            <div class="float-right col-6">
+                {% if order.status == 'PND' %}
+                <div class="text-danger">Failed</div>
+                {% elif order.status == 'PRC' %}
+                <div class="text-primary">Processing</div>
+                {% elif order.status == 'CMP' %}
+                <div class="text-success">Completed</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div style="width: 100%; overflow-x: auto;">
+        <table class="table table-bordered">
+            <thead style="width: 100%; background-color: indigo;">
+                <tr class="text-light">
+                    <th scope="col">Item Name</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Size</th>
+                </tr>
+            </thead>
+            <tbody>
 
-
-            </tr>
-        </thead>
-        <tbody>
-
-            {% for item in items %}
-            <tr>
-                <td>{{item.item}}</td>
-                <td>{{item.quantity}}</td>
-                <td>{{item.size}}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
+                {% for item in items %}
+                <tr>
+                    <td>{{item.item}}</td>
+                    <td>{{item.quantity}}</td>
+                    <td>{{item.size}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <hr>
+        </table>
+    </div>
+    <div class="row">
+        <div class="col-8"></div>
+        <div class="col-4">
+            <div class="row">
+                <div class="float-left col-6">
+                    Sub Total:
+                </div>
+                <div class="float-right col-6">
+                    {{order.amount}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="float-left col-6">
+                    Delivery fee:
+                </div>
+                <div class="float-right col-6">
+                    N0.00
+                </div>
+            </div>
+            <div class="row">
+                <div class="float-left col-6">
+                    Total:
+                </div>
+                <div class="float-right col-6">
+                    {{order.amount}}
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

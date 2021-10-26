@@ -17,8 +17,10 @@ def order(request):
 
 @login_required
 def order_detail(request, order_id):
+    order = Order.objects.get(id=order_id)
     items = Order.objects.get(id=order_id).order_products.all()
     context = {
+        "order": order,
         "items": items
     }
 
