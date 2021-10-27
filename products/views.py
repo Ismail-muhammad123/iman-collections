@@ -1,3 +1,4 @@
+from django.http.response import Http404
 from django.shortcuts import redirect, render, get_object_or_404
 from .models import Product, Category
 from django.contrib.auth.decorators import login_required
@@ -13,11 +14,11 @@ def home(request):
 
     male = {
         "gender": "Male",
-        "classes": categories.filter(Q(gender="M") | Q(gender='U'))
+        "classes": categories.filter(gender="M")
     }
     female = {
         "gender": "Female",
-        "classes": categories.filter(Q(gender="F") | Q(gender='U'))
+        "classes": categories.filter(gender="F")
     }
     unisex = {
         "gender": "Unisex",
@@ -66,23 +67,27 @@ def category_gender(request, gender, category):
         g = "U"
 
     cat = get_object_or_404(Category, name=category, gender=g)
-    print("cat", cat)
 
-    products = get_object_or_404(Product,
-                                 product_category=cat, available_quantity__gte=0)
-
-    count = len(products)
+    products = Product.objects.filter(
+        product_category=cat, available_quantity__gte=0)
 
     context = {
         "products": products,
-        "cartegory": cat.name,
-        "count": count
+        "category": cat,
+        "gender": gender
     }
+
     return render(request, template_name="products/category_products.html", context=context)
 
 
 def product_detaiil(request, id):
-    product = get_object_or_404(Product, id=id)
+    try:
+        product = Product.objects.get(id=id)
+    except Product.DoesNotExist:
+        raise Http404(
+            'The product with the given id could not be found'
+        )
+
     print(product.image.url)
     context = {
         "size": product.size,
@@ -107,3 +112,11 @@ def not_found(request):
 @login_required
 def saved(request):
     return render(request, template_name="products/saved.html")
+
+
+def error_404(request, exception):
+    return render(request, 'home/404.html')
+
+
+def error_500(request):
+    return render(request, '500.html')

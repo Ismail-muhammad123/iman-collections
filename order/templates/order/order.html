@@ -1,6 +1,7 @@
 {% extends 'home/base.html'%}
 {% load static%}
 {% block content %}
+{% load humanize %}
 <h5
     style="width: 100%; background-color: blueviolet; padding: 10px; color: white; font-weight: 700; font-size: 22.0px;">
     Your Oders
@@ -29,7 +30,7 @@
                     <td>{{order.id}}</td>
                     <td>{{order.name}}</td>
                     <td>{{order.quantity}}</td>
-                    <td>N{{order.amount}}</td>
+                    <td>&#x20A6;{{order.amount|intcomma}}</td>
                     <td>{{order.date_added}}</td>
                     <td>{{order.delivery_date}}</td>
                     <td>

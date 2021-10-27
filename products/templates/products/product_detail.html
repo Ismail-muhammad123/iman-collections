@@ -1,6 +1,7 @@
 {% extends 'home/base.html' %}
 {% load static %}
 {% block content %}
+{% load humanize %}
 
 <div id="product-details">
     <!-- TODO set the image url to a template value -->
@@ -22,7 +23,7 @@
                 Color: <span>{{color}}</span>
             </li>
             <li>
-                Price(NGN): <span>{{price }}</span>
+                Price(NGN): <span>&#x20A6;{{price|intcomma }}</span>
             </li>
             <li>
                 Available: <span>{{available_quantity}}</span>
@@ -49,7 +50,7 @@
                     <div class="input-group-prepend">
                         <label class="input-group-text" for="inputGroupSelect01">Size</label>
                     </div>
-                    <input type="text" disabled name="size" value="{{size}}" class="form-control" />
+                    <input type="text" readonly name="size" value="{{size}}" class="form-control" />
                 </div>
 
                 <br>

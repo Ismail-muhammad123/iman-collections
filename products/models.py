@@ -16,7 +16,7 @@ class Category(models.Model):
     added_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
-        return self.name
+        return self.name + ' - ' + self.get_gender_display()
 
 
 class Suplier(models.Model):
@@ -37,6 +37,12 @@ class Suplier(models.Model):
 
 
 class Product(models.Model):
+    GENDER_CHOICES = [
+        ("U", "Unisex"),
+        ("M", "Male"),
+        ("F", "Female")
+    ]
+
     product_category = models.ForeignKey(Category, on_delete=models.DO_NOTHING)
     name = models.CharField(max_length=30)
     price = models.FloatField()
@@ -48,6 +54,9 @@ class Product(models.Model):
     image = models.ImageField(upload_to='productImages')
     brand_name = models.CharField(max_length=250)
     color = models.CharField(max_length=200)
+    gender = models.CharField(
+        max_length=1, choices=GENDER_CHOICES, default="U")
 
-    def __str__(self) -> str:
-        return self.name
+
+def __str__(self) -> str:
+    return self.name

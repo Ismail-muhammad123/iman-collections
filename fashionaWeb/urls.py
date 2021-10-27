@@ -12,3 +12,7 @@ urlpatterns = [
     path('user/', include('user.urls')),
 
 ]
+
+
+handler404 = 'products.views.error_404'
+handler500 = 'products.views.error_500'

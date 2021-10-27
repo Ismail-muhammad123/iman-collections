@@ -1,4 +1,5 @@
 {% load static %}
+{% load humanize %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,6 +12,17 @@
     <script src="{% static 'products/js/jquery.js' %}"></script>
 
     <style>
+        .carousel-item:after {
+            content: "";
+            display: block;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+        }
+
         #products-grid,
         .category-cards,
         #cart-items {
@@ -145,7 +157,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-md navbar-dark" style="background-color: indigo;">
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: indigo;">
         <a class="navbar-brand" href="/">
             <h1>Fashiona</h1>
         </a>
@@ -161,67 +173,56 @@
                         <input class="form-control" type="text" placeholder="Search">
                     </form>
                 </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">Male</a>
                     <div class="dropdown-menu" aria-labelledby="dropdown04">
+                        {% for categ in male_categories %}
                         <a class="dropdown-item"
-                            href="{% url 'gender_category' gender='male' category='shirts' %}">Shirts</a>
-                        <a class="dropdown-item" href="{% url 'gender_category' gender='male' category='bags' %}">back
-                            packs</a>
-                        <a class="dropdown-item text-capitalize"
-                            href="{% url 'gender_category' gender='male' category='trouser' %}">trousers</a>
-                        <a class="dropdown-item text-capitalize"
-                            href="{% url 'gender_category' gender='male' category='watches' %}">watches</a>
-                        <a class="dropdown-item text-capitalize"
-                            href="{% url 'gender_category' gender='male' category='shoes' %}">shoes</a>
-                        <a class="dropdown-item text-capitalize"
-                            href="{% url 'gender_category' gender='male' category='caps' %}">hats
-                            and caps</a>
-                        <a class="dropdown-item text-capitalize"
-                            href="{% url 'gender_category' gender='male' category='glasses' %}">glasses</a>
+                            href="{% url 'gender_category' gender='male' category=categ.name %}">{{categ.name}}</a>
+                        {% endfor %}
+
                     </div>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">Female</a>
                     <div class="dropdown-menu" aria-labelledby="dropdown04">
+                        {% for categ in female_categories %}
                         <a class="dropdown-item text-capitalize"
-                            href="{% url 'gender_category' gender='female' category='shirts' %}">shirts</a>
+                            href="{% url 'gender_category' gender='female' category=categ.name %}">{{categ.name}}</a>
+                        {% endfor %}
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">Unisex</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown04">
+                        {% for categ in unisex_categories %}
                         <a class="dropdown-item text-capitalize"
-                            href="{% url 'gender_category' gender='female' category='skirts' %}">skirts</a>
-                        <a class="dropdown-item text-capitalize"
-                            href="{% url 'gender_category' gender='female' category='trousers' %}">trouser</a>
-                        <a class="dropdown-item text-capitalize"
-                            href="{% url 'gender_category' gender='female' category='shoes' %}">shoes</a>
-                        <a class="dropdown-item text-capitalize"
-                            href="{% url 'gender_category' gender='female' category='caps' %}">caps
-                            and hats</a>
-                        <a class="dropdown-item text-capitalize"
-                            href="{% url 'gender_category' gender='female' category='bags' %}">back
-                            packs</a>
-                        <a class="dropdown-item text-capitalize"
-                            href="{% url 'gender_category' gender='female' category='glasses' %}">glasses</a>
-                        <a class="dropdown-item text-capitalize"
-                            href="{% url 'gender_category' gender='female' category='others' %}">others</a>
+                            href="{% url 'gender_category' gender='unisex' category=categ.name %}">{{categ.name}}</a>
+                        {% endfor %}
                     </div>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/cart">Cart <span><i
                                 class="fa-regular fa-cart-circle-plus"></i></span></a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/products/saved/">saved <span><i
+                                class="fa-regular fa-cart-circle-plus"></i></span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/order">My Orders <span><i
+                                class="fa-regular fa-cart-circle-plus"></i></span></a>
+                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">My Account</a>
                     <div class="dropdown-menu" aria-labelledby="dropdown04">
-                        <a class="dropdown-item" href="/user/register">Sign In</a>
-                        <a class="dropdown-item" href="/user/login">LogIn</a>
                         <a class="dropdown-item" href="#">My Profile</a>
-                        <a class="dropdown-item" href="/products/saved/">saved products</a>
-                        <a class="dropdown-item" href="/order">My Orders</a>
+                        <a class="dropdown-item" href="/user/register">Sign Up</a>
+                        <a class="dropdown-item" href="/user/login">Sign In</a>
                         <a class="dropdown-item" href="/user/logout">logout</a>
                     </div>
                 </li>

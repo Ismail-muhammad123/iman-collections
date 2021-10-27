@@ -1,17 +1,27 @@
 {% extends 'home/base.html'%}
 {% load static%}
 {% block content %}
-
-<div class="mb-3" style="width: 100%; height: 50px; background-color: indigo; color: white;">
-    <h5 style=" text-transform: uppercase; font-weight: 700; font-size: 22.0px; padding: 10px;">
-        {{category}}
-    </h5>
-</div>
-
+{% load humanize %}
+<ul class="mb-3"
+    style="width: 100%; height: 50px; background-color: rgb(136, 65, 187); color: white; list-style: none; align-items: center;">
+    <li style="display: inline-block;">
+        <h5 style=" text-transform: capitalize; font-weight: 700; font-size: 22.0px; padding: 10px;">
+            <a href="{% url 'home'  %}" class="text-light">Products</a> |
+            <a href="{% url 'gender' gender=gender %}" class="text-light">{{gender}}</a> | {{category.name}}
+        </h5>
+    </li>
+    <li style="display: inline-block;">
+        <div style="font-size: 18px; margin: 10px;" id="pagination">
+            <p>
+                {{products|length}} products
+            </p>
+        </div>
+    </li>
+</ul>
 {% if products %}
 <div id="products-grid">
     {% for product in products %}
-    <div id="product-card" class="p-3 m-sm-0 border bg-white">
+    <div id="product-card" class="shadow p-3 m-sm-0 border bg-white">
         <a href="{% url 'details' id=product.id  %}">
             <img src="{{product.image.url}}" style="width: 100%; height: 60%;" alt="" />
         </a>
@@ -19,7 +29,7 @@
             </span>{{product.name}}
         </div>
         <div class="text-danger">
-            <span class="text-dark text-capitalize">price: N{{product.price}}</span>
+            <span class="text-dark text-capitalize">price: &#x20A6;{{product.price|intcomma}}</span>
         </div>
         <hr>
         <form method="GET" action="/cart/">
@@ -47,9 +57,5 @@
     {% endfor %}
 </div>
 {% endif %}
-<div style="font-size: 12px; text-align: end; margin: 20px ;" id="pagination">
-    <p>
-        {{count}} items
-    </p>
-</div>
+
 {% endblock %}
