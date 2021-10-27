@@ -55,35 +55,22 @@
 
                 <br>
                 <div style="text-align: center;">
-                    <input type="submit" class="btn btn-primary" style="width: 50%; margin-bottom: 20px;"
+                    {% if product.available_quantity|length > 0%}
+                    <input type="submit" class="btn btn-primary w-sm-100" style="width: 100%; margin-bottom: 20px;"
                         value="Add to cart" />
+                    {% elif product.available_quantity|length == 0 %}
+                    <input type="submit" disabled class="btn btn-primary w-sm-100"
+                        style="width: 50%; margin-bottom: 20px;" value="Add to cart" />
+                    {% endif %}
                 </div>
+            </form>
+            <form action="{% url 'save_new'  %}" style="text-align: center;" method="GET">
+                <input hidden type="number" value="{{id}}" name="item_id">
+                <button type="submit" style="width: 50%; margin-bottom: 20px;"
+                    class="btn btn-secondary w-sm-100">Save</button>
             </form>
             <br>
         </ul>
     </div>
-
-    <!-- {% csrf_token %} -->
-
-    <script>
-        // handle increment of quantity
-
-        $('#increment').click(function () {
-            var v = $('#quantity').val();
-            $('#quantity').val(parseInt(v) + 1);
-        })
-
-        // handle decrement of quantity
-        $('#decrement').click(function () {
-            var v = $('#quantity').val();
-            if (parseInt(v) - 1 > 0) {
-                $('#quantity').val(parseInt(v) - 1);
-            } else {
-                $('#quantity').val(parseInt(1));
-            }
-
-        })
-
-    </script>
 </div>
 {% endblock content %}

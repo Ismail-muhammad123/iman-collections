@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 
 class Category(models.Model):
@@ -57,6 +58,12 @@ class Product(models.Model):
     gender = models.CharField(
         max_length=1, choices=GENDER_CHOICES, default="U")
 
+    def __str__(self) -> str:
+        return self.name
 
-def __str__(self) -> str:
-    return self.name
+
+class SavedProducts(models.Model):
+    item = models.ForeignKey(Product, on_delete=models.DO_NOTHING)
+    date_added = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE)

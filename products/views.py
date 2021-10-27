@@ -1,8 +1,9 @@
 from django.http.response import Http404
 from django.shortcuts import redirect, render, get_object_or_404
-from .models import Product, Category
+from .models import Product, Category, SavedProducts
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from django.contrib import messages
 
 
 # Create your views here.
@@ -105,13 +106,41 @@ def product_detaiil(request, id):
     return render(request, template_name='products/product_detail.html', context=context)
 
 
-def not_found(request):
-    return render(request, template_name='home/not_found.html')
+@login_required
+def saved(request):
+    products = SavedProducts.objects.filter(user=request.user)
+
+    return render(request, template_name="products/saved.html", context={"products": products})
 
 
 @login_required
-def saved(request):
-    return render(request, template_name="products/saved.html")
+def save_item(request):
+    id = request.GET['item_id']
+
+    other_saved = SavedProducts.objects.filter(user=request.user, id=id)
+
+    if not other_saved:
+        product = Product.objects.get(id=id)
+
+        s = SavedProducts.objects.create(user=request.user, item=product)
+        s.save()
+
+        messages.success(request, "Item Saved successfuly")
+        return redirect('/products/detail/'+id)
+    else:
+        messages.info(request, "Item already saved")
+        return redirect('/products/detail/' + id)
+
+
+@login_required
+def remove_saved(request):
+    id = request.GET['id']
+
+    s = SavedProducts.objects.get(user=request.user, id=int(id))
+    s.delete()
+
+    messages.info(request, "Item removed successfuly")
+    return redirect('/products/saved', permanent=True)
 
 
 def error_404(request, exception):

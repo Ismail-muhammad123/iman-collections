@@ -1,5 +1,59 @@
-{% extends 'home/base.html'%}
-{% load static%}
+{% extends 'home/base.html' %}
+{% load static %}
 {% block content %}
-
+{% load humanize %}
+<header style="width: 100%; background-color: blueviolet; padding: 10px;">
+    <h3 style="padding: 10px; color: white; font-weight: 700; display: inline; font-size: 22.0px;">
+        Your Saved Items
+    </h3>
+    <span class="text-light"> - {{products|length}} items</span>
+</header>
+{% if products %}
+<div id="products-grid">
+    {% for product in products %}
+    <div id="product-card" class="shadow p-3 m-sm-0 border bg-white">
+        <a href="{% url 'details' id=product.id  %}">
+            <img src="{{product.item.image.url}}" style="width: 100%; height: 60%;" alt="" />
+        </a>
+        <div class="mt-2 text-uppercase fw-3"><span class="text-dark text-capitalize">Name:
+            </span>{{product.item.name}}
+        </div>
+        <div class="text-danger">
+            <span class="text-dark text-capitalize">price: &#x20A6;{{product.item.price|intcomma}}</span>
+        </div>
+        <hr>
+        <form method="GET" action="/cart/">
+            <input hidden type="text" value="{{product.item.id}}" name="id">
+            <div class="input-group py-2" style="width: 100%;">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="">Quantity</span>
+                </div>
+                <input type="number" name="quantity" class="form-control" min=1 max={{product.item.available_quantity}}
+                    value=1 />
+            </div>
+            <div style="width: 100%;" class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="inputGroupSelect01">Size</label>
+                </div>
+                <input type="text" readonly name="size" value="{{product.item.size}}" class="form-control" />
+            </div>
+            <hr>
+            <div style="text-align: center;">
+                {% if product.item.available_quantity|length%}
+                <input type="submit" class="btn btn-primary" style="width: 100%; margin-bottom: 20px;"
+                    value="Add to cart" />
+                {% else %}
+                <input type="submit" disabled class="btn btn-primary" style="width: 100%; margin-bottom: 20px;"
+                    value="Add to cart" />
+                {% endif %}
+            </div>
+        </form>
+        <form action="{% url 'remove_saved' %}" method="GET">
+            <input type="number" name="id" hidden value="{{product.id}}">
+            <button type="submit" style="width: 100%; margin-bottom: 20px;" class="btn btn-danger">Revome</button>
+        </form>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
 {% endblock %}

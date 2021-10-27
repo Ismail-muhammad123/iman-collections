@@ -18,6 +18,7 @@
         </div>
     </li>
 </ul>
+
 {% if products %}
 <div id="products-grid">
     {% for product in products %}
@@ -45,12 +46,17 @@
                 <div class="input-group-prepend">
                     <label class="input-group-text" for="inputGroupSelect01">Size</label>
                 </div>
-                <input type="text" disabled name="size" value="{{product.size}}" class="form-control" />
+                <input type="text" readonly name="size" value="{{product.size}}" class="form-control" />
             </div>
             <hr>
             <div style="text-align: center;">
+                {% if product.available_quantity|length%}
                 <input type="submit" class="btn btn-primary" style="width: 100%; margin-bottom: 20px;"
                     value="Add to cart" />
+                {% else %}
+                <input type="submit" disabled class="btn btn-primary" style="width: 100%; margin-bottom: 20px;"
+                    value="Add to cart" />
+                {% endif %}
             </div>
         </form>
     </div>
