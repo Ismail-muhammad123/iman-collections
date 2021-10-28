@@ -52,6 +52,7 @@ class Account(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     date_created = models.DateTimeField(default=timezone.now)
+    profile_picture = models.ImageField(upload_to='ProfilePictures', null=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

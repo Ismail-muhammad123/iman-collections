@@ -2,10 +2,10 @@
 {% load static %}
 {% block content %}
 <div class="conta">
-    <h2>Not Found</h2>
+    <h2>Error 500</h2>
     <p>Sorry, Internal server error</p>
     <p>
-        <a href="/product">Go back to home page</a>
+        <a href="{% url 'home'  %}">Go back to home page</a>
     </p>
 </div>
 {% endblock %}

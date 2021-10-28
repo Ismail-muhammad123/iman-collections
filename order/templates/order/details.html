@@ -10,66 +10,66 @@
 
     <div class="container py-3" style="font-weight: 500;">
         <div class="row">
-            <div class="float-left col-6">
+            <div class="float-left col-5">
                 Name:
             </div>
-            <div class="float-right text-capitalize col-6">
+            <div class="float-right text-capitalize col-7">
                 {{order.name }}
             </div>
         </div>
-        <div class="row">
-            <div class="float-left col-6">
+        <div class="text-justify row">
+            <div class="float-left col-5">
                 Email:
             </div>
-            <div class="col-6">
+            <div class="text-justify col-7">
                 {{order.email}}
             </div>
         </div>
         <div class="row">
-            <div class="float-left col-6">
+            <div class="float-left col-5">
                 Phone Number:
             </div>
-            <div class="float-right col-6">
+            <div class="float-right col-7">
                 {{order.mobile_number}}
             </div>
         </div>
         <div class="row">
-            <div class="float-left col-6">
+            <div class="float-left col-5">
                 Address:
             </div>
-            <div class="float-right col-6">
+            <div class="float-right col-7">
                 {{order.address}}
             </div>
         </div>
         <div class="row">
-            <div class="float-left col-6">
+            <div class="float-left col-5">
                 Total Quantity:
             </div>
-            <div class="float-right col-6">
+            <div class="float-right col-7">
                 {{order.quantity}}
             </div>
         </div>
         <div class="row">
-            <div class="float-left col-6">
+            <div class="float-left col-5">
                 Total Amount:
             </div>
-            <div class="float-right col-6">
+            <div class="float-right col-7">
                 &#x20A6;{{order.amount|intcomma}}
             </div>
         </div>
         <div class="row">
-            <div class="float-left col-6">
+            <div class="float-left col-5">
                 Delivery Date:
             </div>
-            <div class="float-right col-6">
+            <div class="float-right col-7">
                 {{order.delivery_data}}
             </div>
         </div>
         <div class="row">
-            <div class="float-left col-6">
+            <div class="float-left col-5">
                 Payment status:
             </div>
-            <div class="float-right col-6">
+            <div class="float-right col-7">
                 {% if order.payment.status == 0 %}
                 <div class="text-danger">Not Paid</div>
                 {% elif order.payment.status == 1 %}
@@ -78,10 +78,10 @@
             </div>
         </div>
         <div class="row">
-            <div class="float-left col-6">
+            <div class="float-left col-5">
                 Status Order:
             </div>
-            <div class="float-right col-6">
+            <div class="float-right col-7">
                 {% if order.status == 'PND' %}
                 <div class="text-danger">Failed</div>
                 {% elif order.status == 'PRC' %}
@@ -115,8 +115,8 @@
         </table>
     </div>
     <div class="row">
-        <div class="col-8"></div>
-        <div class="col-4">
+        <div class="col-6"></div>
+        <div class="col-6">
             <div class="row">
                 <div class="float-left col-6">
                     Sub Total:

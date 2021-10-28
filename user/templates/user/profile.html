@@ -1,0 +1,74 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container mt-4 mb-4 p-3 d-flex justify-content-center">
+    <div class="card">
+        <div class="card-header text-center fw-3 text-light" style="background-color: indigo;">
+            <h3>User Profile</h3>
+        </div>
+        <div class="card-body text-center">
+            <img class="shadow" alt="Profile picture" src="{{user.profile_picture.url}}" height="200px" width="200px"
+                style="border-radius: 50%;">
+            <form action="" enctype="multipart/form-data" method="POST" class="py-3">
+                {% csrf_token %}
+                <div class="shadow input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Profile Picture</span>
+                    </div>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" name="profile_image" id="profile_image_input"
+                            value="{{user.profile_picture.url}}">
+                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                    </div>
+                </div>
+                <div class="shadow input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">Name</span>
+                    </div>
+                    <input type="text" class="form-control" name="user_name" value="{{user.name}}"
+                        placeholder="Full Name" aria-label="name" aria-describedby="basic-addon1">
+                </div>
+                <div class="shadow input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">Email</span>
+                    </div>
+                    <input type="email" class="form-control" name="email" value="{{user.email}}"
+                        placeholder="Email Address" aria-label="Username" aria-describedby="basic-addon1">
+                </div>
+                <div class="shadow input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">Phone Number</span>
+                    </div>
+                    <input type="text" class="form-control" name="phone_number" value="{{user.phone_number}}"
+                        placeholder="Phone Number" aria-label="Username" aria-describedby="basic-addon1">
+                </div>
+                <div class="shadow input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">Country</span>
+                    </div>
+                    <input type="text" class="form-control" name="country" value="{{user.country}}"
+                        placeholder="Country" aria-label="Username" aria-describedby="basic-addon1">
+                </div>
+                <div class="shadow input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">State</span>
+                    </div>
+                    <input type="text" class="form-control" name="state" value="{{user.state}}" placeholder="State"
+                        aria-label="Username" aria-describedby="basic-addon1">
+                </div>
+                <div class="shadow input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Street address</span>
+                    </div>
+                    <textarea class="form-control" name="directions"
+                        aria-label="With textarea">{{user.directions}}</textarea>
+                </div>
+                <button class="btn btn-primary w-80" type="submit">Update</button>
+                <a href="{% url 'update_password'  %}" class="btn btn-primary w-80">Change Password</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

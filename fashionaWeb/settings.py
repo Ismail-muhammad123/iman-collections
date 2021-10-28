@@ -165,3 +165,6 @@ AWS_S3_REGION_NAME = 'us-east-2'
 
 
 PAYSTACK_SECRET_KEY = 'sk_test_523a831b7b20473684cb9da3690a5933d28fa218'
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
