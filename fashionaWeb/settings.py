@@ -167,4 +167,18 @@ AWS_S3_REGION_NAME = 'us-east-2'
 PAYSTACK_SECRET_KEY = 'sk_test_523a831b7b20473684cb9da3690a5933d28fa218'
 
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'fashionaMailApi'
+EMAIL_HOST_PASSWORD = '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'
+EMAIL_USE_TLS = True
+
+
+SERVER_EMAIL = 'report@fashiona.net'
+
+ADMINS = [
+    ("Ismail Muhammad", "ismaeelmuhammad123@gmail.com")
+]

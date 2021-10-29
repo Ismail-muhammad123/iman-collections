@@ -6,7 +6,9 @@ from django.db.models import Q
 from django.contrib import messages
 
 
-# Create your views here.
+def search(request):
+    # TODO create search functionality
+    pass
 
 
 def home(request):
