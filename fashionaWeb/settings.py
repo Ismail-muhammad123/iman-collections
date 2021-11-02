@@ -183,3 +183,7 @@ SERVER_EMAIL = 'report@fashiona.net'
 ADMINS = [
     ("Ismail Muhammad", "ismaeelmuhammad123@gmail.com")
 ]
+
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
