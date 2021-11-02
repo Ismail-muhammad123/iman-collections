@@ -177,10 +177,12 @@
                     <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">Male</a>
                     <div class="dropdown-menu" aria-labelledby="dropdown04">
+                        {% if male_categories|length %}
                         {% for categ in male_categories %}
                         <a class="dropdown-item"
                             href="{% url 'gender_category' gender='male' category=categ.name %}">{{categ.name}}</a>
                         {% endfor %}
+                        {% endif %}
 
                     </div>
                 </li>
@@ -188,20 +190,24 @@
                     <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">Female</a>
                     <div class="dropdown-menu" aria-labelledby="dropdown04">
+                        {% if female_categories|length %}
                         {% for categ in female_categories %}
                         <a class="dropdown-item text-capitalize"
                             href="{% url 'gender_category' gender='female' category=categ.name %}">{{categ.name}}</a>
                         {% endfor %}
+                        {% endif %}
                     </div>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">Unisex</a>
                     <div class="dropdown-menu" aria-labelledby="dropdown04">
+                        {% if unisex_categories|length %}
                         {% for categ in unisex_categories %}
                         <a class="dropdown-item text-capitalize"
                             href="{% url 'gender_category' gender='unisex' category=categ.name %}">{{categ.name}}</a>
                         {% endfor %}
+                        {% endif %}
                     </div>
                 </li>
                 <li class="nav-item">

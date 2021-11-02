@@ -9,7 +9,7 @@ class Payment(models.Model):
         (1, "SUCCESS"),
         (0, "FAILED")
     ]
-    
+
     amount = models.FloatField()
     currency = models.CharField(max_length=3, null=True,)
     channel = models.CharField(max_length=10, null=True)
@@ -20,7 +20,8 @@ class Payment(models.Model):
     account_name = models.CharField(max_length=100, null=True)
     refrence_code = models.CharField(max_length=200)
     status = models.IntegerField(choices=STATUS_CHOICES, null=True)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING)
-    
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.DO_NOTHING)
 
-
+    def __str__(self) -> str:
+        return self.amount + self.status

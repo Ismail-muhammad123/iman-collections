@@ -16,6 +16,9 @@ class Category(models.Model):
     image = models.ImageField(upload_to='CategoriesImages')
     added_at = models.DateTimeField(auto_now_add=True)
 
+    added_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
+
     def __str__(self) -> str:
         return self.name + ' - ' + self.get_gender_display()
 
@@ -27,11 +30,14 @@ class Suplier(models.Model):
     ]
 
     name = models.CharField(max_length=100)
+    state = models.CharField(max_length=100)
+    country = models.CharField(max_length=100)
     address = models.CharField(max_length=250)
-    type = models.CharField(max_length=5, choices=SUPPLIE_TYPE_CHOICES)
-    total_earnings = models.FloatField()
     phone_number = models.CharField(max_length=15)
     email = models.EmailField()
+    added_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING)
+    added_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
         return self.name
@@ -57,6 +63,13 @@ class Product(models.Model):
     color = models.CharField(max_length=200)
     gender = models.CharField(
         max_length=1, choices=GENDER_CHOICES, default="U")
+
+    supplier = models.ForeignKey(
+        Suplier, on_delete=models.DO_NOTHING, null=True)
+    buying_price = models.FloatField()
+    added_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING)
+    added_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
         return self.name

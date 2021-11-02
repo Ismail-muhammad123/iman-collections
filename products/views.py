@@ -8,6 +8,7 @@ from django.contrib import messages
 
 def search(request):
     # TODO create search functionality
+    # product = Product.objects.filter()
     pass
 
 
