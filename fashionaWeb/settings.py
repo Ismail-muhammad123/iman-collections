@@ -10,11 +10,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-o47&kilmpi3vgmw*u29c3yoip(t8^0&)yp%squ)u3!j6ianghk'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'www.fashionacollections.com',
                  'fashionacollections.com']
@@ -150,12 +148,11 @@ MEDIA_URL = '/media/'
 DATABASES['default'] = dj_database_url.config(
     default='postgres://rrzltolgujedps:e503c5e717fd97c73fd5df219b56c1272ee12b9271c3f2b0ca48a71eba066d61@ec2-54-208-17-82.compute-1.amazonaws.com:5432/d3r0oqm6iptpjv')
 
+SECRET_KEY = 'django-insecure-o47&kilmpi3vgmw*u29c3yoip(t8^0&)yp%squ)u3!j6ianghk'
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'
-# STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
-
 
 AWS_ACCESS_KEY_ID = 'AKIAQXLZN6YA4RPUTUG3'
 AWS_SECRET_ACCESS_KEY = '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'
@@ -164,7 +161,7 @@ DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 AWS_STORAGE_BUCKET_NAME = 'fashiona-store'
 AWS_S3_REGION_NAME = 'us-east-2'
 
-
+# payment gataway: paystack
 PAYSTACK_SECRET_KEY = 'sk_test_523a831b7b20473684cb9da3690a5933d28fa218'
 
 
