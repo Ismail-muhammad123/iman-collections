@@ -101,7 +101,6 @@ def success(request):
                 c.delete()
 
             messages.success(request, "Your purchase was successful")
-
             return redirect('/order')
 
         else:
