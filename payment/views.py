@@ -1,5 +1,5 @@
 from django.contrib.auth import login
-from django.core.checks import messages
+from django.contrib import messages
 from django.shortcuts import redirect, render
 from django.utils.functional import new_method_proxy
 from cart.models import Cart
@@ -102,7 +102,7 @@ def success(request):
                 i.save()
                 c.delete()
 
-            messages.info(request, "Your purchase was successful")
+            messages.success(request, "Your purchase was successful")
 
             return render(request, 'payment/success.html')
 
