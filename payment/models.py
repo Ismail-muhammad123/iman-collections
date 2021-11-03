@@ -23,5 +23,5 @@ class Payment(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.DO_NOTHING)
 
-    def __str__(self) -> str:
-        return self.amount + self.status
+    def __str__(self):
+        return str(self.amount + self.status)
