@@ -22,7 +22,8 @@ class OrderAdmin(admin.ModelAdmin):
     ]
 
     def order_products(self, obj):
-        return '<br/>'.join(['{}  {}  {}'.format(child.item.name, child.size, child.quantity) for child in obj.order_products.all()])
+        return ', '.join(['{}  {}  {}'.format(child.item.name, child.size, child.quantity) for child in obj.order_products.all()])
+
     order_products.short_description = "Products orderd"
 
 
