@@ -102,7 +102,7 @@ def success(request):
                 i.save()
                 c.delete()
 
-            messages.success(request, "Your purchase was successful")
+            messages.info(request, "Your purchase was successful")
 
             return render(request, 'payment/success.html')
 

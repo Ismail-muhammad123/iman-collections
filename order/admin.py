@@ -10,6 +10,7 @@ class OrderAdmin(admin.ModelAdmin):
         "email",
         "address",
         "mobile_number",
+        "order_products",
         "amount",
         "payment",
         "quantity",
@@ -19,6 +20,12 @@ class OrderAdmin(admin.ModelAdmin):
         "customer",
         "date_added",
     ]
+
+    def order_products(self, obj):
+        return ", ".join([
+            f'{child.name}  {child.size}  {child.quantity}  <br/>' for child in obj.order_products.all()
+        ])
+    order_products.short_description = "Products orderd"
 
 
 @admin.register(OrderProduct)
