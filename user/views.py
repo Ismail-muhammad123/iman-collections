@@ -57,8 +57,8 @@ def password_reset_request(request):
 
 def user_login(request):
     if request.method == "POST":
-        username = request.POST['username']
-        password = request.POST['password'].strip()
+        username = request.POST['username'].strip()
+        password = request.POST['password']
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
