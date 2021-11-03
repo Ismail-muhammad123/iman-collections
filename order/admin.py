@@ -10,7 +10,7 @@ class OrderAdmin(admin.ModelAdmin):
         "email",
         "address",
         "mobile_number",
-        "order_products",
+        # "order_products",
         "amount",
         "payment",
         "quantity",
