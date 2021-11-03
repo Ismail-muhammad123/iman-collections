@@ -28,7 +28,6 @@ def password_reset_request(request):
                 for user in associated_users:
                     subject = "Password Reset Requested"
                     email_template_name = "user/password_reset_mail_sent.html"
-# TODO set development email server info
                     c = {
                         "email": user.email,
                         'domain': '127.0.0.1:8000',
@@ -59,7 +58,7 @@ def password_reset_request(request):
 def user_login(request):
     if request.method == "POST":
         username = request.POST['username']
-        password = request.POST['password']
+        password = request.POST['password'].strip()
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
