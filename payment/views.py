@@ -1,16 +1,14 @@
-from django.contrib.auth import login
 from django.contrib import messages
 from django.shortcuts import redirect, render
-from django.utils.functional import new_method_proxy
 from cart.models import Cart
 from django.contrib.auth.decorators import login_required
-import requests
-import json
 from django.conf import settings
 from payment.models import Payment
-import datetime
-
 from order.models import Order, OrderProduct
+
+import datetime
+import requests
+import json
 
 
 # Create your views here.Content-Type
@@ -104,7 +102,7 @@ def success(request):
 
             messages.success(request, "Your purchase was successful")
 
-            return render(request, 'payment/success.html')
+            return redirect('/order')
 
         else:
             # set payment status to failed
