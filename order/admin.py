@@ -10,7 +10,6 @@ class OrderAdmin(admin.ModelAdmin):
         "email",
         "address",
         "mobile_number",
-        "order_products",
         "amount",
         "payment",
         "quantity",
@@ -20,11 +19,6 @@ class OrderAdmin(admin.ModelAdmin):
         "customer",
         "date_added",
     ]
-
-    # def order_products_list(self, obj):
-    #     id = obj.id
-    #     change_url = reverse('admin:order_orderProduct_changelist', args=(id,))
-    #     return "<a href='{}' target=_blank> Products</a>"
 
 
 @admin.register(OrderProduct)
