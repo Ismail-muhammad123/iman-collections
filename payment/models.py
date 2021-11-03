@@ -19,9 +19,9 @@ class Payment(models.Model):
     county_code = models.CharField(max_length=3, null=True)
     account_name = models.CharField(max_length=100, null=True)
     refrence_code = models.CharField(max_length=200)
-    status = models.IntegerField(choices=STATUS_CHOICES, null=True)
+    status = models.IntegerField(choices=STATUS_CHOICES, default=0)
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.DO_NOTHING)
 
     def __str__(self):
-        return str(self.amount + self.status)
+        return str(self.amount) + self.get_status_display()
