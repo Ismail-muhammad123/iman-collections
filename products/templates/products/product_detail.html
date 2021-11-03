@@ -55,10 +55,10 @@
 
                 <br>
                 <div style="text-align: center;">
-                    {% if product.available_quantity|length > 0%}
+                    {% if product.available_quantity > 0%}
                     <input type="submit" class="btn btn-primary w-sm-100" style="width: 100%; margin-bottom: 20px;"
                         value="Add to cart" />
-                    {% elif product.available_quantity|length == 0 %}
+                    {% elif product.available_quantity == 0 %}
                     <input type="submit" disabled class="btn btn-primary w-sm-100"
                         style="width: 50%; margin-bottom: 20px;" value="Add to cart" />
                     {% endif %}
