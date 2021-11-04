@@ -15,10 +15,20 @@ class ProductAdmin(admin.ModelAdmin):
         "brand_name",
         "gender",
         "description",
+        "supplier",
+        "suplier_paid",
         "image",
         "added_by",
         "added_at"
     ]
+
+    def make_suplier_paid(modeladmin, request, queryset):
+        queryset.update(suplier_paid=True)
+
+    def make_suplier_not_paid(modeladmin, request, queryset):
+        queryset.update(suplier_paid=False)
+
+    actions = [make_suplier_not_paid, make_suplier_paid]
 
 
 @admin.register(Category)
