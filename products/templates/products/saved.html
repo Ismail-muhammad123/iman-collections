@@ -12,7 +12,7 @@
 <div id="products-grid">
     {% for product in products %}
     <div id="product-card" class="shadow p-3 m-sm-0 border bg-white">
-        <a href="{% url 'details' id=product.id  %}">
+        <a href="{% url 'details' id=product.item.id  %}">
             <img src="{{product.item.image.url}}" style="width: 100%; height: 60%;" alt="" />
         </a>
         <div class="mt-2 text-uppercase fw-3"><span class="text-dark text-capitalize">Name:
