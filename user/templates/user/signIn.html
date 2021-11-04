@@ -22,7 +22,7 @@
         <br>
         <br>
         <p class="text-right">
-            {% if request.GET.get('next', None) %}
+            {% if next %}
             <a class="text-right" href="/user/register?next={{next}}">Dont't have an account?</a>
             <a class="text-right" href="{% url 'password_reset' %}">Forgot password?</a>
             {% else %}
