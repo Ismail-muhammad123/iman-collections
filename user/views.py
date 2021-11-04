@@ -1,5 +1,4 @@
 from django.contrib.auth.decorators import login_required
-from django.db.models.base import ModelStateFieldsCacheDescriptor
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, logout, login
 from django.contrib import messages
@@ -56,31 +55,56 @@ def password_reset_request(request):
 
 
 def user_login(request):
+
     if request.method == "POST":
+        next = request.POST.get('next', None)
         username = request.POST['username'].strip()
         password = request.POST['password']
+
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
+            if next is not None:
+                return redirect(next)
             return redirect('/products')
         else:
             messages.error(request, 'Invalid Username or password')
+            if next is not None:
+                context = {
+                    "next": next
+                }
+                return render(request, template_name='user/signIn.html', context=context)
+
             return render(request, template_name='user/signIn.html')
     else:
+        next = request.GET.get('next', None)
         if request.user.is_authenticated:
             messages.info(request, 'Your are already login in.')
             return redirect('/products')
+        if next is not None:
+            context = {
+                "next": next
+            }
+            return render(request, template_name='user/signIn.html', context=context)
         return render(request, template_name='user/signIn.html')
 
 
 def register(request):
     if request.method == 'POST':
         data = request.POST
+        next = data.get('next', None)
 
         if data['password2'] != data['password1']:
             messages.error(
                 request, 'The two passwords provided are not identical')
-            return redirect('/user/register')
+
+            if next is not None:
+                context = {
+                    "next": next
+                }
+                return render(request, template_name='user/signUp.html', context=context)
+
+            return render(request, template_name='user/signUp.html')
 
         name = data['name']
         email = data['email']
@@ -96,11 +120,22 @@ def register(request):
 
         login(request, user)
         messages.info(request, 'Account Created Successfully')
+        if next is not None:
+            return redirect(next)
+
         return redirect('/products')
     if request.user.is_authenticated:
         messages.info(
             request, 'You are already signed into another account. logout and try again.')
         return redirect('/products')
+
+    next = request.GET.get('next', None)
+    if next is not None:
+        context = {
+            "next": next
+        }
+        return render(request, template_name='user/signUp.html', context=context)
+
     return render(request, template_name='user/signUp.html')
 
 

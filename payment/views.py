@@ -149,7 +149,7 @@ def initialize(request):
     # send a transaction initialization request to paystack with the current email and amount
     # and get transaction reference
     req = requests.post(url='https://api.paystack.co/transaction/initialize', data=json.dumps({
-        "email": email, "amount": amount
+        "email": email, "amount": amount*100
     }), headers={
         "Authorization": "Bearer "+settings.PAYSTACK_SECRET_KEY,
         "Content-Type": "application/json"

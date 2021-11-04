@@ -71,6 +71,8 @@ class Product(models.Model):
         settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING)
     added_at = models.DateTimeField(auto_now_add=True)
 
+    suplier_paid = models.BooleanField(default=False)
+
     def __str__(self) -> str:
         return self.name
 
