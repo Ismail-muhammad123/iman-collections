@@ -148,7 +148,7 @@ MEDIA_URL = '/media/'
 DATABASES['default'] = dj_database_url.config(
     default='postgres://rrzltolgujedps:e503c5e717fd97c73fd5df219b56c1272ee12b9271c3f2b0ca48a71eba066d61@ec2-54-208-17-82.compute-1.amazonaws.com:5432/d3r0oqm6iptpjv')
 
-SECRET_KEY = 'django-insecure-o47&kilmpi3vgmw*u29c3yoip(t8^0&)yp%squ)u3!j6ianghk'
+SECRET_KEY = 'bjgvnbjihuio47&kilmpi3vgmw*u29c3yoip(t8^0&)yp%squ)u3!j6ianghk'
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
@@ -161,8 +161,9 @@ DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 AWS_STORAGE_BUCKET_NAME = 'fashiona-store'
 AWS_S3_REGION_NAME = 'us-east-2'
 
+
 # payment gataway: paystack
-PAYSTACK_SECRET_KEY = 'sk_test_523a831b7b20473684cb9da3690a5933d28fa218'
+PAYSTACK_SECRET_KEY = 'sk_live_3daa8d46aa673b474e6324f991318fe857310a7e'
 
 
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
