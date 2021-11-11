@@ -82,3 +82,12 @@ class SavedProducts(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
+
+
+class Message(models.Model):
+    name = models.CharField(max_length=200)
+    email = models.CharField(max_length=200)
+    phone_number = models.CharField(max_length=20)
+    subject = models.CharField(max_length=200)
+    message = models.TextField()
+    sent_at = models.DateTimeField(auto_now_add=True)

@@ -1,5 +1,12 @@
 from django.contrib import admin
-from .models import Product, Category, SavedProducts, Suplier
+from .models import Message, Product, Category, SavedProducts, Suplier
+
+
+@admin.register(Message)
+class MessageAdmin(admin.ModelAdmin):
+    list_display = ["name", "email", "phone_number",
+                    "subject", "message", "sent_at"]
+    search_fields = ["name", "phone_number"]
 
 
 @admin.register(Product)

@@ -1,6 +1,6 @@
 from django.http.response import Http404
 from django.shortcuts import redirect, render, get_object_or_404
-from .models import Product, Category, SavedProducts
+from .models import Message, Product, Category, SavedProducts
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.contrib import messages
@@ -84,9 +84,22 @@ def category_gender(request, gender, category):
     return render(request, template_name="products/category_products.html", context=context)
 
 
-def contact(request):
-    if request.method == "GET":
+def contact(request):    
+    if request.method == "POST":
+        name = request.POST.get("name", None)
+        email = request.POST.get("email")
+        subject = request.POST.get("subject")
+        phone = request.POST.get("phone")
+        message = request.POST.get("message")
+
+        m = Message.objects.create(name = name, email=email, subject=subject, phone=phone, message=message)
+        m.save()
+        messages.success(request, "Thank you for sending us a message. We will Get back to you shortly.")
+        return redirect("/contact")
+
+    else: 
         return render(request, 'home/contact.html')
+
 
 
 def product_detaiil(request, id):
