@@ -81,3 +81,8 @@ class SavedProductsAdmin(admin.ModelAdmin):
         "date_added",
         "user"
     ]
+
+
+admin.site.site_title = "Fashiona Dashboard"
+admin.site.site_header = "Fashiona Collections Admin Dashboard"
+admin.site.index_title = "Fashiona Dashboard"
