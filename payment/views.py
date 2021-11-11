@@ -118,7 +118,7 @@ def success(request):
 
 @login_required
 def canceled(request):
-    messages.error("transaction failed")
+    messages.error(request, "transaction failed")
     return redirect('/cart')
 
 
@@ -131,7 +131,7 @@ def initialize(request):
     phone_number = data['phone_number']
     delivery_address = data['delivery_address']
     full_name = data['full_name']
-    amount = data['total_amount']
+    amount = float(data['total_amount'])
     quantity = float(data['total_quantity'])
 
     # get the items currently in the cart of user
