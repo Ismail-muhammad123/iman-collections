@@ -118,7 +118,8 @@ def success(request):
 
 @login_required
 def canceled(request):
-    return render(request, 'payment/canceled.html')
+    messages.error("transaction failed")
+    return redirect('/cart')
 
 
 @login_required
@@ -162,6 +163,7 @@ def initialize(request):
 
     # if request is not successfull, cancel transaction
     if req.status_code != 200:
+        print(req.text)
         return canceled(request)
 
     result = json.loads(req.text)
