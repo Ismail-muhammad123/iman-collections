@@ -106,7 +106,10 @@ def success(request):
         else:
             # set payment status to failed
             payment.status = 0
-            return redirect('/canceled.html')
+            print(req.text)
+            messages.error(
+                request, "Sorry, we could not complete your transaction now.")
+            return redirect('/cart')
 
     else:
         messages.error(request, 'Your Payment was canceled')
