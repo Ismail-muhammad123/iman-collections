@@ -11,4 +11,6 @@ urlpatterns = [
          views.category_gender, name="gender_category"),
     path("saved/", views.saved),
     path('detail/<id>', views.product_detaiil, name="details"),
+    path('search/', views.search, name="search"),
+
 ]

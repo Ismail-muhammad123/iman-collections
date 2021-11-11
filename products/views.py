@@ -1,15 +1,26 @@
 from django.http.response import Http404
 from django.shortcuts import redirect, render, get_object_or_404
-from .models import Message, Product, Category, SavedProducts
+from .models import Message, Product, Category, SavedProducts, Search
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.contrib import messages
+from django.contrib.postgres.search import SearchVector
 
 
 def search(request):
-    # TODO create search functionality
-    # product = Product.objects.filter()
-    pass
+    word = request.GET.get("word", "")
+    products = Product.objects.annotate(search=SearchVector(
+        "product_category__name", "name", "brand_name")).filter(search=word)
+    context = {
+        "word": word,
+        "products": products,
+        "count": len(products)
+    }
+
+    s = Search.objects.create(term=word)
+    s.save()
+
+    return render(request, template_name="products/searchResult.html", context=context)
 
 
 def home(request):
@@ -84,22 +95,23 @@ def category_gender(request, gender, category):
     return render(request, template_name="products/category_products.html", context=context)
 
 
-def contact(request):    
+def contact(request):
     if request.method == "POST":
-        name = request.POST.get("name", None)
+        name = request.POST.get("full_name", None)
         email = request.POST.get("email")
         subject = request.POST.get("subject")
         phone = request.POST.get("phone")
         message = request.POST.get("message")
 
-        m = Message.objects.create(name = name, email=email, subject=subject, phone=phone, message=message)
+        m = Message.objects.create(
+            name=name, email=email, subject=subject, phone_number=phone, message=message)
         m.save()
-        messages.success(request, "Thank you for sending us a message. We will Get back to you shortly.")
-        return redirect("/contact")
+        messages.success(
+            request, "Thank you for sending us a message. We will Get back to you shortly.")
+        return redirect("/")
 
-    else: 
+    else:
         return render(request, 'home/contact.html')
-
 
 
 def product_detaiil(request, id):

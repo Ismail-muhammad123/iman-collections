@@ -43,6 +43,11 @@ class Suplier(models.Model):
         return self.name
 
 
+class Search(models.Model):
+    term = models.CharField(max_length=300)
+    time = models.DateTimeField(auto_now_add=True)
+
+
 class Product(models.Model):
     GENDER_CHOICES = [
         ("U", "Unisex"),
