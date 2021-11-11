@@ -41,6 +41,12 @@ class CategoryAdmin(admin.ModelAdmin):
         "added_by"
     ]
 
+    exclude = ['added_by']
+
+    def save_model(self, request, obj, form, change):
+        obj.added_by = request.user
+        super(CategoryAdmin, self).save_model(request, obj, form, change)
+
 
 @admin.register(Suplier)
 class SuplierAdmin(admin.ModelAdmin):
@@ -54,6 +60,12 @@ class SuplierAdmin(admin.ModelAdmin):
         "added_by",
         "added_at"
     ]
+
+    exclude = ['added_by']
+
+    def save_model(self, request, obj, form, change):
+        obj.added_by = request.user
+        super(SuplierAdmin, self).save_model(request, obj, form, change)
 
 
 @admin.register(SavedProducts)

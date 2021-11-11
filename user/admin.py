@@ -16,3 +16,4 @@ class AccountAdmin(admin.ModelAdmin):
         "is_active",
         "is_staff",
     ]
+
