@@ -84,6 +84,11 @@ def category_gender(request, gender, category):
     return render(request, template_name="products/category_products.html", context=context)
 
 
+def contact(request):
+    if request.method == "GET":
+        return render(request, 'home/contact.html')
+
+
 def product_detaiil(request, id):
     try:
         product = Product.objects.get(id=id)
