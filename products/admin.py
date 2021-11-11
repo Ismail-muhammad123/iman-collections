@@ -22,6 +22,12 @@ class ProductAdmin(admin.ModelAdmin):
         "added_at"
     ]
 
+    exclude = ['added_by']
+
+    def save_model(self, request, obj, form, change):
+        obj.added_by = request.user
+        super(ProductAdmin, self).save_model(request, obj, form, change)
+
     def make_suplier_paid(modeladmin, request, queryset):
         queryset.update(suplier_paid=True)
 
