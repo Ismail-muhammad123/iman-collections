@@ -52,7 +52,8 @@ class Account(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     date_created = models.DateTimeField(default=timezone.now)
-    profile_picture = models.ImageField(upload_to='ProfilePictures', null=True)
+    profile_picture = models.ImageField(
+        upload_to='ProfilePictures', null=True, blank=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
@@ -61,3 +62,10 @@ class Account(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+
+    @property
+    def image_url(self):
+        if self.profile_picture and hasattr(self.profile_picture, 'url'):
+            return self.profile_picture.url
+        else:
+            return "#"

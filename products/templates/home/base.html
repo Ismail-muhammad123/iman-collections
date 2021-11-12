@@ -245,7 +245,7 @@
         {% for message in messages %}
         {% if message.tags == 'error' %}
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <strong>{{message.tags}}</strong> {{message}}
+            <strong>{{message}}</strong>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -253,7 +253,7 @@
         {% endif %}
         {% if message.tags == 'info' %}
         <div class="alert alert-info alert-dismissible fade show" role="alert">
-            <strong>{{message.tags}}</strong> {{message}}
+            <strong>{{message}}</strong>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>

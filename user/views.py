@@ -176,12 +176,10 @@ def user_logout(request):
 
 @login_required
 def profile(request):
-
-    user = request.user
     if request.method == "POST":
+        user = request.user
         data = request.POST
-        profile_image = request.FILES['profile_image']
-
+        profile_image = request.FILES["profile_image"]
         name = data['user_name']
         email = data['email']
         phone_number = data['phone_number']
@@ -200,9 +198,12 @@ def profile(request):
         user.save()
 
         messages.success(request, 'Profile updated')
-        return render(request, 'user/profile.html')
+        return render(request, 'user/profile.html', {"user": user})
 
-    return render(request, 'user/profile.html', {"user": user})
+    else:
+        user = request.user
+        user.profile_picture = user.image_url
+        return render(request, 'user/profile.html', {"user": user})
 
 
 def reset_password(request):

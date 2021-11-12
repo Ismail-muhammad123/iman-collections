@@ -8,8 +8,8 @@
             <h3>User Profile</h3>
         </div>
         <div class="card-body text-center">
-            <img class="shadow" alt="Profile picture" src="{{user.profile_picture.url}}" height="200px" width="200px"
-                style="border-radius: 50%;">
+            <img class="shadow" alt="Profile picture" src="{{user.image_url}}" height="200px" width="200px"
+                style="border-radius: 50%;" />
             <form action="" enctype="multipart/form-data" method="POST" class="py-3">
                 {% csrf_token %}
                 <div class="shadow input-group mb-3">
