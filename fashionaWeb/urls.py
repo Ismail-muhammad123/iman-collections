@@ -1,5 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic.base import RedirectView
+from django.contrib.staticfiles.storage import staticfiles_storage
 from products import views
 
 
@@ -12,6 +14,9 @@ urlpatterns = [
     path('order/', include('order.urls')),
     path('payment/', include('payment.urls')),
     path('user/', include('user.urls')),
+    path('favicon.ico', RedirectView.as_view(
+        url=staticfiles_storage.url('home/favicon.ico')))
+
 ]
 
 
