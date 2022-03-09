@@ -140,15 +140,15 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-# if not DEBUG:
-#     DATABASES['default'] = dj_database_url.config(
-#         conn_max_age=600, ssl_require=True)
-# else:
-#     DATABASES['default'] = dj_database_url.config(
-#         default='postgres://rrzltolgujedps:e503c5e717fd97c73fd5df219b56c1272ee12b9271c3f2b0ca48a71eba066d61@ec2-54-208-17-82.compute-1.amazonaws.com:5432/d3r0oqm6iptpjv')
+if DEBUG:
+    DATABASES['default'] = dj_database_url.config(
+        conn_max_age=600, ssl_require=True)
+else:
+    DATABASES['default'] = dj_database_url.config(
+        default='postgres://rrzltolgujedps:e503c5e717fd97c73fd5df219b56c1272ee12b9271c3f2b0ca48a71eba066d61@ec2-54-208-17-82.compute-1.amazonaws.com:5432/d3r0oqm6iptpjv')
 
-DATABASES['default'] = dj_database_url.config(
-    default='postgres://rrzltolgujedps:e503c5e717fd97c73fd5df219b56c1272ee12b9271c3f2b0ca48a71eba066d61@ec2-54-208-17-82.compute-1.amazonaws.com:5432/d3r0oqm6iptpjv')
+# DATABASES['default'] = dj_database_url.config(
+#     default='postgres://rrzltolgujedps:e503c5e717fd97c73fd5df219b56c1272ee12b9271c3f2b0ca48a71eba066d61@ec2-54-208-17-82.compute-1.amazonaws.com:5432/d3r0oqm6iptpjv')
 
 SECRET_KEY = 'bjgvnbjihuio47&kilmpi3vgmw*u29c3yoip(t8^0&)yp%squ)u3!j6ianghk'
 
