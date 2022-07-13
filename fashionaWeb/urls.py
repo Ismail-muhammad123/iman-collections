@@ -5,12 +5,4 @@ from products import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/', include('api.urls')),
-    # path('products/', include("products.urls")),
-    # path('cart/', include('cart.urls')),
-    # path('', views.home),
-    # path('order/', include('order.urls')),
-    # path('payment/', include('payment.urls')),
-    # path('user/', include('user.urls')),
-
-
 ]
