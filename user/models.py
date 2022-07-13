@@ -63,10 +63,11 @@ class User(AbstractBaseUser):
     is_active = models.BooleanField(default=True)
     staff = models.BooleanField(default=False)
     admin = models.BooleanField(default=False)
-    first_name = models.CharField(max_length=200)
-    last_name = models.CharField(max_length=200)
+    first_name = models.CharField(max_length=200, blank=True, default="")
+    last_name = models.CharField(max_length=200, blank=True, default="")
     mobile_number = models.CharField(max_length=20)
-    gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
+    gender = models.CharField(
+        max_length=1, choices=GENDER_CHOICES, blank=True, default="")
     profile_picture = models.ImageField(null=True, blank=True)
 
     # notice the absence of a "Password field", that is built in.
