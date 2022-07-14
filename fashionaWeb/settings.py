@@ -6,10 +6,6 @@ import django_heroku
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-o47&kilmpi3vgmw*u29c3yoip(t8^0&)yp%squ)u3!j6ianghk'
 
@@ -34,6 +30,7 @@ INSTALLED_APPS = [
     'cart',
     'order',
     'payment',
+    'enquaries',
     'user',
 ]
 
@@ -81,24 +78,24 @@ WSGI_APPLICATION = 'fashionaWeb.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3',
-    # }
-    "default": {
-
-        'ENGINE': 'ec2-3-219-229-143.compute-1.amazonaws.com',
-
-        'NAME': 'd5m40hju55snlc',
-
-        'USER': 'gspsdvfoogikru',
-
-        'PASSWORD': '429aae81cbc58fadd235ac8d3e302c1c999d5052ab5d98fe35e4e0de7838b1a2',
-
-        'HOST': 'postgres://gspsdvfoogikru:429aae81cbc58fadd235ac8d3e302c1c999d5052ab5d98fe35e4e0de7838b1a2@ec2-3-219-229-143.compute-1.amazonaws.com:5432/d5m40hju55snlc',
-
-        'PORT': '5432',
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
+    # "default": {
+
+    #     'ENGINE': 'ec2-3-219-229-143.compute-1.amazonaws.com',
+
+    #     'NAME': 'd5m40hju55snlc',
+
+    #     'USER': 'gspsdvfoogikru',
+
+    #     'PASSWORD': '429aae81cbc58fadd235ac8d3e302c1c999d5052ab5d98fe35e4e0de7838b1a2',
+
+    #     'HOST': 'postgres://gspsdvfoogikru:429aae81cbc58fadd235ac8d3e302c1c999d5052ab5d98fe35e4e0de7838b1a2@ec2-3-219-229-143.compute-1.amazonaws.com:5432/d5m40hju55snlc',
+
+    #     'PORT': '5432',
+    # }
 }
 
 
