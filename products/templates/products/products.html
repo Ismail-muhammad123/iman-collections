@@ -1,34 +1,111 @@
-{% extends 'home/base.html'%}
-{% load static%}
-{% block content %}
-<h5
-    style="width: 100%; background-color: blueviolet; padding: 10px; color: white; font-weight: 700; font-size: 22.0px;">
-    Category
-</h5>
+{% extends 'base/base.html' %} {% load static %} {% block content %}
 
-
-<div id="products-grid">
-    {% for j in products %}
-    <div id="product-card" style="border-width: 3px;">
-        <a href="/products/detail"> <img src="{% static 'products/images/tailor.jpg' %}" height="70%" alt="" /></a>
-        <div class="text-uppercase fw-3"><span class="text-dark text-capitalize">Name:
-            </span>Item Name
-        </div>
-        <div class="text-danger">
-            <span class="text-dark text-capitalize">price: </span> N50
-        </div>
-        <div class="text-danger">
-            <span class="text-dark"> Available Quantity:</span>
-        </div>
-        <p><span>Quantity Sold: </span> 200</p>
+<section class="mt-5 p-5">
+  <div class="row">
+    <div class="col-sm-12 col-md-2 col-lg-2">
+      <h3
+        class="text-uppercase p-3"
+        style="background-color: pink;color: purple; font-weight: 700;"
+      >
+        Filter:
+      </h3>
+      <ul class="list-group">
+        <li class="list-group-item active">
+          Categories:
+        </li>
+        <li class="list-group-item ">
+          <a class="text-decoration-none" class="text-decoration-none" href="#"
+            >Men</a
+          >
+        </li>
+        <li class="list-group-item">
+          <a class="text-decoration-none" href="#">Women</a>
+        </li>
+        <li class="list-group-item">
+          <a class="text-decoration-none" href="#">Accesories</a>
+        </li>
+        <li class="list-group-item">
+          <a class="text-decoration-none" href="#">Fabrics</a>
+        </li>
+        <li class="list-group-item">
+          <a class="text-decoration-none" href="#">Collections</a>
+        </li>
+      </ul>
+      <hr />
+      <ul class="list-group">
+        <li class="list-group-item text-uppercase">
+          sizes:
+        </li>
+        <li class="list-group-item">
+          <a class="text-decoration-none" href="#">extra small</a>
+        </li>
+        <li class="list-group-item">
+          <a class="text-decoration-none" href="#">Small</a>
+        </li>
+        <li class="list-group-item">
+          <a class="text-decoration-none" href="#">Medium</a>
+        </li>
+        <li class="list-group-item">
+          <a class="text-decoration-none" href="#">Large</a>
+        </li>
+        <li class="list-group-item">
+          <a class="text-decoration-none" href="#">Extra Large</a>
+        </li>
+      </ul>
     </div>
-    {% endfor %}
-</div>
-<center style="font-size: 24px;" id="pagination">
-    <a href="#">1</a>
-    <a href="#">2</a>
-    <a href="#">3</a>
-    <a href="#">4</a>
-    <a href="#">5</a>
-</center>
+    <div class="col-sm-12 text-center col-md-10 col-lg-10">
+      <div class="row">
+        <div class="col-12">
+          <h3
+            style="background-color: pink;color: purple; font-weight: 700;"
+            class="p-3 text-uppercase"
+          >
+            Products Gallery
+          </h3>
+        </div>
+      </div>
+      <div class="row text-center">
+        {% for product in products %}
+        <div class="col-sm-10 col-md-4 col-lg-3 m-md-5 m-sm-4 m-lg-5 card ">
+          <!-- product card -->
+          <img
+            src="{% static 'base/images/male-category.png' %}"
+            alt="product image"
+            class="card-image"
+            width="100%"
+            height="350px"
+          />
+          <div class="row mt-3">
+            <div class="col-6">
+              <a
+                class="text-decoration-none"
+                href="{% url 'products_details' %}"
+              >
+                <h3>Item One</h3>
+              </a>
+            </div>
+            <div class="col-6 text-end">
+              <p>
+                Categoy: Kaftan
+              </p>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-4">
+              <p>N 20,500</p>
+            </div>
+            <div class="col-8 text-end">
+              <p>
+                Availability: In stock.
+              </p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
 {% endblock %}

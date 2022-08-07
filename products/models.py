@@ -1,20 +1,5 @@
 from django.db import models
 
-
-# class Suplier(models.Model):
-#     SUPPLIE_TYPE_CHOICES = [
-#         ("T", "Tailor"),
-#         ("S", "Seller"),
-#     ]
-
-#     name = models.CharField(max_length=100)
-#     address = models.CharField(max_length=250)
-#     type = models.CharField(max_length=5, choices=SUPPLIE_TYPE_CHOICES)
-#     total_earnings = models.FloatField()
-#     phone_number = models.CharField(max_length=15)
-#     email = models.EmailField()
-
-
 class Category(models.Model):
     name = models.CharField(max_length=200)
 
@@ -42,3 +27,8 @@ class Product(models.Model):
     delivery_days = models.PositiveIntegerField()
     description = models.TextField()
     image = models.ImageField()
+
+
+class Saved(models.Model):
+    pass
+

@@ -11,8 +11,9 @@ def products(request):
     return render(request, template_name="products/products.html", context=context)
 
 
-def home(request):
-    return render(request, template_name='home/index.html')
+def cart(request):
+
+    return render(request, template_name="products/cart.html")
 
 
 def category(request, cat):
