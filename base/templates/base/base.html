@@ -24,14 +24,17 @@
   </head>
   <body>
     <header>
-      <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-secondary">
+      <nav
+        class="navbar navbar-expand-lg navbar-light fixed-top"
+        style="background-color: rgb(255, 218, 250);"
+      >
         <div class="container">
-          <a class="navbar-brand" href="#">
+          <a class="navbar-brand" href="/">
             <h2
               class="text-uppercase"
               style="color: purple; font-weight: 700; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;"
             >
-              Iman Collections
+              Iman Clothing
             </h2>
           </a>
           <button
@@ -50,17 +53,17 @@
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="#">Home</a>
               </li>
+
               <li class="nav-item">
-                <a class="nav-link" href="#">Men</a>
+                <a class="nav-link" href="{% url 'products' %}">Products</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Women</a>
-              </li>
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a class="nav-link" href="#">Shoping Cart</a>
-              </li>
+              </li> -->
               <li class="nav-item">
-                <a class="nav-link" href="#">My Order</a>
+                <a class="nav-link" href="{% url 'track_order' %}"
+                  >Track My Order</a
+                >
               </li>
             </ul>
             <form class="d-flex" role="search">
@@ -79,7 +82,7 @@
       </nav>
     </header>
 
-    <main>
+    <main class="pt-5">
       {% block content %} {% endblock %}
       <hr />
     </main>

@@ -4,4 +4,6 @@ from django.shortcuts import render
 
 
 def checkout(request):
-    return render(request, template_name='payment/checkout.html')
+    items = range(5)
+
+    return render(request, template_name='payment/checkout.html', context={"items": items})

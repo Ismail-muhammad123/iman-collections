@@ -1,7 +1,9 @@
 from django.db import models
 
+
 class Category(models.Model):
     name = models.CharField(max_length=200)
+    image = models.ImageField()
 
     class Meta:
         verbose_name_plural = "categories"
@@ -19,6 +21,7 @@ class Product(models.Model):
 
     brand_name = models.CharField(max_length=200, blank=True, default="")
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
+    size = models.CharField(max_length=50, null=True, blank=True, default="")
     category = models.ForeignKey(
         Category, on_delete=models.CASCADE, null=True, related_name="products")
     name = models.CharField(max_length=30)
@@ -31,4 +34,3 @@ class Product(models.Model):
 
 class Saved(models.Model):
     pass
-

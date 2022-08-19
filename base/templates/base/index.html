@@ -1,14 +1,14 @@
 {% extends './base.html' %} {% load static %} {% block content %}
 
 <!-- hero section -->
-<section class="text-center pt-3 bg-secondary">
+<section class="text-center pt-3" style="background-color: rgb(255, 218, 250);">
   <div class="row" style="align-items: center; justify-content: center;">
     <div
       class="col-sm-12 col-md-6 col-lg-6 text-lg-end text-sm-center text-md-end p-5"
     >
       <div class="row">
         <p class="text-uppercase" style="color: blackpink; font-weight: 700;">
-          Clothing and accesories
+          Clothing and Apparels
         </p>
       </div>
       <div class="row">
@@ -21,11 +21,17 @@
       </div>
       <div class="row">
         <div class="col-12 text-lg-end text-sm-center text-md-end">
-          <a
+          <!-- <a
             href="#"
-            class="btn"
+            class="btn m-2"
             style="background-color: purple; color: white;"
-            >Recent Arrivals</a
+            >Download Android App</a
+          > -->
+          <a
+            href="{% url 'products' %}"
+            class="btn m-2"
+            style="border-color: purple; background-color: purple;color: white;"
+            >Explore Our Best Products</a
           >
         </div>
       </div>
@@ -53,94 +59,34 @@
     >
       Categories
     </h3>
+
+    {% for category in categories %}
     <div
-      class="col-sm-10 col-md-3 col-lg-3 m-3 p-5 text-center border rounded"
+      class="col-sm-10 col-md-2 col-lg-2 m-1 p-1 text-center border rounded"
       style="height: 300px; "
     >
-      <img
-        src="{% static 'base/images/male-category.png' %}"
-        width="100%"
-        height="200px"
-        alt=""
-      />
+      <a href="{% url 'filter_category' category_id=category.id %}">
+        <img src="{{category.image.url}}" width="100%" height="200px" alt="" />
+      </a>
       <div class="row text-center">
-        <h3>
-          Men
-        </h3>
+        <a
+          style="text-decoration: none; color: purple"
+          href="{% url 'filter_category' category_id=category.id %}"
+        >
+          <h3>
+            {{category.name}}
+          </h3>
+        </a>
       </div>
     </div>
-    <div
-      class="col-sm-10 col-md-3 col-lg-3 m-3 p-5 text-center border rounded"
-      style="height: 300px; "
-    >
-      <img
-        src="{% static 'base/images/female-category.png' %}"
-        width="100%"
-        height="200px"
-        alt=""
-      />
-      <div class="row text-center">
-        <h3>
-          Women
-        </h3>
-      </div>
-    </div>
-    <div
-      class="col-sm-10 col-md-3 col-lg-3 m-3 p-5 text-center border rounded"
-      style="height: 300px; "
-    >
-      <img
-        src="{% static 'base/images/cap.png' %}"
-        width="100%"
-        height="200px"
-        alt=""
-      />
-      <div class="row text-center">
-        <h3>
-          Accesories
-        </h3>
-      </div>
-    </div>
-    <div
-      class="col-sm-10 col-md-3 col-lg-3 m-3 p-5 text-center border rounded"
-      style="height: 300px; "
-    >
-      <img
-        src="{% static 'base/images/fabrics.jpeg' %}"
-        width="100%"
-        height="200px"
-        class="rounded"
-        alt=""
-      />
-      <div class="row text-center">
-        <h3>
-          Fabrics
-        </h3>
-      </div>
-    </div>
-    <div
-      class="col-sm-10 col-md-3 col-lg-3 m-3 p-5 text-center border rounded"
-      style="height: 300px; "
-    >
-      <img
-        src="{% static 'base/images/collections.jpg' %}"
-        width="100%"
-        height="200px"
-        class="rounded"
-        alt=""
-      />
-      <div class="row text-center">
-        <h3>
-          Collections
-        </h3>
-      </div>
-    </div>
+    {% endfor %}
   </div>
 </section>
 
 <div class="container">
   <hr />
 </div>
+
 <!-- products overview -->
 <section class="container">
   <div class="row">
@@ -148,188 +94,81 @@
       class="text-uppercase"
       style="font-size: 2rem; color: purple; font-weight: 700;"
     >
-      Products overview
+      TOP Products
     </h3>
   </div>
-  <div class="row p-4">
-    <div
-      class="col-sm-10 col-md-3 col-lg-3
-    "
-    >
+  <div class="row p-2 text-alight-center">
+    {% for product in products %}
+    <div class="col-sm-10 col-md-4 col-lg-3 mb-5 me-lg-2 ms-lg-2">
       <!-- product card -->
-      <img
-        src="{% static 'base/images/male-category.png' %}"
-        alt="product image"
-        class="p-3"
-        style="background-color: rgba(175, 175, 175, 0.2);"
-        width="100%"
-        height="400px"
-      />
+      <a href="{% url 'products_details' id=product.id %}">
+        <img
+          src="{{product.image.url}}"
+          alt="product image"
+          class="p-3"
+          style="background-color: rgba(175, 175, 175, 0.2);"
+          width="100%"
+          height="300px"
+        />
+      </a>
       <div class="row mt-3">
-        <div class="col-6">
-          <h3>Item One</h3>
-        </div>
-        <div class="col-6 text-end">
-          <p>
-            Categoy: Kaftan
-          </p>
+        <div class="col-12">
+          <a
+            href="{% url 'products_details' id=product.id %}"
+            class="text-decoration-none text-uppercase"
+          >
+            <h3 style="font-size: 20px; color: purple; font-weight: 700;">
+              {{product.name}}
+            </h3>
+          </a>
         </div>
       </div>
 
       <div class="row">
-        <div class="col-4">
-          <p>N 20,500</p>
-        </div>
-        <div class="col-8 text-end">
-          <p>
-            Availability: In stock.
-          </p>
-        </div>
-      </div>
-    </div>
-    <div
-      class="col-sm-10 col-md-3 col-lg-3
-    "
-    >
-      <!-- product card -->
-      <img
-        src="{% static 'base/images/male-category.png' %}"
-        alt="product image"
-        class="p-3"
-        style="background-color: rgba(175, 175, 175, 0.2);"
-        width="100%"
-        height="400px"
-      />
-      <div class="row mt-3">
         <div class="col-6">
-          <h3>Item One</h3>
+          <p>N {{product.price}}</p>
         </div>
         <div class="col-6 text-end">
           <p>
-            Categoy: Kaftan
+            Categoy: {{product.category}}
           </p>
         </div>
       </div>
-
       <div class="row">
-        <div class="col-4">
-          <p>N 20,500</p>
-        </div>
-        <div class="col-8 text-end">
-          <p>
-            Availability: In stock.
+        <div class="col-12">
+          <p class="text-info text-start">
+            {{product.available_quantity}} available
           </p>
         </div>
       </div>
+      <form class="form-group row" action="#" method="post">
+        {% csrf_token %}
+        <div class="col-8">
+          <input
+            type="number"
+            name="quantity"
+            id="quantity"
+            min="1"
+            max="{{product.available_quantity}}"
+            value="1"
+            class="input-group rounded"
+          />
+        </div>
+        <div class="col-4 text-end">
+          <input type="submit" value="Purchase" class="btn btn-success" />
+        </div>
+      </form>
     </div>
-    <div
-      class="col-sm-10 col-md-3 col-lg-3
-    "
-    >
-      <!-- product card -->
-      <img
-        src="{% static 'base/images/male-category.png' %}"
-        alt="product image"
-        class="p-3"
-        style="background-color: rgba(175, 175, 175, 0.2);"
-        width="100%"
-        height="400px"
-      />
-      <div class="row mt-3">
-        <div class="col-6">
-          <h3>Item One</h3>
-        </div>
-        <div class="col-6 text-end">
-          <p>
-            Categoy: Kaftan
-          </p>
-        </div>
-      </div>
+    {% endfor %}
 
-      <div class="row">
-        <div class="col-4">
-          <p>N 20,500</p>
-        </div>
-        <div class="col-8 text-end">
-          <p>
-            Availability: In stock.
-          </p>
-        </div>
-      </div>
-    </div>
-    <div
-      class="col-sm-10 col-md-3 col-lg-3
-    "
-    >
-      <!-- product card -->
-      <img
-        src="{% static 'base/images/male-category.png' %}"
-        alt="product image"
-        class="p-3"
-        style="background-color: rgba(175, 175, 175, 0.2);"
-        width="100%"
-        height="400px"
-      />
-      <div class="row mt-3">
-        <div class="col-6">
-          <h3>Item One</h3>
-        </div>
-        <div class="col-6 text-end">
-          <p>
-            Categoy: Kaftan
-          </p>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-4">
-          <p>N 20,500</p>
-        </div>
-        <div class="col-8 text-end">
-          <p>
-            Availability: In stock.
-          </p>
-        </div>
-      </div>
-    </div>
-    <div
-      class="col-sm-10 col-md-3 col-lg-3
-    "
-    >
-      <!-- product card -->
-      <img
-        src="{% static 'base/images/male-category.png' %}"
-        alt="product image"
-        class="p-3"
-        style="background-color: rgba(175, 175, 175, 0.2);"
-        width="100%"
-        height="400px"
-      />
-      <div class="row mt-3">
-        <div class="col-6">
-          <h3>Item One</h3>
-        </div>
-        <div class="col-6 text-end">
-          <p>
-            Categoy: Kaftan
-          </p>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-4">
-          <p>N 20,500</p>
-        </div>
-        <div class="col-8 text-end">
-          <p>
-            Availability: In stock.
-          </p>
-        </div>
-      </div>
-    </div>
     <div class="row">
       <div class="col-12 text-center">
-        <a href="#" class="btn btn-secondary w-50" style="font-size: 1.5rem;">View More</a>
+        <a
+          href="{% url 'products' %}"
+          class="btn w-50"
+          style="font-size: 1.5rem; background-color: rgb(255, 100, 234);"
+          >View More</a
+        >
       </div>
     </div>
   </div>

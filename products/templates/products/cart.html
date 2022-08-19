@@ -1,0 +1,97 @@
+{% extends 'base/base.html' %} {% load static %} {% block content %}
+
+<section class="container mt-5">
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-9">
+      <div class="col-sm-12 col-md-12 col-lg-3">
+        <table class="table">
+          <tbody>
+            {% for item in items %}
+            <tr>
+              <td scope="row">
+                <img
+                  src="{% static 'base/images/male-category.png' %}"
+                  alt="product image"
+                  class="p-3"
+                  style="background-color: rgba(175, 175, 175, 0.2);"
+                  width="100%"
+                  height="100%"
+                />
+              </td>
+              <td>
+                <div class="row">
+                  <div class="col-12">Name</div>
+                  <div class="col-12">Category</div>
+                  <div class="col-12">Size</div>
+                  <div class="col-12">In Stock</div>
+                </div>
+              </td>
+              <td>N14,000</td>
+              <td>
+                <input
+                  class="p-1 rounded"
+                  type="number"
+                  min="1"
+                  max="{{ max }}"
+                  value="2"
+                />
+              </td>
+              <td>
+                N20,000
+              </td>
+              <td>
+                <a href="#" class="btn btn-warning">Update</a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <form action="{% url 'checkout' %}" method="post" class="card p-3">
+        {% csrf_token %}
+        <input
+          type="text"
+          placeholder="Discount Code"
+          class="rounded mt-3 mb-3 p-2"
+        />
+        <div class="row">
+          <div class="col-6 text-start">
+            <p>
+              Shipping:
+            </p>
+          </div>
+          <div class="col-6 text-end">
+            N0.00
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6 text-start">
+            <p>
+              Tax:
+            </p>
+          </div>
+          <div class="col-6 text-end">
+            N0.00
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6 text-start">
+            <p>
+              Total Amount:
+            </p>
+          </div>
+          <div class="col-6 text-end">
+            N0.00
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 text-center">
+            <input type="submit" value="Checkout" class="btn btn-success" />
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

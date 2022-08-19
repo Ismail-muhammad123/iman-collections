@@ -1,18 +1,23 @@
 {% extends 'base/base.html' %} {% load static %} {% block content %}
 <section class="container mt-5 p-5">
   <div class="row">
-    <div class="col-md-6 col-sm-12 col-lg-6 p-sm-1 p-md-3 p-lg-5">
+    <div class="col-md-6 col-sm-12 col-lg-6 p-sm-1 p-md-3 p-lg-2">
       <img
         id="product-details-image"
         height="500px"
+        class="ps-5 pe-5 pt-3 pb-3"
+        style="background-color: rgba(175, 175, 175, 0.2);"
         width="100%"
-        src="{% static 'base/images/male-category.png' %}"
+        src="{{ product.image.url }}"
         alt=""
       />
     </div>
-    <div class="col-md-6 col-sm-12 col-lg-6 p-sm-1 p-md-3 p-lg-5">
+    <div class="col-md-6 col-sm-12 col-lg-6 p-sm-1 p-md-3 p-lg-2">
       <div id="details-info" style="font-size: 18px;">
-        <h2 class="text-uppercase" style="font-weight: 700; color: purple;">
+        <h2
+          class="text-uppercase p-2"
+          style="background-color: pink; font-weight: 700; color: purple;"
+        >
           Product Info
         </h2>
         <ul class="list-group">
@@ -22,7 +27,17 @@
                 Name:
               </div>
               <div class="col-6 text-end text-capitalize">
-                name of item
+                {{product.name}}
+              </div>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col-4">
+                Description
+              </div>
+              <div class="col-8 text-end">
+                {{product.description}}
               </div>
             </div>
           </li>
@@ -32,7 +47,7 @@
                 Price(NGN):
               </div>
               <div class="col-6 text-end">
-                30,000
+                {{product.price}}
               </div>
             </div>
           </li>
@@ -43,7 +58,7 @@
                 Size:
               </div>
               <div class="col-6 text-end">
-                Medium
+                {{product.size}}
               </div>
             </div>
           </li>
@@ -54,7 +69,7 @@
                 Available Quantity:
               </div>
               <div class="col-6 text-end">
-                12
+                {{product.available_quantity}}
               </div>
             </div>
           </li>
@@ -65,22 +80,11 @@
                 Delivery in:
               </div>
               <div class="col-6 text-end">
-                3 days
+                {{product.delivery_days}}
               </div>
             </div>
           </li>
 
-          <li class="list-group-item">
-            <div class="row">
-              <div class="col-4">
-                Description
-              </div>
-              <div class="col-8 text-end">
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. A quod
-                vero modi cumque ratione consectetur ipsa nulla odio sequi quae.
-              </div>
-            </div>
-          </li>
           <li class="list-group-item">
             <form action="{% url 'products_cart' %}">
               <label for="quantity">Quantity:</label>
