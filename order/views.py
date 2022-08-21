@@ -11,17 +11,23 @@ def order(request):
     if request.method == "GET":
         return redirect("/")
 
-    id = request.data['id']
-    quantity = request.data['quantity']
+    # id = request.data['id']
+    # quantity = request.data['quantity']
 
-    product = get_object_or_404(Product, id=id)
+    # product = get_object_or_404(Product, id=id)
 
-    amount = product.price*quantity
+    # amount = product.price*quantity
 
-    order = Order(product=product, quantity=quantity, amount=amount)
-    order.save()
+    # order = Order(product=product, quantity=quantity, amount=amount)
+    # order.save()
 
-    context = {
-        "order": order,
-    }
-    return render(request, template_name='order/order.html', context=context)
+    # context = {
+    #     "order": order,
+    # }
+    # return render(request, template_name='order/order.html', context=context)
+    return render(request, template_name='order/order.html')
+
+
+def track_order(request):
+
+    return render(request, template_name='order/order.html')

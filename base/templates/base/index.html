@@ -1,4 +1,7 @@
-{% extends './base.html' %} {% load static %} {% block content %}
+{% extends './base.html' %}
+{% load static %}
+{% block title%} Home {% endblock%}
+{% block content %}
 
 <!-- hero section -->
 <section class="text-center pt-3" style="background-color: rgb(255, 218, 250);">
@@ -99,7 +102,7 @@
   </div>
   <div class="row p-2 text-alight-center">
     {% for product in products %}
-    <div class="col-sm-10 col-md-4 col-lg-3 mb-5 me-lg-2 ms-lg-2">
+    <div class="col-sm-10 col-md-4 card col-lg-3 mb-5 me-lg-2 ms-lg-2">
       <!-- product card -->
       <a href="{% url 'products_details' id=product.id %}">
         <img
@@ -141,9 +144,9 @@
           </p>
         </div>
       </div>
-      <form class="form-group row" action="#" method="post">
+      <form class="form-group row" action="{% url 'checkout' %}" method="post">
         {% csrf_token %}
-        <div class="col-8">
+        <div class="col-6">
           <input
             type="number"
             name="quantity"
@@ -154,8 +157,13 @@
             class="input-group rounded"
           />
         </div>
-        <div class="col-4 text-end">
-          <input type="submit" value="Purchase" class="btn btn-success" />
+        <div class="col-6 text-end">
+          <input
+            type="submit"
+            style="background-color: purple; color: white;"
+            value="Purchase"
+            class="btn"
+          />
         </div>
       </form>
     </div>
