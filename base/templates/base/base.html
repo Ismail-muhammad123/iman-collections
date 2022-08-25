@@ -49,8 +49,9 @@
               <a class="nav-link" href="{% url 'my_order' %}">Track My Order</a>
             </li>
           </ul>
-          <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+          <form class="d-flex" role="search" action="{% url 'search_product' %}" method="get">
+            <input class="form-control me-2" type="search" name="search_term" placeholder="search"
+              aria-label="Search" />
             <button class="btn btn-outline-primary" type="submit">
               Search
             </button>

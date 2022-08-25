@@ -1,6 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Category, Product
 from django.shortcuts import get_object_or_404
+from django.db.models import Q  # new
+from django.contrib.postgres.search import SearchVector
+from django.conf import settings
 
 
 def categories(request):
@@ -47,3 +50,30 @@ def product_details(request, id):
     print(product)
 
     return render(request, template_name='products/product_detail.html', context=context)
+
+
+def search(request):
+    if request.method == "GET":
+        data = request.GET
+
+        search_term = data.get("search_term", "")
+
+        if search_term == "":
+            return redirect('products')
+
+        products = Product.objects.filter(Q(name__icontains=search_term) | Q(description__icontains=search_term) | Q(category__name__icontains=search_term)) if settings.DEBUG else Product.objects.annotate(
+            search=SearchVector('name', 'category__name',
+                                'brand_name', 'description'),
+        ).filter(search=search_term)
+
+        categories = Category.objects.all()
+
+        print(products)
+
+        context = {
+            "products": products,
+            "category_name": f"Search result for '{search_term}'",
+            "categories": categories,
+        }
+
+        return render(request, 'products/products.html', context=context)

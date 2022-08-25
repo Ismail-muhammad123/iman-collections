@@ -3,7 +3,7 @@ from django.db import models
 
 class Category(models.Model):
     name = models.CharField(max_length=200)
-    image = models.ImageField()
+    image = models.ImageField(upload_to="product_categories")
 
     class Meta:
         verbose_name_plural = "categories"
@@ -29,7 +29,7 @@ class Product(models.Model):
     available_quantity = models.PositiveIntegerField()
     delivery_days = models.PositiveIntegerField()
     description = models.TextField()
-    image = models.ImageField()
+    image = models.ImageField(upload_to="products")
 
 
 class Saved(models.Model):
