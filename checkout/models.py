@@ -10,7 +10,7 @@ class Payment(models.Model):
         (2, "Success"),
     ]
 
-    order = models.ForeignKey(
+    order = models.OneToOneField(
         Order, on_delete=models.CASCADE, related_name='payment')
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)

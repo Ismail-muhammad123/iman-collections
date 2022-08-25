@@ -1,3 +1,4 @@
+from datetime import datetime
 from pprint import pprint
 from django.shortcuts import render, redirect
 from django.conf import settings
@@ -8,6 +9,7 @@ from order.models import Order
 import requests
 from django.contrib import messages
 from django.urls import reverse
+from django.http import Http404
 
 
 def checkout(request):
@@ -104,6 +106,20 @@ def verify_payment(request):
         status = res['status'] == "success"
         if status:
             order_id = res['data']['meta']['order_id']
+            try:
+                # get order object
+                order = Order.objects.get(id=order_id)
+                order.status = 3
+                order.save()
+
+                # get payment object and update its attributes
+                payment = order.payment
+                payment.payed_at = datetime.now()
+                payment.status = 2
+                payment.payment_referance_number = tx_ref
+                payment.save()
+            except Order.DoesNotExist:
+                raise Http404
             return redirect('/track_order', tracking_id=str(order_id))
 
     order = Order.objects.get(id=order_id)
