@@ -14,13 +14,20 @@
         <br />
 
         <span>
-            Categories: {{product.category}}
+            Categories: <a href="{% url 'filter_category' category_id=product.category.id %}">{{product.category}}</a>
         </span>
         <br />
 
-        <p class="text-info text-end">
+        {% if product.available_quantity %}
+        <p class="text-success">
             {{product.available_quantity}} available
         </p>
+        {% else %}
+        <p class="text-danger">
+            {{product.available_quantity}} available
+        </p>
+        {% endif %}
+
         <form class="form-group row justify-content-center align-items-center" action="{% url 'new_order' %}"
             method="post">
             {% csrf_token %}
