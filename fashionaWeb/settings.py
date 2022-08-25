@@ -25,12 +25,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework.authtoken',
-    'api',
+    'django.contrib.humanize',
+
+    # apps
     'products',
-    'cart',
     'order',
-    'payment',
-    'enquaries',
+    'checkout',
     'user',
     'base',
 ]
@@ -149,5 +149,10 @@ MEDIA_URL = '/uploads/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# payment gateaway
+PAYMENT_GATEAWAY_URL = "https://api.flutterwave.com/v3/payments"
+PAYMENT_GATEAWAY_SECRET_KEY = "FLWSECK_TEST-64787ade1481e5435e25c1a626409bc7-X"
+
 
 django_heroku.settings(locals())

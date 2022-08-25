@@ -3,11 +3,11 @@ from .models import Category, Product
 from django.shortcuts import get_object_or_404
 
 
-# Create your views here.
-
-
 def categories(request):
-    pass
+
+    categories = Category.objects.all()
+
+    return render(request, 'products/categories.html', context={"categories": categories})
 
 
 def products(request):
@@ -47,30 +47,3 @@ def product_details(request, id):
     print(product)
 
     return render(request, template_name='products/product_detail.html', context=context)
-
-
-def cart(request):
-
-    items = range(3)
-
-    return render(request, template_name="products/cart.html", context={"items": items})
-
-
-def fabrics(request):
-    return render(request, template_name='products/fabrics.html')
-
-
-def not_found(request):
-    return render(request, template_name='home/not_found.html')
-
-
-def tailored(request):
-    context = {
-        "products": range(3),
-        "categories": ['senator wares', 'kufta', 'jamfa', 'babbar riga']
-    }
-    return render(request, template_name='products/tailored.html', context=context)
-
-
-def saved(request):
-    return render(request, template_name="products/saved.html")

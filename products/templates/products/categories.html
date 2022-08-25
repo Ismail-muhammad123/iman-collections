@@ -1,0 +1,25 @@
+{% extends 'base/base.html' %} {% load static %} {% block title%} Products {% endblock%} {% block content %}
+
+<section class="mt-5 p-5">
+    <div class="row">
+
+
+        <!-- products -->
+        <div class="col-12">
+            <div class="row">
+                <div class="col-12">
+                    <h3 style="background-color: pink;color: purple; font-weight: 700;" class="p-3 text-uppercase">
+                        Product Categories
+                    </h3>
+                </div>
+            </div>
+            <div class="row text-center text-align-center justify-content-center">
+                {% for category in categories %}
+                {% include 'products/category_card.html' with category=category %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

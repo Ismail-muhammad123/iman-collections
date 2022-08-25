@@ -1,30 +1,50 @@
+import datetime
 import imp
 from django.shortcuts import render, redirect
 from products.models import Product
 from django.shortcuts import get_object_or_404
 from .models import Order
+from django.http import Http404
+
 
 # Create your views here.
 
 
-def order(request):
+def new_order(request):
     if request.method == "GET":
         return redirect("/")
 
-    # id = request.data['id']
-    # quantity = request.data['quantity']
+    if request.method == "POST":
+        data = request.POST
 
-    # product = get_object_or_404(Product, id=id)
+        id = data.get('product_id', None)
+        quantity = data.get('quantity', None)
 
-    # amount = product.price*quantity
+        if id is None or quantity is None:
+            return redirect('/')
 
-    # order = Order(product=product, quantity=quantity, amount=amount)
-    # order.save()
+        quantity = eval(quantity)
 
-    # context = {
-    #     "order": order,
-    # }
-    # return render(request, template_name='order/order.html', context=context)
+        try:
+            product = Product.objects.get(id=id)
+        except Product.DoesNotExist:
+            raise Http404
+
+        order = Order(
+            product=product,
+            quantity=quantity,
+            total_amount=product.price * quantity,
+            delivery_date=datetime.date.today() +
+            datetime.timedelta(
+                days=product.delivery_days
+            )
+        )
+
+        order.save()
+        return render(request, template_name='checkout/checkout.html', context={"order": order})
+
+
+def my_order(request):
     return render(request, template_name='order/order.html')
 
 

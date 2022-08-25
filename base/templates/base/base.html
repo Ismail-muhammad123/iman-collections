@@ -1,107 +1,87 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="" />
-    <meta
-      name="author"
-      content="Mark Otto, Jacob Thornton, and Bootstrap contributors"
-    />
-    <meta name="generator" content="Hugo 0.101.0" />
-    <title>
-      {% block title%} Iman Clothing and APparels {% endblock%}
-    </title>
 
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
-      integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx"
-      crossorigin="anonymous"
-    />
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="" />
+  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors" />
+  <meta name="generator" content="Hugo 0.101.0" />
+  <title>
+    {% block title%} Iman Clothing and APparels {% endblock%}
+  </title>
 
-    <!-- Favicons -->
-    <meta name="theme-color" content="#712cf9" />
-  </head>
-  <body>
-    <header>
-      <nav
-        class="navbar navbar-expand-lg navbar-light fixed-top"
-        style="background-color: rgb(255, 218, 250);"
-      >
-        <div class="container">
-          <a class="navbar-brand" href="/">
-            <h2
-              class="text-uppercase"
-              style="color: purple; font-weight: 700; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;"
-            >
-              Iman Clothing
-            </h2>
-          </a>
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarCollapse"
-            aria-controls="navbarCollapse"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav me-auto mb-2 mb-md-0 text-uppercase">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/">Home</a>
-              </li>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
+    integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous" />
 
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'products' %}">Products</a>
-              </li>
-              <!-- <li class="nav-item">
+  <!-- Favicons -->
+  <meta name="theme-color" content="#712cf9" />
+</head>
+
+<body>
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: rgb(255, 218, 250);">
+      <div class="container">
+        <a class="navbar-brand" href="/">
+          <h2 class="text-uppercase"
+            style="color: purple; font-weight: 700; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+            Iman Clothing
+          </h2>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+          aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav me-auto mb-2 mb-md-0 text-uppercase">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/">Home</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'products' %}">Products</a>
+            </li>
+            <!-- <li class="nav-item">
                 <a class="nav-link" href="#">Shoping Cart</a>
               </li> -->
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'track_order' %}"
-                  >Track My Order</a
-                >
-              </li>
-            </ul>
-            <form class="d-flex" role="search">
-              <input
-                class="form-control me-2"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
-              />
-              <button class="btn btn-outline-primary" type="submit">
-                Search
-              </button>
-            </form>
-          </div>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'my_order' %}">Track My Order</a>
+            </li>
+          </ul>
+          <form class="d-flex" role="search">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+            <button class="btn btn-outline-primary" type="submit">
+              Search
+            </button>
+          </form>
         </div>
-      </nav>
-    </header>
+      </div>
+    </nav>
+  </header>
 
-    <main class="pt-5">
-      {% block content %} {% endblock %}
-      <hr />
-    </main>
+  <main class="pt-5">
+    {% block content %} {% endblock %}
+    <hr />
+  </main>
 
-    <!-- FOOTER -->
-    <footer class="container">
-      <p class="float-end"><a href="#">Back to top</a></p>
-      <p>
-        &copy; 2017–2022 Company, Inc. &middot;
-        <a href="#">Privacy</a> &middot; <a href="#">Terms</a>
-      </p>
-    </footer>
+  <!-- FOOTER -->
+  <footer class="container">
+    <p class="float-end"><a href="#">Back to top</a></p>
+    <p>
+      &copy; 2017–2022 Company, Inc. &middot;
+      <a href="#">Privacy</a> &middot; <a href="#">Terms</a>
+    </p>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+    integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js"
+    integrity="sha384-ODmDIVzN+pFdexxHEHFBQH3/9/vQ9uori45z4JjnFsRydbmQbmL5t1tQ0culUzyK"
+    crossorigin="anonymous"></script>
+  <script>
+    $('.alert').alert()
+  </script>
+</body>
 
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js"
-      integrity="sha384-ODmDIVzN+pFdexxHEHFBQH3/9/vQ9uori45z4JjnFsRydbmQbmL5t1tQ0culUzyK"
-      crossorigin="anonymous"
-    ></script>
-  </body>
 </html>

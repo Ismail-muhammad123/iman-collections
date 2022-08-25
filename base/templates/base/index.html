@@ -1,24 +1,17 @@
-{% extends './base.html' %}
-{% load static %}
-{% block title%} Home {% endblock%}
-{% block content %}
+{% extends './base.html' %} {% load static %} {% block title%} Home {% endblock%} {% block content %}
 
 <!-- hero section -->
 <section class="text-center pt-3" style="background-color: rgb(255, 218, 250);">
   <div class="row" style="align-items: center; justify-content: center;">
-    <div
-      class="col-sm-12 col-md-6 col-lg-6 text-lg-end text-sm-center text-md-end p-5"
-    >
+    <div class="col-sm-12 col-md-6 col-lg-6 text-lg-end text-sm-center text-md-end p-5">
       <div class="row">
         <p class="text-uppercase" style="color: blackpink; font-weight: 700;">
           Clothing and Apparels
         </p>
       </div>
       <div class="row">
-        <h2
-          class="text-uppercase"
-          style="color: brown; font-weight:700; font-size: 3rem; font-family: Verdana, Geneva, Tahoma, sans-serif;"
-        >
+        <h2 class="text-uppercase"
+          style="color: brown; font-weight:700; font-size: 3rem; font-family: Verdana, Geneva, Tahoma, sans-serif;">
           Best Quality Clothing and aparels
         </h2>
       </div>
@@ -30,59 +23,34 @@
             style="background-color: purple; color: white;"
             >Download Android App</a
           > -->
-          <a
-            href="{% url 'products' %}"
-            class="btn m-2"
-            style="border-color: purple; background-color: purple;color: white;"
-            >Explore Our Best Products</a
-          >
+          <a href="{% url 'products' %}" class="btn m-2"
+            style="border-color: purple; background-color: purple;color: white;">Explore Our Best Products</a>
         </div>
       </div>
     </div>
     <div class="col-sm-12 col-md-6 col-lg-6">
-      <img
-        src="{% static 'base/images/carousel2.jpg' %}"
-        width="100%"
-        alt=""
-        class="p-4"
-      />
+      <img src="{% static 'base/images/carousel2.jpg' %}" width="100%" alt="" class="p-4" />
     </div>
   </div>
 </section>
 
 <!-- categories -->
 <section>
-  <div
-    class="row p-5"
-    style="align-items: center; justify-content: center; color:purple;"
-  >
-    <h3
-      class="text-center text-uppercase"
-      style="color: purple; font-size: 2rem"
-    >
+  <div class="row p-5" style="align-items: center; justify-content: center; color:purple;">
+    <h3 class="text-center text-uppercase" style="color: purple; font-size: 2rem">
       Categories
     </h3>
 
     {% for category in categories %}
-    <div
-      class="col-sm-10 col-md-2 col-lg-2 m-1 p-1 text-center border rounded"
-      style="height: 300px; "
-    >
-      <a href="{% url 'filter_category' category_id=category.id %}">
-        <img src="{{category.image.url}}" width="100%" height="200px" alt="" />
-      </a>
-      <div class="row text-center">
-        <a
-          style="text-decoration: none; color: purple"
-          href="{% url 'filter_category' category_id=category.id %}"
-        >
-          <h3>
-            {{category.name}}
-          </h3>
-        </a>
-      </div>
-    </div>
+    {% include 'products/category_card.html' with category=category %}
     {% endfor %}
+
+  </div>
+  <div class="row">
+    <div class="col-12 text-center">
+      <a href="{% url 'categories' %}" class="btn w-20"
+        style="font-size: 1.5rem; background-color: rgb(255, 100, 234); ">View All</a>
+    </div>
   </div>
 </section>
 
@@ -93,90 +61,19 @@
 <!-- products overview -->
 <section class="container">
   <div class="row">
-    <h3
-      class="text-uppercase"
-      style="font-size: 2rem; color: purple; font-weight: 700;"
-    >
+    <h3 class="text-uppercase" style="font-size: 2rem; color: purple; font-weight: 700;">
       TOP Products
     </h3>
   </div>
-  <div class="row p-2 text-alight-center">
+  <div class="row text-alight-center justify-content-center">
     {% for product in products %}
-    <div class="col-sm-10 col-md-4 card col-lg-3 mb-5 me-lg-2 ms-lg-2">
-      <!-- product card -->
-      <a href="{% url 'products_details' id=product.id %}">
-        <img
-          src="{{product.image.url}}"
-          alt="product image"
-          class="p-3"
-          style="background-color: rgba(175, 175, 175, 0.2);"
-          width="100%"
-          height="300px"
-        />
-      </a>
-      <div class="row mt-3">
-        <div class="col-12">
-          <a
-            href="{% url 'products_details' id=product.id %}"
-            class="text-decoration-none text-uppercase"
-          >
-            <h3 style="font-size: 20px; color: purple; font-weight: 700;">
-              {{product.name}}
-            </h3>
-          </a>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-6">
-          <p>N {{product.price}}</p>
-        </div>
-        <div class="col-6 text-end">
-          <p>
-            Categoy: {{product.category}}
-          </p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-12">
-          <p class="text-info text-start">
-            {{product.available_quantity}} available
-          </p>
-        </div>
-      </div>
-      <form class="form-group row" action="{% url 'checkout' %}" method="post">
-        {% csrf_token %}
-        <div class="col-6">
-          <input
-            type="number"
-            name="quantity"
-            id="quantity"
-            min="1"
-            max="{{product.available_quantity}}"
-            value="1"
-            class="input-group rounded"
-          />
-        </div>
-        <div class="col-6 text-end">
-          <input
-            type="submit"
-            style="background-color: purple; color: white;"
-            value="Purchase"
-            class="btn"
-          />
-        </div>
-      </form>
-    </div>
+    {% include 'products/product_card.html' with product=product %}
     {% endfor %}
 
     <div class="row">
       <div class="col-12 text-center">
-        <a
-          href="{% url 'products' %}"
-          class="btn w-50"
-          style="font-size: 1.5rem; background-color: rgb(255, 100, 234);"
-          >View More</a
-        >
+        <a href="{% url 'products' %}" class="btn w-50"
+          style="font-size: 1.5rem; background-color: rgb(255, 100, 234); ">View More</a>
       </div>
     </div>
   </div>
