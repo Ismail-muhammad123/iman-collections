@@ -23,7 +23,7 @@
       <thead>
         <tr>
           <th scope="col">Image</th>
-          <th scope="col">Information</th>
+          <th scope="col">Product Information</th>
           <th scope="col">Amount</th>
           <th scope="col">Purchase Date</th>
           <th scope="col">Delivery Date</th>
@@ -39,10 +39,10 @@
           </td>
           <td>
             <ul class="list-group ">
-              <li class="list-group-item">{{order.product.name}}</li>
-              <li class="list-group-item">{{order.product.category}}</li>
-              <li class="list-group-item">{{order.product.size}}</li>
-              <li class="list-group-item">{{order.quanity}}</li>
+              <li class="list-group-item">Name: {{order.product.name}}</li>
+              <li class="list-group-item">Category: {{order.product.category}}</li>
+              <li class="list-group-item">Size: {{order.product.size}}</li>
+              <li class="list-group-item">Amount(NGN): {{order.total_amount|intcomma}}</li>
             </ul>
           </td>
           <td>NGN {{order.total_amount|intcomma}} <span class="badge">{{order.payment.status}}</span></td>
@@ -50,10 +50,10 @@
             {{order.payment.payed_at|naturaltime}}
           </td>
           <td>
-            {{order.payment.payed_at|naturaltime}}
+            {{delivery_date|naturaltime}}
           </td>
           <td class="text-primary">
-            {{delivery_date}}
+            {{order.status__display}}
           </td>
         </tr>
       </tbody>
