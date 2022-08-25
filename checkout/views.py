@@ -101,7 +101,7 @@ def verify_payment(request):
                             headers=headers, params={"tx_ref": tx_ref})
     if response.status_code == 200:
         res = response.json()
-        status = res['success']
+        status = res['status'] == "success"
         if status:
             order_id = res['data']['meta']['order_id']
             return redirect('track_order', tracking_id=str(order_id))
