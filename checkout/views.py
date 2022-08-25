@@ -61,7 +61,7 @@ def checkout(request):
             "tx_ref": unique_id,
             "amount": order.total_amount,
             "currency": "NGN",
-            "redirect_url": reverse('verify_checkout'),
+            "redirect_url": "https://fashiona-store.herokuapp.com/checout/verify",
             "meta": {
                 "order_id": order.id,
             },
