@@ -1,3 +1,4 @@
+from pprint import pprint
 from django.shortcuts import render, redirect
 from django.conf import settings
 import uuid
@@ -81,6 +82,7 @@ def checkout(request):
         response = res.json()
 
         if response['status'] == "success":
+            pprint(response)
             return redirect(response['data']['link'])
         else:
             messages.add_message(request, messages.ERROR, "Transaction failed")
@@ -91,4 +93,19 @@ def checkout(request):
 
 
 def verify_payment(request):
-    pass
+    headers = {"Authorization": f"Bearer {settings.PAYMENT_GATEAWAY_SECRET_KEY}"}
+    data = request.GET
+
+    tx_ref = data['tx_ref']
+    response = requests.get("https://api.flutterwave.com/v3/transactions/verify_by_reference",
+                            headers=headers, params={"tx_ref": tx_ref})
+    if response.status_code == 200:
+        res = response.json()
+        status = res['success']
+        if status:
+            order_id = res['data']['meta']['order_id']
+            return redirect('track_order', tracking_id=str(order_id))
+
+    order = Order.objects.get(id=order_id)
+    messages.add_message(request, messages.ERROR, "Transaction Failed")
+    return render(request, template_name='checkout/checkout.html', context={"order": order})
