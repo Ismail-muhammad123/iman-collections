@@ -104,7 +104,7 @@ def verify_payment(request):
         status = res['status'] == "success"
         if status:
             order_id = res['data']['meta']['order_id']
-            return redirect('track_order', tracking_id=str(order_id))
+            return redirect('/track_order', tracking_id=str(order_id))
 
     order = Order.objects.get(id=order_id)
     messages.add_message(request, messages.ERROR, "Transaction Failed")

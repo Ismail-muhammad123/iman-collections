@@ -48,6 +48,10 @@ def my_order(request):
     return render(request, template_name='order/order.html')
 
 
-def track_order(request):
+def track_order(request, tracking_id):
 
-    return render(request, template_name='order/order.html')
+    order = get_object_or_404(Order, tracking_id)
+    delivery_date = order.payment.payed_at + \
+        datetime.timedelta(days=order.product.delivery_days)
+
+    return render(request, template_name='order/order.html', cosntext={"order": order, "delivery_date": delivery_date})
