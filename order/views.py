@@ -50,7 +50,10 @@ def my_order(request):
 
 def track_order(request, tracking_id):
     id = eval(tracking_id)
-    order = get_object_or_404(Order, id)
+    try:
+        order = Order.objects.get(id=id)
+    except Order.DoesNotExist:
+        raise Http404
     delivery_date = order.payment.payed_at + \
         datetime.timedelta(days=order.product.delivery_days)
 
