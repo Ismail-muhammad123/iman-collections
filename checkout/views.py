@@ -130,5 +130,5 @@ def verify_payment(request):
             return redirect(redirect_url)
 
     order = Order.objects.get(id=order_id)
-    messages.add_message(request, messages.ERROR, "Transaction Failed")
+    messages.add_message(request, messages.ERROR, "Traonsaction has Failed")
     return render(request, template_name='checkout/checkout.html', context={"order": order})
