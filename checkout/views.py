@@ -118,9 +118,16 @@ def verify_payment(request):
                 payment.status = 2
                 payment.payment_referance_number = tx_ref
                 payment.save()
+
+                # update product
+                product = order.product
+                product.available_quantity -= order.quantity
+                product.save()
+
             except Order.DoesNotExist:
                 raise Http404
-            return redirect('/track_order', tracking_id=str(order_id))
+            redirect_url = reverse('track_order')
+            return redirect(f'{redirect_url}/{order_id}')
 
     order = Order.objects.get(id=order_id)
     messages.add_message(request, messages.ERROR, "Transaction Failed")
