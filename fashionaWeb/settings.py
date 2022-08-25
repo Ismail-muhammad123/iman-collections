@@ -1,3 +1,4 @@
+from asyncio import FastChildWatcher
 from pathlib import Path
 import os
 import dj_database_url
@@ -172,4 +173,4 @@ PAYMENT_GATEAWAY_URL = "https://api.flutterwave.com/v3/payments"
 PAYMENT_GATEAWAY_SECRET_KEY = "FLWSECK_TEST-64787ade1481e5435e25c1a626409bc7-X"
 
 
-# django_heroku.settings(locals())
+django_heroku.settings(locals(), staticfiles=False)
