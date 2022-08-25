@@ -126,8 +126,7 @@ def verify_payment(request):
 
             except Order.DoesNotExist:
                 raise Http404
-            redirect_url = reverse('track_order')
-            return redirect(f'{redirect_url}/{order_id}')
+            return redirect(reverse('track_order', tracking_id=order_id))
 
     order = Order.objects.get(id=order_id)
     messages.add_message(request, messages.ERROR, "Transaction Failed")
