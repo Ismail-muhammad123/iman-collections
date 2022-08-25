@@ -2,18 +2,19 @@
 <section class="container mt-5">
   <div class="row">
     <div class="col-12">
-      <form action="#">
+      <form action="{% url 'my_order' %}" method="get">
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Tracking ID" aria-describedby="basic-addon2" />
+          {% csrf_token %}
+          <input type="text" class="form-control rounded" style="border-color: purple;" placeholder="Order ID"
+            name="order_id" id="order_id" aria-describedby="basic-addon2" />
           <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button">
-              Button
-            </button>
+            <input class="btn me-1" style="background-color: purple; color: white;" value="Search" type="submit" />
           </div>
         </div>
       </form>
     </div>
   </div>
+  {% if order %}
   <h5
     style="width: 100%; background-color: blueviolet; padding: 10px; color: white; font-weight: 700; font-size: 22.0px;">
     Order ID: #{{order.id}}
@@ -45,19 +46,27 @@
               <li class="list-group-item">Amount(NGN): {{order.total_amount|intcomma}}</li>
             </ul>
           </td>
-          <td>NGN {{order.total_amount|intcomma}} <span class="badge">{{order.payment.status}}</span></td>
           <td>
-            {{order.payment.payed_at|naturaltime}}
+            {{order.payment.payed_at}}
           </td>
           <td>
             {{delivery_date|naturaltime}}
           </td>
           <td class="text-primary">
-            {{order.status__display}}
+            {{order.status}}
           </td>
         </tr>
       </tbody>
     </table>
   </div>
+  {% else %}
+  <div class="row">
+    <div class="col-12 text center">
+      <h3 class="p-5 text-center">
+        Search for the status of your order using the Order ID sent to your email during purchase.
+      </h3>
+    </div>
+  </div>
+  {% endif %}
 </section>
 {% endblock %}
