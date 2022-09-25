@@ -3,7 +3,13 @@ from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
-from django.contrib.auth import get_user_model
+
+
+class Address(models.Model):
+    state = models.CharField(max_length=100)
+    country = models.CharField(max_length=100)
+    zip_code = models.CharField(max_length=10)
+    streat_address = models.TextField()
 
 
 class UserManager(BaseUserManager):
@@ -68,7 +74,7 @@ class User(AbstractBaseUser):
     mobile_number = models.CharField(max_length=20)
     gender = models.CharField(
         max_length=1, choices=GENDER_CHOICES, blank=True, default="")
-    profile_picture = models.ImageField(null=True, blank=True)
+    address = models.ForeignKey(Address, on_delete=models.SET_NULL, null=True)
 
     # notice the absence of a "Password field", that is built in.
 
@@ -77,11 +83,11 @@ class User(AbstractBaseUser):
 
     def get_full_name(self):
         # The user is identified by their email address
-        return self.email
+        return f"{self.first_name} {self.last_name}"
 
     def get_short_name(self):
         # The user is identified by their email address
-        return self.email
+        return self.first_name
 
     def __str__(self):
         return self.email

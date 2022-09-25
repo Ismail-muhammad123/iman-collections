@@ -18,7 +18,6 @@ class UserAdmin(admin.ModelAdmin):
         "staff",
         "admin",
         "is_active",
-        "profile_picture",
     ]
 
     list_filter = [
