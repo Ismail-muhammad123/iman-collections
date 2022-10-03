@@ -6,13 +6,6 @@ from django.contrib.auth.models import (
 )
 
 
-class Address(models.Model):
-    state = models.CharField(max_length=100)
-    country = models.CharField(max_length=100)
-    zip_code = models.CharField(max_length=10)
-    streat_address = models.TextField()
-
-
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None):
         """
@@ -75,7 +68,7 @@ class User(AbstractBaseUser):
     mobile_number = models.CharField(max_length=20)
     gender = models.CharField(
         max_length=1, choices=GENDER_CHOICES, blank=True, default="")
-    address = models.ForeignKey(Address, on_delete=models.SET_NULL, null=True)
+    address = models.TextField(blank=True, default="")
     added_at = models.DateTimeField(auto_now_add=True)
 
     # notice the absence of a "Password field", that is built in.

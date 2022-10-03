@@ -41,11 +41,11 @@
               <a class="nav-link" href="{% url 'products' %}">Products</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'my_order' %}">Track My Order</a>
+              <a class="nav-link" href="{% url 'track_order' %}">Track My Order</a>
             </li>
             {% if request.user.is_authenticated %}
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'my_order' %}">My profile</a>
+              <a class="nav-link" href="{% url 'profile' %}">My profile</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{% url 'shoping_cart' %}"> <span class="mx-md-3 mx-lg-3">CART</span>

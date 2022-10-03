@@ -1,65 +1,95 @@
 import datetime
+from multiprocessing import context
 from django.shortcuts import render, redirect
+from pytz import country_names
 from products.models import Product
 from django.shortcuts import get_object_or_404
-from .models import Order
+from .models import Order, OrderItem
 from django.http import Http404
 from django.urls import reverse
-
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 # Create your views here.
 
 
+@login_required
 def new_order(request):
-    if request.method == "GET":
-        return redirect("/")
 
-    if request.method == "POST":
-        data = request.POST
+    cart_items = request.user.cart.all()
+    sub_total = 0
+    for item in cart_items:
+        sub_total += item.product.price * item.quantity
 
-        id = data.get('product_id', None)
-        quantity = data.get('quantity', None)
+    # countries = [i[1] for i in country_names.items()]
 
-        if id is None or quantity is None:
-            return redirect('/')
+    # countries.sort(reverse=True)
 
-        quantity = eval(quantity)
+    countries = ['Nigeria']
 
-        try:
-            product = Product.objects.get(id=id)
-        except Product.DoesNotExist:
-            raise Http404
+    tax = 0
 
-        order = Order(
-            product=product,
-            quantity=quantity,
-            total_amount=product.price * quantity,
-            delivery_date=datetime.date.today() +
-            datetime.timedelta(
-                days=product.delivery_days
-            )
-        )
+    delivery_fee = 0
 
-        order.save()
-        return render(request, template_name='checkout/checkout.html', context={"order": order})
+    total = sub_total + tax + delivery_fee
+
+    context = {
+        "cart_items": cart_items,
+        "sub_total": sub_total,
+        "tax": tax,
+        "countries": countries,
+        "delivery_fee": delivery_fee,
+        "total": total
+
+    }
+    return render(request, template_name='order/new_order.html', context=context)
 
 
-def my_order(request):
-    order_id = request.GET.get("order_id", None)
+def add_order(request):
 
-    if order_id is not None:
-        return redirect(reverse('track_order', args=[order_id]))
-    else:
-        return render(request, template_name='order/order.html')
+    delivery_address = request.POST.get('delivery_address')
+    country = request.POST.get('country')
+    state = request.POST.get('state')
+    zip_code = request.POST.get('zipcode')
+
+    if (delivery_address == None or country == None or state == None):
+        messages.add_message(request, messages.ERROR,
+                             "All required fields must be provided")
+        return new_order(request)
+
+    cart_items = request.user.cart.all()
+
+    total_amount = 0
+
+    for item in cart_items:
+        total_amount += item.product.price + item.quantity
+
+    order = Order(
+        country=country,
+        state=state,
+        zip_code=zip_code,
+        delivery_address=delivery_address,
+        total_amount=total_amount,
+        user=request.user,
+    )
+
+    order.save()
+
+    for item in cart_items:
+        order_item = OrderItem(product=item.product,
+                               quantity=item.quantity, order=order)
+        order_item.save()
+
+        item.delete()
+
+    # TODO redirect to payment page
+
+    return redirect(reverse("track_order"))
 
 
-def track_order(request, tracking_id):
-    id = eval(tracking_id)
-    try:
-        order = Order.objects.get(id=id)
-        delivery_date = order.payment.payed_at + \
-            datetime.timedelta(days=order.product.delivery_days)
+def track_order(request):
+    orders = request.user.orders.all()
 
-        return render(request, template_name='order/order.html', context={"order": order, "delivery_date": delivery_date})
-    except:
-        raise Http404
+    context = {"orders": orders}
+
+    return render(request, "order/order.html", context=context)

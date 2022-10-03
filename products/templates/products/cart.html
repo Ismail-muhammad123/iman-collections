@@ -1,0 +1,84 @@
+{% extends 'base/base.html' %} {% load static %} {% block title%} Cart {% endblock%} {% block content %}
+
+<section class="mt-5 p-5">
+    <div class="row">
+        <!-- products -->
+        <div class="col-12 text-center">
+            <div class="row">
+                <div class="col-12">
+                    <h3 style="background-color: pink;color: purple; font-weight: 700; width: 100%"
+                        class="p-3 text-uppercase">
+                        Shoping Cart
+                        {% if shoping_cart %}
+                        <a href="{% url 'new_order' %}" class="btn btn-success m-2">Order Now</a>
+                        {% endif %}
+                    </h3>
+                </div>
+            </div>
+            <div class="row text-center text-align-center">
+                {% for cart_item in shoping_cart %}
+                <div class="col-sm-10 col-md-4 card col-lg-3 mb-5 m-2">
+                    <!-- product card -->
+                    <a href="{% url 'products_details' id=cart_item.product.id %}"
+                        class="text-decoration-none text-uppercase">
+                        <img src="{{cart_item.product.image.url}}" alt="product image" class="card-img-top" />
+                    </a>
+                    <div class="card-body align-items-end">
+                        <div class="col-12">
+                            <a href="{% url 'products_details' id=cart_item.product.id %}"
+                                class="text-decoration-none text-uppercase">
+                                <h3 style="font-size: 20px; color: purple; font-weight: 700;">
+                                    {{cart_item.product.name}}
+                                </h3>
+                            </a>
+                        </div>
+
+                        <span>N {{cart_item.product.price}}</span>
+                        <br />
+
+                        <span>
+                            Categories: <a
+                                href="{% url 'filter_category' category_id=cart_item.product.category.id %}">{{cart_item.product.category}}</a>
+                        </span>
+                        <br />
+
+                        {% if cart_item.product.available_quantity %}
+                        <p class="text-success fw-bold">
+                            Available
+                        </p>
+                        <form class="form-group row justify-content-center align-items-center"
+                            action="{% url 'update_cart' %}" method="post">
+                            {% csrf_token %}
+                            <input type="number" hidden value="{{cart_item.id}}" name="cart_id" id="cart_id">
+                            <div class="col-12">
+                                <input type="number" name="quantity" id="quantity" min="1"
+                                    max="{{cart_item.product.available_quantity}}" value={{cart_item.quantity}}
+                                    class="input-group rounded" />
+                            </div>
+                            <div class="col-12 text-center my-1">
+                                <input type="submit" style="background-color: purple; color: white; width: 100%;"
+                                    value="Update" class="btn" />
+                            </div>
+                        </form>
+                        <div class="col-12">
+                            <a style=" width: 100%" href="{% url 'remove_cart' id=cart_item.id %}"
+                                class="btn btn-danger"> Remove</a>
+                        </div>
+
+                        {% else %}
+                        <p class="text-danger">
+                            out of stock
+                        </p>
+                        {% endif %}
+
+
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

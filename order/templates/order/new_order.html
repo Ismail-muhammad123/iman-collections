@@ -1,0 +1,86 @@
+{% extends 'base/base.html'%} {% load static%} {% load humanize %} {% block content %}
+<section class="container my-5">
+    <div class="row">
+        {% if messages %} {% for message in messages %}
+
+        <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+            {{message}}
+        </div>
+
+        {% endfor %} {% endif %}
+        <div class="col-md-4 order-md-2 mb-4">
+            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-muted">Your Order</span>
+                <span class="badge badge-secondary badge-pill">3</span>
+            </h4>
+            <ul class="list-group mb-3">
+                {% for item in cart_items %}
+
+                <li class="list-group-item justify-content-between lh-condensed">
+                    <h6 class="col-12">{{item.product.name}}</h6>
+                    <span class="text-muted">NGN {{item.product.price|intcomma }} x {{item.quantity}}</span>
+                </li>
+                {% endfor %}
+                <li class="list-group-item d-flex border-top justify-content-between">
+                    <span>Sub Total (NGN)</span>
+                    <strong>{{sub_total|intcomma}}</strong>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>Tax (NGN)</span>
+                    <strong>{{tax|intcomma}}</strong>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>Delivery Fee (NGN)</span>
+                    <strong>{{delivery_fee|intcomma}}</strong>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>Total (NGN)</span>
+                    <strong>{{total|intcomma}}</strong>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-8 order-md-1">
+            <h4 class="mb-3">Delivery address</h4>
+            <p class="text-muted"><strong>NOTE:</strong> Please provide accurate information below, this is what will be
+                used to deliver your products. </p>
+            <form class="needs-validation" action="{% url 'add_new_order' %}" method="post" novalidate>
+                {% csrf_token %}
+
+
+
+                <div class="mb-3">
+                    <label for="address">Delivery Address</label>
+                    <input type="text" class="form-control" name="delivery_address" id="address"
+                        placeholder="1234 Main St" required />
+                    <div class="invalid-feedback">
+                        Please enter your shipping address.
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="country">Country</label>
+                    <select class="form-control" name="country" id="country">
+                        {% for country in countries %}
+                        <option value="{{country}}">{{country}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="state">State</label>
+                    <input type="text" class="form-control" id="state" name="state" required placeholder="Kano State" />
+                </div>
+                <div class="mb-3">
+                    <label for="zipcode">Postal Zip Code</label>
+                    <input type="text" class="form-control" id="zipcode" name="zip_code" placeholder="70000" />
+                </div>
+
+                <hr class="mb-4" />
+
+                <button class="btn btn-primary btn-lg w-100 btn-block" type="submit">
+                    Proceed to Payment
+                </button>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

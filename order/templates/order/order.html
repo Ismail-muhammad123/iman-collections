@@ -1,72 +1,51 @@
 {% extends 'base/base.html'%} {% load static%} {% load humanize %} {% block content %}
 <section class="container mt-5">
-  <div class="row">
-    <div class="col-12">
-      <form action="{% url 'my_order' %}" method="get">
-        <div class="input-group mb-3">
-          {% csrf_token %}
-          <input type="text" class="form-control rounded" style="border-color: purple;" placeholder="Order ID"
-            name="order_id" id="order_id" aria-describedby="basic-addon2" />
-          <div class="input-group-append">
-            <input class="btn me-1" style="background-color: purple; color: white;" value="Search" type="submit" />
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
-  {% if order %}
+  {% for order in orders %}
   <h5
     style="width: 100%; background-color: blueviolet; padding: 10px; color: white; font-weight: 700; font-size: 22.0px;">
-    Order ID: #{{order.id}}
+    <span> Order ID: {% if order.tracking_id %} {{order.tracking_id}} {% endif %} </span> <span
+      class="ms-5">{{order.get_status_display}}</span>
   </h5>
+  {% for item in order.order_items.all %}
   <div style="width: 100%; overflow-x: auto;">
     <table class="table">
       <thead>
         <tr>
-          <th scope="col">Image</th>
-          <th scope="col">Product Information</th>
+          <th scope="col">Product Names</th>
+          <th scope="col">Price</th>
+          <th scope="col">Quantity</th>
           <th scope="col">Amount</th>
           <th scope="col">Purchase Date</th>
           <th scope="col">Delivery Date</th>
-          <th scope="col">Status</th>
-          <th scope="col">Action</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td scope="row">
-            <img src="{{ order.product.image.url }}" alt="product image" class="p-3"
-              style="background-color: rgba(175, 175, 175, 0.2);" width="100%" height="250px" />
+          <td>
+            {{item.product.name}}
           </td>
           <td>
-            <ul class="list-group ">
-              <li class="list-group-item">Name: {{order.product.name}}</li>
-              <li class="list-group-item">Category: {{order.product.category}}</li>
-              <li class="list-group-item">Size: {{order.product.size}}</li>
-              <li class="list-group-item">Amount(NGN): {{order.total_amount|intcomma}}</li>
-            </ul>
+            {{item.product.price}}
           </td>
           <td>
-            {{order.payment.payed_at}}
+            {{item.quantity}}
           </td>
           <td>
-            {{delivery_date|naturaltime}}
+            {{order.total_amount}}
           </td>
-          <td class="text-primary">
-            {{order.status}}
+          <td>
+            {{order.date_added|naturaltime}}
+          </td>
+          <td>
+            {% if order.delivery_date %}
+            {{order.delivery_date}}
+            {% endif %}
           </td>
         </tr>
       </tbody>
     </table>
   </div>
-  {% else %}
-  <div class="row">
-    <div class="col-12 text center">
-      <h3 class="p-5 text-center">
-        Search for the status of your order using the Order ID sent to your email during purchase.
-      </h3>
-    </div>
-  </div>
-  {% endif %}
+  {% endfor %}
+  {% endfor %}
 </section>
 {% endblock %}

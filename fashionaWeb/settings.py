@@ -1,6 +1,7 @@
 from pathlib import Path
 import os
 import dj_database_url
+from django.urls import reverse
 import django_heroku
 from django.contrib.messages import constants as messages
 
@@ -141,6 +142,8 @@ MESSAGE_TAGS = {
     messages.WARNING: 'alert-warning',
     messages.ERROR: 'alert-danger',
 }
+
+LOGIN_URL = "/accounts/login"
 
 # ---------------------------------------------------------------------------------------------------------
 

@@ -1,21 +1,41 @@
 from django.contrib import admin
-from .models import Order
+from .models import Order, OrderItem
 
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     def name(self, obj):
-        return obj.product.name
+        return obj.user.first_name + " " + obj.user.last_name
+
+    list_display = [
+        "name",
+        "country",
+        "state",
+        "zip_code",
+        "delivery_address",
+        "tracking_id",
+        "total_amount",
+        "status",
+        "delivery_date",
+        "date_added",
+    ]
+
+
+@admin.register(OrderItem)
+class OrderItemAdmin(admin.ModelAdmin):
+    def buyer(self, obj):
+        return obj.order.user.first_name + " " + obj.order.user.last_name
+
+    def date(self, obj):
+        return obj.order.date_added
 
     def price(self, obj):
         return obj.product.price
 
     list_display = [
-        "name",
+        "product",
+        "buyer",
         "price",
         "quantity",
-        "date_added",
-        "total_amount",
-        "delivery_date",
-        "status",
+        "date",
     ]

@@ -8,6 +8,6 @@ urlpatterns = [
     # path('create', CreateOrderAPIView.as_view()),
 
     path("new-order", views.new_order, name="new_order"),
-    path("track-order", views.my_order, name="my_order"),
-    path("track-order/<str:tracking_id>", views.track_order, name="track_order")
+    path("add-order", views.add_order, name="add_new_order"),
+    path("track-order", views.track_order, name="track_order")
 ]
