@@ -34,6 +34,54 @@
   </div>
 </section>
 
+
+
+
+<!-- categories -->
+<section>
+  <div class="row p-5" style="align-items: center; justify-content: center; color:purple;">
+    <h3 class="text-center text-uppercase" style="color: purple; font-size: 2rem">
+      Categories
+    </h3>
+
+    {% for category in categories %}
+    {% include 'products/category_card.html' with category=category %}
+    {% endfor %}
+
+  </div>
+  <div class="row">
+    <div class="col-12 text-center">
+      <a href="{% url 'categories' %}" class="btn w-20"
+        style="font-size: 1.5rem; background-color: rgb(255, 100, 234); ">View All</a>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+  <hr />
+</div>
+
+<!-- products overview -->
+<section class="container">
+  <div class="row">
+    <h3 class="text-uppercase" style="font-size: 2rem; color: purple; font-weight: 700;">
+      TOP Products
+    </h3>
+  </div>
+  <div class="row text-alight-center justify-content-center">
+    {% for product in products %}
+    {% include 'products/product_card.html' with product=product %}
+    {% endfor %}
+
+    <div class="row">
+      <div class="col-12 text-center">
+        <a href="{% url 'products' %}" class="btn w-50"
+          style="font-size: 1.5rem; background-color: rgb(255, 100, 234); ">View More</a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- features section -->
 <section class="container my-3">
   <div class="row justify-content-center">
@@ -82,51 +130,5 @@
   </div>
 </section>
 <!-- Features end -->
-
-
-<!-- categories -->
-<section>
-  <div class="row p-5" style="align-items: center; justify-content: center; color:purple;">
-    <h3 class="text-center text-uppercase" style="color: purple; font-size: 2rem">
-      Categories
-    </h3>
-
-    {% for category in categories %}
-    {% include 'products/category_card.html' with category=category %}
-    {% endfor %}
-
-  </div>
-  <div class="row">
-    <div class="col-12 text-center">
-      <a href="{% url 'categories' %}" class="btn w-20"
-        style="font-size: 1.5rem; background-color: rgb(255, 100, 234); ">View All</a>
-    </div>
-  </div>
-</section>
-
-<div class="container">
-  <hr />
-</div>
-
-<!-- products overview -->
-<section class="container">
-  <div class="row">
-    <h3 class="text-uppercase" style="font-size: 2rem; color: purple; font-weight: 700;">
-      TOP Products
-    </h3>
-  </div>
-  <div class="row text-alight-center justify-content-center">
-    {% for product in products %}
-    {% include 'products/product_card.html' with product=product %}
-    {% endfor %}
-
-    <div class="row">
-      <div class="col-12 text-center">
-        <a href="{% url 'products' %}" class="btn w-50"
-          style="font-size: 1.5rem; background-color: rgb(255, 100, 234); ">View More</a>
-      </div>
-    </div>
-  </div>
-</section>
 
 {% endblock %}

@@ -1,9 +1,12 @@
 from django.shortcuts import render, redirect
-from .models import Category, Product
+from django.urls import reverse
+from .models import Cart, Category, Product
 from django.shortcuts import get_object_or_404
 from django.db.models import Q  # new
 from django.contrib.postgres.search import SearchVector
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 
 def categories(request):
@@ -46,9 +49,6 @@ def product_details(request, id):
     context = {
         "product": product,
     }
-
-    print(product)
-
     return render(request, template_name='products/product_detail.html', context=context)
 
 
@@ -77,3 +77,41 @@ def search(request):
         }
 
         return render(request, 'products/products.html', context=context)
+
+
+def cart(request):
+    cart_items = request.user.cart.all()
+    return render(request, "products/cart.html", context={"shoping_cart": cart_items})
+
+
+@login_required
+def add_to_cart(request):
+    id = request.POST.get("product_id")
+    quantity = request.POST.get("quantity")
+    product = get_object_or_404(Product, id=id)
+
+    cart = Cart(product=product, quantity=quantity, user=request.user)
+    cart.save()
+    # messages.add_message(request, messages.SUCCESS,
+    #                      "Item added to your shoping cart")
+    return redirect(reverse('shoping_cart'))
+
+
+def update_cart(request):
+    cart_id = request.POST.get("cart_id")
+    quantity = request.POST.get("quantity")
+
+    cart = get_object_or_404(Cart, id=cart_id)
+
+    cart.quantity = quantity
+
+    cart.save()
+    # messages.add_message(request, messages.SUCCESS,
+    #                      "Cart Updated")
+    return redirect(reverse("shoping_cart"))
+
+
+def delete_cart(request, id):
+    cart = get_object_or_404(Cart, id=id)
+    cart.delete()
+    return redirect(reverse("shoping_cart"))

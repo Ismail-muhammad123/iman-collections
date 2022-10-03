@@ -15,6 +15,7 @@ class UserAdmin(admin.ModelAdmin):
         "last_name",
         "mobile_number",
         "gender",
+        "added_at",
         "staff",
         "admin",
         "is_active",

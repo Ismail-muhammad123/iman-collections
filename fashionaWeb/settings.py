@@ -2,6 +2,8 @@ from pathlib import Path
 import os
 import dj_database_url
 import django_heroku
+from django.contrib.messages import constants as messages
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -132,34 +134,13 @@ USE_L10N = True
 
 USE_TZ = True
 
-
-# -------------------------------------------------------------------------------------------------
-
-AWS_STORAGE_BUCKET_NAME = 'iman-clothing-staticfiles'
-AWS_S3_REGION_NAME = 'eu-west-3'  # e.g. us-east-2
-AWS_ACCESS_KEY_ID = 'AKIAQXLZN6YAVWBA7JFQ'
-AWS_SECRET_ACCESS_KEY = '9WVF/M+2s7pWo8QowM/SvynUBLgHs+thMkGvebnr'
-
-# Tell django-storages the domain to use to refer to static files.
-AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
-
-# Tell the staticfiles app to use S3Boto3 storage when writing the collected static files (when
-# you run `collectstatic`).
-
-# STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-
-
-STATICFILES_LOCATION = 'static'
-STATICFILES_STORAGE = 'custom_storages.StaticStorage'
-
-STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATICFILES_LOCATION}/'
-
-
-# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3Boto3Storage'
-MEDIAFILES_LOCATION = 'media'
-DEFAULT_FILE_STORAGE = 'custom_storages.MediaStorage'
-
-MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIAFILES_LOCATION}/'
+MESSAGE_TAGS = {
+    messages.DEBUG: 'alert-secondary',
+    messages.INFO: 'alert-info',
+    messages.SUCCESS: 'alert-success',
+    messages.WARNING: 'alert-warning',
+    messages.ERROR: 'alert-danger',
+}
 
 # ---------------------------------------------------------------------------------------------------------
 
@@ -171,5 +152,35 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 PAYMENT_GATEAWAY_URL = "https://api.flutterwave.com/v3/payments"
 PAYMENT_GATEAWAY_SECRET_KEY = "FLWSECK_TEST-64787ade1481e5435e25c1a626409bc7-X"
 
+if DEBUG:
+    MEDIA_URL = '/media/'
+    STATIC_URL = '/static/'
+    STATIC_ROOT = BASE_DIR / 'static'
+else:
+    # -------------------------------------------------------------------------------------------------
 
-django_heroku.settings(locals(), staticfiles=False)
+    AWS_STORAGE_BUCKET_NAME = 'iman-clothing-staticfiles'
+    AWS_S3_REGION_NAME = 'eu-west-3'  # e.g. us-east-2
+    AWS_ACCESS_KEY_ID = 'AKIAQXLZN6YAVWBA7JFQ'
+    AWS_SECRET_ACCESS_KEY = '9WVF/M+2s7pWo8QowM/SvynUBLgHs+thMkGvebnr'
+
+    # Tell django-storages the domain to use to refer to static files.
+    AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+
+    # Tell the staticfiles app to use S3Boto3 storage when writing the collected static files (when
+    # you run `collectstatic`).
+
+    # STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+    STATICFILES_LOCATION = 'static'
+    STATICFILES_STORAGE = 'custom_storages.StaticStorage'
+
+    STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATICFILES_LOCATION}/'
+
+    # DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3Boto3Storage'
+    MEDIAFILES_LOCATION = 'media'
+    DEFAULT_FILE_STORAGE = 'custom_storages.MediaStorage'
+
+    MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIAFILES_LOCATION}/'
+
+    django_heroku.settings(locals(), staticfiles=False)

@@ -63,18 +63,17 @@
                 Size:
               </div>
               <div class="col-6 text-end">
-                {{product.size}}
+                {{product.product_size}}
               </div>
             </div>
           </li>
-
           <li class="list-group-item">
             <div class="row">
               <div class="col-6">
-                Available Quantity:
+                Color:
               </div>
               <div class="col-6 text-end">
-                {{product.available_quantity}}
+                {{product.product_color}}
               </div>
             </div>
           </li>
@@ -91,16 +90,29 @@
           </li>
 
           <li class="list-group-item">
-            <form class="align-items-center" action="{% url 'new_order' %}" method="post">
+
+            {% if product.available_quantity %}
+            <p class="text-success">
+              Available
+            </p>
+            <form class="form-group row justify-content-center align-items-center" action="{% url 'add_cart' %}"
+              method="post">
               {% csrf_token %}
-              <input type="number" name="product_id" value="{{product.id}}" id="id" hidden>
-              <label for="quantity">Quantity:</label>
-              <input type="number" name="quantity" id="quantity" class="rounded" value="1"
-                max="{{ product.available_quantity }}" min="1" style="width: 100px;" />
-              <div class="text-center">
-                <input type="submit" class="btn btn-primary m-2" style="width: 200px;" value="Buy" />
+              <input type="number" hidden value="{{product.id}}" name="product_id" id="id">
+              <div class="col-12">
+                <input type="number" name="quantity" id="quantity" min="1" max="{{product.available_quantity}}"
+                  value="1" class="input-group rounded" />
+              </div>
+              <div class="col-12 text-center mt-3">
+                <input type="submit" style="background-color: purple; color: white;width: 100%" value="Add to Cart"
+                  class="btn" />
               </div>
             </form>
+            {% else %}
+            <p class="text-danger">
+              {{product.available_quantity}} available
+            </p>
+            {% endif %}
           </li>
         </ul>
 

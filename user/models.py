@@ -1,3 +1,4 @@
+from email.policy import default
 from django.db import models
 from django.db import models
 from django.contrib.auth.models import (
@@ -75,6 +76,7 @@ class User(AbstractBaseUser):
     gender = models.CharField(
         max_length=1, choices=GENDER_CHOICES, blank=True, default="")
     address = models.ForeignKey(Address, on_delete=models.SET_NULL, null=True)
+    added_at = models.DateTimeField(auto_now_add=True)
 
     # notice the absence of a "Password field", that is built in.
 

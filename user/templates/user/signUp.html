@@ -1,30 +1,58 @@
-{% extends 'home/base.html' %}
+{% extends 'base/base.html' %}
+{% block title %}
+Sign Up
+{% endblock %}
 {% load static %}
 {% block content %}
-<div class="form-signin">
-    <form>
-        <h1 style="padding-top: 30px;" class="h2 mb-3 text-center fw-small">Create Account</h1>
+<div class="form-signup w-100 py-5 my-5 m-auto">
+    {% for message in messages %}
+    <div class="container-fluid p-0">
+        <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="True">&times;</span>
+            </button>
+            {{ message }}
+        </div>
+    </div>
+    {% endfor %}
+    <form action="{% url 'create_account' %}" method="post">
+        {% csrf_token %}
+        <h1 class="text-center text-uppercase mb-3" style="color: purple; font-weight: 700;">Sign Up</h1>
 
         <div class="form-floating">
-            <input type="text" class="form-control" id="floatingInput" placeholder="username">
-            <label for="floatingInput">username</label>
+            <input type="text" class="form-control" id="first_name" name="first_name">
+            <label for="first_name">First Name</label>
         </div>
         <div class="form-floating">
-            <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-            <label for="floatingPassword">Password</label>
+            <input type="text" class="form-control" id="last_name" name="last_name">
+            <label for="last_name">Last Name</label>
+        </div>
+        <div class="form-floating">
+            <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com">
+            <label for="email">Email address</label>
+        </div>
+        <div class="form-floating">
+            <input type="tel" class="form-control" id="phone" name="phone" placeholder="+234 12345678">
+            <label for="phone">Phone Number</label>
+        </div>
+        <div class="form-floating">
+            <select id="gender" class="form-control" name="gender" aria-label="Default select example">
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+            </select>
+            <label for="gender">Gender</label>
         </div>
 
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" value="remember-me"> Remember me
-            </label>
+        <div class="form-floating">
+            <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+            <label for="password">Password</label>
         </div>
-        <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
-        <br>
-        <br>
-        <p class="text-right">
-            <a class="text-right" href="/user/login">Already have an account?</a>
-        </p>
+
+        <button class="w-100 my-2 btn btn-lg btn-primary" type="submit">Sign in</button>
+
+        <a href="{% url 'login' %}">Log in Instead</a>
+        <br />
+        <a href="{% url 'reset_password' %}">Forgot password?</a>
     </form>
 </div>
-{%endblock%}
+{% endblock %}

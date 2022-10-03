@@ -11,6 +11,10 @@ urlpatterns = [
     #          name='product_category_list'),
 
 
+    path('remove-cart/<int:id>', views.delete_cart, name='remove_cart'),
+    path('add-cart', views.add_to_cart, name='add_cart'),
+    path('update-cart', views.update_cart, name='update_cart'),
+    path('cart', views.cart, name='shoping_cart'),
     path('categories', views.categories, name='categories'),
     path('categories/<int:category_id>',
          views.product_category, name='filter_category'),

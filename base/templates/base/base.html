@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
     integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous" />
 
+  <link rel="stylesheet" href="{% static 'user/styles.css' %}">
   <!-- Favicons -->
   <meta name="theme-color" content="#712cf9" />
 </head>
@@ -23,11 +24,8 @@
   <header>
     <nav class="navbar navbar-expand-lg fixed-top" style="background-color: rgb(255, 218, 250);">
       <div class="container">
-        <a class="navbar-brand" href="/">
-          <h2 class="text-uppercase"
-            style="color: purple; font-weight: 700; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
-            Iman
-          </h2>
+        <a class="navbar-brand me-5" href="/">
+          <img src="{% static 'base/images/name.svg' %}" alt="IMAN" height="40px">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
           aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,7 +48,7 @@
               <a class="nav-link" href="{% url 'my_order' %}">My profile</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">
+              <a class="nav-link" href="{% url 'shoping_cart' %}"> <span class="mx-md-3 mx-lg-3">CART</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="purple" class="bi bi-cart4"
                   viewBox="0 0 16 16">
                   <path
@@ -59,14 +57,14 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link btn btn-danger" href="{% url 'my_order' %}">Logout</a>
+              <a class="nav-link text-danger" href="{% url 'logout' %}"><span class="mx-md-3 mx-lg-3">Logout</span></a>
             </li>
             {% else %}
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'my_order' %}">Sign In</a>
+              <a class="nav-link" href="{% url 'login' %}">Sign In</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'my_order' %}">Sign Up</a>
+              <a class="nav-link" href="{% url 'create_account' %}">Sign Up</a>
             </li>
             {% endif %}
           </ul>
@@ -83,18 +81,22 @@
     </nav>
   </header>
 
-  <main class="pt-5">
+  <main class="pt-5 ">
     {% block content %} {% endblock %}
-    <hr />
   </main>
 
   <!-- FOOTER -->
-  <footer class="container">
-    <p class="float-end"><a href="#">Back to top</a></p>
+  <footer class="container py-2"
+    style="min-width: 100%; max-width: 100%; height: auto;  background-color:rgb(255, 218, 250); display: flex; align-items: center; justify-content: space-between;">
     <p>
-      &copy; 2022-2025 Iman Clothing and Apparels. &middot;
+      &copy; 2022-2025 Iman Clothing &amp; Apparels. &middot;
       <!-- <a href="#">Privacy</a> &middot; <a href="#">Terms</a> -->
     </p>
+    <p class="float-end"><a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="purple"
+          class="bi bi-arrow-up-circle-fill" viewBox="0 0 16 16">
+          <path
+            d="M16 8A8 8 0 1 0 0 8a8 8 0 0 0 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z" />
+        </svg></a></p>
   </footer>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
     integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="

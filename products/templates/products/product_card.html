@@ -1,6 +1,8 @@
 <div class="col-sm-10 col-md-4 card col-lg-3 mb-5 m-2">
     <!-- product card -->
-    <img src="{{product.image.url}}" alt="product image" class="card-img-top" />
+    <a href="{% url 'products_details' id=product.id %}" class="text-decoration-none text-uppercase">
+        <img src="{{product.image.url}}" alt="product image" class="card-img-top" />
+    </a>
     <div class="card-body align-items-end">
         <div class="col-12">
             <a href="{% url 'products_details' id=product.id %}" class="text-decoration-none text-uppercase">
@@ -20,25 +22,25 @@
 
         {% if product.available_quantity %}
         <p class="text-success">
-            {{product.available_quantity}} available
+            Available
         </p>
+        <form class="form-group row justify-content-center align-items-center" action="{% url 'add_cart' %}"
+            method="post">
+            {% csrf_token %}
+            <input type="number" hidden value="{{product.id}}" name="product_id" id="id">
+            <div class="col-12">
+                <input type="number" name="quantity" id="quantity" min="1" max="{{product.available_quantity}}"
+                    value="1" class="input-group rounded" />
+            </div>
+            <div class="col-12 text-center mt-3">
+                <input type="submit" style="background-color: purple; color: white;width: 100%" value="Add to Cart"
+                    class="btn" />
+            </div>
+        </form>
         {% else %}
         <p class="text-danger">
             {{product.available_quantity}} available
         </p>
         {% endif %}
-
-        <form class="form-group row justify-content-center align-items-center" action="{% url 'new_order' %}"
-            method="post">
-            {% csrf_token %}
-            <input type="number" hidden value="{{product.id}}" name="product_id" id="id">
-            <div class="col-6">
-                <input type="number" name="quantity" id="quantity" min="1" max="{{product.available_quantity}}"
-                    value="1" class="input-group rounded" />
-            </div>
-            <div class="col-6 text-end">
-                <input type="submit" style="background-color: purple; color: white;" value="Purchase" class="btn" />
-            </div>
-        </form>
     </div>
 </div>
