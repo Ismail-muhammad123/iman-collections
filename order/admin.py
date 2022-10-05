@@ -7,6 +7,9 @@ class OrderAdmin(admin.ModelAdmin):
     def name(self, obj):
         return obj.user.first_name + " " + obj.user.last_name
 
+    def payment_status(self, obj):
+        return obj.payment.get_status_display()
+
     list_display = [
         "name",
         "country",
@@ -16,6 +19,7 @@ class OrderAdmin(admin.ModelAdmin):
         "tracking_id",
         "total_amount",
         "status",
+        "payment_status",
         "delivery_date",
         "date_added",
     ]

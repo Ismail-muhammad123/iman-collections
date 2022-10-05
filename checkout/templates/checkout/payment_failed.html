@@ -1,0 +1,11 @@
+{% extends 'base/base.html'%} {% load static%} {% load humanize %} {% block content %}
+<section class="container mt-5">
+    <h2 class="text-danger text-center">Transaction Failed</h2>
+    <p>Your transaction was not completed successfully.</p>
+    <p>If your think we are mistaken, please let us know through our <a
+            href="mailto:imanclothingandapparels.com">Email</a>.</p>
+    <div class="text-center">
+        <a href="{% url 'shoping_cart' %}" class="btn btn-primary">Go Back To Cart</a>
+    </div>
+</section>
+{% endblock %}

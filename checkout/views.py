@@ -12,86 +12,55 @@ from django.urls import reverse
 from django.http import Http404
 
 
-def checkout(request):
+def checkout(request, order_id):
 
-    if request.method == "POST":
-        params = request.POST
+    unique_id = str(uuid.uuid4())
 
-        order_id = params.get("order_id", None)
-        if order_id is None:
-            return redirect('/')
+    verification_url = "https://http://127.0.0.1:8000/checout/verify"
 
-        unique_id = str(uuid.uuid4())
+    order = get_object_or_404(Order, id=order_id)
 
-        order_id = eval(order_id)
-        order = get_object_or_404(Order, id=order_id)
+    payment = Payment(
+        order=order,
+        user=request.user,
+        payment_referance_number=unique_id,
+        amount=order.total_amount,
+    )
+    payment.save()
 
-        f_name = params.get("first_name", None)
-        l_name = params.get("last_name", "")
-        email = params.get("email", None)
-        phone = params.get("phone", None)
-        address = params.get("address", None)
-        country = params.get("country", None)
-        state = params.get("state", None)
-        postal_code = params.get("postal_code", None)
+    url = settings.PAYMENT_GATEAWAY_URL
+    secret_key = settings.PAYMENT_GATEAWAY_SECRET_KEY
 
-        try:
-            payment = Payment(
-                order=order,
-                first_name=f_name,
-                last_name=l_name,
-                phone_number=phone,
-                delivery_address=address,
-                email=email,
-                payment_referance_number=unique_id,
-                amount=order.total_amount,
-                country=country,
-                postal_code=postal_code,
-                state=state
-            )
-            payment.save()
-        except:
-            messages.add_message(
-                request, messages.ERROR, "Error! Make sure all required field are proviede")
-            return render(request, template_name='checkout/checkout.html', context={"order": order})
+    headers = {"Authorization": f"Bearer {secret_key}"}
 
-        url = settings.PAYMENT_GATEAWAY_URL
-        secret_key = settings.PAYMENT_GATEAWAY_SECRET_KEY
-
-        headers = {"Authorization": f"Bearer {secret_key}"}
-
-        data = {
-            "tx_ref": unique_id,
-            "amount": order.total_amount,
-            "currency": "NGN",
-            "redirect_url": "https://fashiona-store.herokuapp.com/checout/verify",
-            "meta": {
-                "order_id": order.id,
-            },
-            "customer": {
-                "email": email,
-                "phonenumber": phone,
-                "name": f"{f_name} {l_name}"
-            },
-            "customizations": {
-                "title": "Iman Clothing and Apparels",
-            }
+    data = {
+        "tx_ref": unique_id,
+        "amount": order.total_amount,
+        "currency": "NGN",
+        "redirect_url": verification_url,
+        "meta": {
+            "order_id": order.id,
+        },
+        "customer": {
+            "email": request.user.email,
+            "phonenumber": request.user.mobile_number,
+            "name": f"{request.user.first_name} {request.user.last_name}"
+        },
+        "customizations": {
+            "title": "Iman Clothing and Apparels",
         }
+    }
 
-        print('redirect urls', reverse('verify_checkout'))
+    # print('redirect urls', reverse('verify_checkout'))
 
-        res = requests.post(url, headers=headers, json=data)
-        response = res.json()
+    res = requests.post(url, headers=headers, json=data)
+    response = res.json()
 
-        if response['status'] == "success":
-            pprint(response)
-            return redirect(response['data']['link'])
-        else:
-            messages.add_message(request, messages.ERROR, "Transaction failed")
-            return render(request, template_name='checkout/checkout.html', context={"order": order})
-
+    if response['status'] == "success":
+        pprint(response)
+        return redirect(response['data']['link'])
     else:
-        return redirect("/")
+        return redirect(reverse("new_order"))
 
 
 def verify_payment(request):
@@ -101,9 +70,11 @@ def verify_payment(request):
     tx_ref = data['tx_ref']
     response = requests.get("https://api.flutterwave.com/v3/transactions/verify_by_reference",
                             headers=headers, params={"tx_ref": tx_ref})
+    print(response.status_code)
     if response.status_code == 200:
         res = response.json()
         status = res['status'] == "success"
+        print(status)
         if status:
             order_id = res['data']['meta']['order_id']
             try:
@@ -116,19 +87,31 @@ def verify_payment(request):
                 payment = order.payment
                 payment.payed_at = datetime.now()
                 payment.status = 2
-                payment.payment_referance_number = tx_ref
+                payment.transaction_ref = tx_ref
                 payment.save()
 
                 # update product
-                product = order.product
-                product.available_quantity -= order.quantity
-                product.save()
+                sold_products = order.order_items.all()
+                for item in sold_products:
+                    p = item.product
+                    p.available_quantity -= item.quantity
+                    p.save()
 
             except Order.DoesNotExist:
                 raise Http404
-            redirect_url = reverse('track_order', args=[order_id])
-            return redirect(redirect_url)
+            # empty the cart
 
-    order = Order.objects.get(id=order_id)
-    messages.add_message(request, messages.ERROR, "Traonsaction has Failed")
-    return render(request, template_name='checkout/checkout.html', context={"order": order})
+            [item.delete() for item in request.user.cart.all()]
+
+            # redirect to order-tracking page
+            return redirect(reverse('track_order'))
+        else:
+            order = Order.objects.get(id=order_id)
+            order.delete()
+            return render(request, "checkout/payment_failed.html")
+
+    else:
+        return render(request, "checkout/payment_failed.html")
+
+    # messages.add_message(request, messages.ERROR, "Traonsaction has Failed")
+    # return render(request, template_name='base/index.html')

@@ -15,7 +15,6 @@ from django.contrib import messages
 
 @login_required
 def new_order(request):
-
     cart_items = request.user.cart.all()
     sub_total = 0
     for item in cart_items:
@@ -50,7 +49,7 @@ def add_order(request):
     delivery_address = request.POST.get('delivery_address')
     country = request.POST.get('country')
     state = request.POST.get('state')
-    zip_code = request.POST.get('zipcode')
+    zip_code = request.POST.get('zip_code')
 
     if (delivery_address == None or country == None or state == None):
         messages.add_message(request, messages.ERROR,
@@ -62,7 +61,7 @@ def add_order(request):
     total_amount = 0
 
     for item in cart_items:
-        total_amount += item.product.price + item.quantity
+        total_amount += item.product.price * item.quantity
 
     order = Order(
         country=country,
@@ -76,15 +75,15 @@ def add_order(request):
     order.save()
 
     for item in cart_items:
-        order_item = OrderItem(product=item.product,
-                               quantity=item.quantity, order=order)
+        order_item = OrderItem(
+            product=item.product,
+            quantity=item.quantity,
+            order=order
+        )
+
         order_item.save()
 
-        item.delete()
-
-    # TODO redirect to payment page
-
-    return redirect(reverse("track_order"))
+    return redirect(reverse("order_checkout", kwargs={"order_id": order.id}))
 
 
 def track_order(request):

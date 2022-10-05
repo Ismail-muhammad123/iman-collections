@@ -23,7 +23,7 @@ class Order(models.Model):
         User, on_delete=models.CASCADE, related_name="orders")
     country = models.CharField(max_length=200)
     state = models.CharField(max_length=200)
-    zip_code = models.CharField(max_length=10, blank=True, default="")
+    zip_code = models.CharField(max_length=10, null=True)
     delivery_address = models.TextField()
 
     tracking_id = models.CharField(max_length=10, null=True)

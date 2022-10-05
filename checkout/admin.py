@@ -9,17 +9,9 @@ class PaymentAdmin(admin.ModelAdmin):
         return obj.order.id
 
     list_display = [
-        "first_name",
-        "last_name",
-        "phone_number",
-        "email",
         "order_id",
         "amount",
         "payment_referance_number",
-        "delivery_address",
-        "country",
-        "postal_code",
-        "state",
         "created_at",
         "payed_at",
         "status",
