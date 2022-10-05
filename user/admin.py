@@ -3,7 +3,11 @@ from django.contrib.auth import get_user_model
 
 
 User = get_user_model()
-# Register your models here.
+
+
+admin.site.site_header = "Iman Clothing and Apparels"
+admin.site.site_title = "Iman Clothing | Admin"
+admin.site.index_title = "Dashboard"
 
 
 @admin.register(User)

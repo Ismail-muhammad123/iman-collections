@@ -1,12 +1,16 @@
 {% extends 'base/base.html'%} {% load static%} {% load humanize %} {% block content %}
 <section class="container mt-5">
   {% for order in orders %}
-  <h5
-    style="width: 100%; background-color: blueviolet; padding: 10px; color: white; font-weight: 700; font-size: 22.0px;">
-    <span> Order ID: {% if order.tracking_id %} {{order.tracking_id}} {% endif %} </span> <span
-      class="ms-5">{{order.get_status_display}}</span>
-  </h5>
-  {% for item in order.order_items.all %}
+  <div class="row p-2"
+    style="width: 100%; background-color: rgb(248, 134, 233); padding: 10px; color: white; font-weight: 700; font-size: 22.0px;">
+    <small class="col-4">
+      Order ID: {% if order.tracking_id %} {{order.tracking_id}} {% endif %}
+    </small>
+    <small class="col-4">
+      {{order.date_added|naturaltime}}
+    </small>
+    <small class="col-4 text-end">{{order.get_status_display}}</small>
+  </div>
   <div style="width: 100%; overflow-x: auto;">
     <table class="table">
       <thead>
@@ -15,11 +19,11 @@
           <th scope="col">Price</th>
           <th scope="col">Quantity</th>
           <th scope="col">Amount</th>
-          <th scope="col">Purchase Date</th>
           <th scope="col">Delivery Date</th>
         </tr>
       </thead>
       <tbody>
+        {% for item in order.order_items.all %}
         <tr>
           <td>
             {{item.product.name}}
@@ -34,18 +38,15 @@
             {{order.total_amount}}
           </td>
           <td>
-            {{order.date_added|naturaltime}}
-          </td>
-          <td>
             {% if order.delivery_date %}
             {{order.delivery_date}}
             {% endif %}
           </td>
         </tr>
+        {% endfor %}
       </tbody>
     </table>
   </div>
-  {% endfor %}
   {% endfor %}
 </section>
 {% endblock %}

@@ -13,6 +13,7 @@ class Payment(models.Model):
         (1, "Pending"),
         (2, "Success"),
     ]
+    
 
     order = models.OneToOneField(
         Order, on_delete=models.CASCADE, related_name='payment')
