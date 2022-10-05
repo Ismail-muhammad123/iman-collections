@@ -55,7 +55,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'fashionaWeb.urls'
+ROOT_URLCONF = 'imanClothing.urls'
 
 AUTH_USER_MODEL = 'user.User'
 
@@ -76,7 +76,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'fashionaWeb.wsgi.application'
+WSGI_APPLICATION = 'imanClothing.wsgi.application'
 
 
 # Database
