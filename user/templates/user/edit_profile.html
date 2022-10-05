@@ -1,0 +1,49 @@
+{% extends 'base/base.html' %}
+{% block title %}
+Edit Profile{% endblock %}
+{% load static %}
+{% block content %}
+<div class="form-signup w-100 py-5 my-5 m-auto">
+    {% for message in messages %}
+    <div class="container-fluid p-0">
+        <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+            {{ message }}
+        </div>
+    </div>
+    {% endfor %}
+    <form action="{% url 'edit_profile' %}" method="post">
+        {% csrf_token %}
+        <h1 class="text-center text-uppercase mb-3" style="color: purple; font-weight: 700;">Sign Up</h1>
+
+        <div class="form-floating">
+            <input type="text" value="{{request.user.first_name}}" class="form-control" id="first_name"
+                name="first_name">
+            <label for="first_name">First Name</label>
+        </div>
+        <div class="form-floating">
+            <input type="text" value="{{request.user.last_name}}" class="form-control" id="last_name" name="last_name">
+            <label for="last_name">Last Name</label>
+        </div>
+        <div class="form-floating">
+            <input type="tel" value="{{request.user.mobile_number}}" class="form-control" id="phone" name="phone"
+                placeholder="+234 12345678">
+            <label for="phone">Phone Number</label>
+        </div>
+        <div class="form-floating">
+            <select id="gender" class="form-control" name="gender" aria-label="Default select example">
+                <option {% if request.user.gender is 'M' %} selected {% endif %} value="M">Male</option>
+                <option {% if request.user.gender is 'F' %} selected {% endif %} value="F">Female</option>
+            </select>
+            <label for="gender">Gender</label>
+        </div>
+        <div class="form-floating">
+            <textarea type="text" class="form-control" id="address" name="address">{{request.user.address}}</textarea>
+            <label for="address">Address</label>
+        </div>
+
+        <button class="w-100 my-2 btn btn-lg btn-primary" type="submit">Update</button>
+
+
+    </form>
+</div>
+{% endblock %}
