@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.urls import reverse
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 
@@ -82,8 +83,62 @@ def register(request):
     return render(request, template_name='user/signUp.html')
 
 
+@login_required
 def profile(request):
-    pass
+    return render(request, "user/profile.html")
+
+
+@login_required
+def editProfile(request):
+    if request.method == "POST":
+        first_name = request.POST["first_name"] or None
+        last_name = request.POST["last_name"] or None
+        mobile_number = request.POST["phone"] or None
+        address = request.POST["address"] or None
+        gender = request.POST["gender"] or None
+
+        error = None
+
+        if first_name == None:
+            messages.add_message(request, messages.ERROR,
+                                 "First name is required")
+            error = True
+        if last_name == None:
+            messages.add_message(request, messages.ERROR,
+                                 "Last name is required")
+            error = True
+
+        if mobile_number == None:
+            messages.add_message(request, messages.ERROR,
+                                 "Phone Number is required")
+            error = True
+
+        if address == None:
+            messages.add_message(request, messages.ERROR,
+                                 "Address is required")
+            error = True
+
+        if error:
+            return render(request, "user/edit_profile.html")
+
+        try:
+            user = request.user
+            user.first_name = first_name
+            user.last_name = last_name
+            user.mobile_number = mobile_number
+            user.address = address
+            user.gender = gender
+
+            user.save()
+            messages.add_message(request, messages.SUCCESS,
+                                 "Profile updated")
+            return render(request, "user/profile.html")
+        except:
+            messages.add_message(request, messages.ERROR,
+                                 "Unable to update Profile")
+            return render(request, template_name='user/edit_profile.html')
+
+    return render(request, "user/edit_profile.html")
 
 
 def reset_password(request):

@@ -1,0 +1,68 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container my-5">
+    {% for message in messages %}
+    <div class="container-fluid p-0">
+        <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+            {{ message }}
+        </div>
+    </div>
+    {% endfor %}
+    <h1 style="padding-top: 30px;" class="h2 mb-3 text-center fw-small text-uppercase">user Profile</h1>
+
+    <div class="row">
+        <div class="col-6 text-start">
+            <strong>First Name:</strong>
+        </div>
+        <div class="col-6 text-end">
+            {{request.user.first_name}}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6 text-start">
+            <strong>Last Name:</strong>
+        </div>
+        <div class="col-6 text-end">
+            {{request.user.last_name}}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6 text-start">
+            <strong>Gender:</strong>
+        </div>
+        <div class="col-6 text-end">
+            {{request.user.get_gender_display}}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6 text-start">
+            <strong>Email:</strong>
+        </div>
+        <div class="col-6 text-end">
+            {{request.user.email}}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6 text-start">
+            <strong>Phone Number:</strong>
+        </div>
+        <div class="col-6 text-end">
+            {{request.user.mobile_number}}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-6 text-start">
+            <strong>Address:</strong>
+        </div>
+        <div class="col-6 text-end">
+            {{request.user.address}}
+        </div>
+    </div>
+    <div class="text-center">
+        <a href="{% url 'edit_profile' %}" class="btn btn-primary px-4 py-2">Edit</a>
+    </div>
+
+</div>
+{%endblock%}
