@@ -1,1 +1,1 @@
-web: gunicorn fashionaWeb.wsgi --log-file -
+web: gunicorn imanClothing.wsgi --log-file -
