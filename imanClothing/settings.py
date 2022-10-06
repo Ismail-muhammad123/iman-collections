@@ -142,7 +142,7 @@ PAYMENT_GATEAWAY_URL = "https://api.flutterwave.com/v3/payments"
 PAYMENT_GATEAWAY_SECRET_KEY = "FLWSECK_TEST-8a656b470bc78dad6c18982fa4066a67-X"
 
 # static and media files
-if DEBUG:
+if DEBUG == True:
     MEDIA_URL = '/media/'
     STATIC_URL = '/static/'
     STATIC_ROOT = BASE_DIR / 'static'
