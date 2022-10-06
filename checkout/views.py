@@ -19,7 +19,7 @@ def checkout(request, order_id):
 
     unique_id = str(uuid.uuid4())
 
-    verification_url = os.environ.get("REDIRECT_URL")
+    verification_url = settings.REDIRECT_URL
 
     order = get_object_or_404(Order, id=order_id)
 
@@ -62,7 +62,7 @@ def checkout(request, order_id):
     if response['status'] == "success":
         return redirect(response['data']['link'])
     else:
-        pprint(response)
+        # pprint(response)
         return redirect(reverse("new_order"))
 
 
