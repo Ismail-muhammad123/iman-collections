@@ -151,7 +151,8 @@ else:
     # -------------------------------------------------------------------------------------------------
     # ALLOWED_HOSTS = ["*.imanclothing.net",
     #                  "imanclothing.herokuapp.com", "127.0.0.1:8000"]
-    ALLOWED_HOSTS = ["*"]
+    ALLOWED_HOSTS = ["www.imanclothing.net",
+                     "imanclothing.net", "admin.imanclothing.net", ]
     SECURE_SSL_REDIRECT = True
     AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
     AWS_S3_REGION_NAME = os.environ.get("AWS_S3_REGION_NAME")  # e.g. us-east-2
