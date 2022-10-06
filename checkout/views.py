@@ -60,9 +60,9 @@ def checkout(request, order_id):
     response = res.json()
 
     if response['status'] == "success":
-        pprint(response)
         return redirect(response['data']['link'])
     else:
+        pprint(response)
         return redirect(reverse("new_order"))
 
 
