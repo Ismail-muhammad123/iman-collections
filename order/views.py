@@ -44,6 +44,7 @@ def new_order(request):
     return render(request, template_name='order/new_order.html', context=context)
 
 
+@login_required
 def add_order(request):
 
     delivery_address = request.POST.get('delivery_address')
@@ -86,6 +87,7 @@ def add_order(request):
     return redirect(reverse("order_checkout", kwargs={"order_id": order.id}))
 
 
+@login_required
 def track_order(request):
     orders = request.user.orders.all()
 

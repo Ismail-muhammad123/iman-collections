@@ -10,8 +10,10 @@ import requests
 from django.contrib import messages
 from django.urls import reverse
 from django.http import Http404
+from django.contrib.auth.decorators import login_required
 
 
+@login_required
 def checkout(request, order_id):
 
     unique_id = str(uuid.uuid4())

@@ -79,6 +79,7 @@ def search(request):
         return render(request, 'products/products.html', context=context)
 
 
+@login_required
 def cart(request):
     cart_items = request.user.cart.all()
     return render(request, "products/cart.html", context={"shoping_cart": cart_items})
@@ -86,8 +87,8 @@ def cart(request):
 
 @login_required
 def add_to_cart(request):
-    id = request.POST.get("product_id")
-    quantity = request.POST.get("quantity")
+    id = request.GET.get("product_id")
+    quantity = request.GET.get("quantity")
     product = get_object_or_404(Product, id=id)
 
     cart = Cart(product=product, quantity=quantity, user=request.user)
@@ -97,6 +98,7 @@ def add_to_cart(request):
     return redirect(reverse('shoping_cart'))
 
 
+@login_required
 def update_cart(request):
     cart_id = request.POST.get("cart_id")
     quantity = request.POST.get("quantity")
@@ -111,6 +113,7 @@ def update_cart(request):
     return redirect(reverse("shoping_cart"))
 
 
+@login_required
 def delete_cart(request, id):
     cart = get_object_or_404(Cart, id=id)
     cart.delete()

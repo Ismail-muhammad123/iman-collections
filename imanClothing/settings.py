@@ -12,7 +12,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-o47&kilmpi3vgmw*u29c3yoip(t8^0&)yp%squ)u3!j6ianghk'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
 
@@ -142,9 +142,10 @@ MESSAGE_TAGS = {
     messages.ERROR: 'alert-danger',
 }
 
-LOGIN_URL = "/accounts/login"
+LOGIN_URL = "/account/login"
 
 # ---------------------------------------------------------------------------------------------------------
+
 
 # Default primary key field type
 
@@ -161,7 +162,7 @@ if DEBUG:
     STATIC_ROOT = BASE_DIR / 'static'
 else:
     # -------------------------------------------------------------------------------------------------
-
+    # SECURE_SSL_REDIRECT = True
     AWS_STORAGE_BUCKET_NAME = 'iman-clothing-staticfiles'
     AWS_S3_REGION_NAME = 'eu-west-3'  # e.g. us-east-2
     AWS_ACCESS_KEY_ID = 'AKIAQXLZN6YAVWBA7JFQ'

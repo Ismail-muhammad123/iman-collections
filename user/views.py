@@ -17,12 +17,21 @@ def signIn(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
+            next = request.session.get('next')
+            print("next: ", next)
+            if next:
+                del request.session['next']
+                return redirect(next)
             return redirect(reverse('products'))
         else:
             messages.add_message(request, messages.ERROR,
                                  "invalid email of password")
             return render(request, template_name='user/signIn.html')
     else:
+        next = request.GET.get('next')
+        print("next: ", next)
+        if next:
+            request.session['next'] = next
         return render(request, template_name='user/signIn.html')
 
 
@@ -145,6 +154,7 @@ def reset_password(request):
     return render(request, template_name='user/reset_password.html')
 
 
+@login_required
 def signout(request):
     if request.user.is_authenticated:
         logout(request)
