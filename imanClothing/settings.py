@@ -12,8 +12,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-o47&kilmpi3vgmw*u29c3yoip(t8^0&)yp%squ)u3!j6ianghk'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = os.environ.get("DJANGO_DEBUG", False)
-DEBUG = False
+DEBUG = os.environ.get("DJANGO_DEBUG") or False
+# DEBUG = False
 
 
 # Application definition
@@ -149,8 +149,10 @@ if DEBUG:
     ALLOWED_HOSTS = ["*"]
 else:
     # -------------------------------------------------------------------------------------------------
-    ALLOWED_HOSTS = ["*.imanclothing.net", "imanclothing.herokuapp.com"]
-    SECURE_SSL_REDIRECT = True
+    # ALLOWED_HOSTS = ["*.imanclothing.net",
+    #                  "imanclothing.herokuapp.com", "127.0.0.1:8000"]
+    ALLOWED_HOSTS = ["*"]
+    # SECURE_SSL_REDIRECT = True
     AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
     AWS_S3_REGION_NAME = os.environ.get("AWS_S3_REGION_NAME")  # e.g. us-east-2
     AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
