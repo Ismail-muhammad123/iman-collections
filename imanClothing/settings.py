@@ -14,8 +14,6 @@ SECRET_KEY = 'django-insecure-o47&kilmpi3vgmw*u29c3yoip(t8^0&)yp%squ)u3!j6ianghk
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DJANGO_DEBUG", False)
 
-ALLOWED_HOSTS = ["*"]
-
 
 # Application definition
 
@@ -85,20 +83,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
-    } if DEBUG else {
-
-        'ENGINE': 'ec2-3-219-229-143.compute-1.amazonaws.com',
-
-        'NAME': 'd5m40hju55snlc',
-
-        'USER': 'gspsdvfoogikru',
-
-        'PASSWORD': '429aae81cbc58fadd235ac8d3e302c1c999d5052ab5d98fe35e4e0de7838b1a2',
-
-        'HOST': 'postgres://gspsdvfoogikru:429aae81cbc58fadd235ac8d3e302c1c999d5052ab5d98fe35e4e0de7838b1a2@ec2-3-219-229-143.compute-1.amazonaws.com:5432/d5m40hju55snlc',
-
-        'PORT': '5432',
-    }
+    } if DEBUG else dj_database_url.config()
 }
 
 
@@ -160,13 +145,15 @@ if DEBUG:
     MEDIA_URL = '/media/'
     STATIC_URL = '/static/'
     STATIC_ROOT = BASE_DIR / 'static'
+    ALLOWED_HOSTS = ["*"]
 else:
     # -------------------------------------------------------------------------------------------------
-    # SECURE_SSL_REDIRECT = True
-    AWS_STORAGE_BUCKET_NAME = 'iman-clothing-staticfiles'
-    AWS_S3_REGION_NAME = 'eu-west-3'  # e.g. us-east-2
-    AWS_ACCESS_KEY_ID = 'AKIAQXLZN6YAVWBA7JFQ'
-    AWS_SECRET_ACCESS_KEY = '9WVF/M+2s7pWo8QowM/SvynUBLgHs+thMkGvebnr'
+    ALLOWED_HOSTS = ["*.imanclothing.net", "imanclothing.herokuapp.com"]
+    SECURE_SSL_REDIRECT = True
+    AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
+    AWS_S3_REGION_NAME = os.environ.get("AWS_S3_REGION_NAME")  # e.g. us-east-2
+    AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
+    AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
 
     # Tell django-storages the domain to use to refer to static files.
     AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
@@ -187,4 +174,4 @@ else:
 
     MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIAFILES_LOCATION}/'
 
-    django_heroku.settings(locals(), staticfiles=False)
+    # django_heroku.settings(locals(), staticfiles=False)
