@@ -84,7 +84,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
-    } if DEBUG else dj_database_url.config()
+    } if DEBUG == True else dj_database_url.config()
 }
 
 
@@ -152,7 +152,7 @@ else:
     # ALLOWED_HOSTS = ["*.imanclothing.net",
     #                  "imanclothing.herokuapp.com", "127.0.0.1:8000"]
     ALLOWED_HOSTS = ["*"]
-    # SECURE_SSL_REDIRECT = True
+    SECURE_SSL_REDIRECT = True
     AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
     AWS_S3_REGION_NAME = os.environ.get("AWS_S3_REGION_NAME")  # e.g. us-east-2
     AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
