@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404
 from .models import Payment
 from order.models import Order
 import requests
+import os
 from django.contrib import messages
 from django.urls import reverse
 from django.http import Http404
@@ -18,7 +19,7 @@ def checkout(request, order_id):
 
     unique_id = str(uuid.uuid4())
 
-    verification_url = "https://http://127.0.0.1:8000/checout/verify"
+    verification_url = os.environ.get("REDIRECT_URL")
 
     order = get_object_or_404(Order, id=order_id)
 
@@ -70,7 +71,7 @@ def verify_payment(request):
     data = request.GET
 
     tx_ref = data['tx_ref']
-    response = requests.get("https://api.flutterwave.com/v3/transactions/verify_by_reference",
+    response = requests.get(settings.PAYMENT_VERIFICATION_URL,
                             headers=headers, params={"tx_ref": tx_ref})
     print(response.status_code)
     if response.status_code == 200:

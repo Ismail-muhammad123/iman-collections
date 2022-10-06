@@ -139,7 +139,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # payment gateaway
 PAYMENT_GATEAWAY_URL = "https://api.flutterwave.com/v3/payments"
-PAYMENT_GATEAWAY_SECRET_KEY = "FLWSECK_TEST-8a656b470bc78dad6c18982fa4066a67-X"
+PAYMENT_VERIFICATION_URL = "https://api.flutterwave.com/v3/transactions/verify_by_reference"
+PAYMENT_GATEAWAY_SECRET_KEY = os.environ.get("PAYMENT_GATEAWAY_SECRET_KEY")
+
+REDIRECT_URL = "https://www.imanclothing.net/checout/verify"
 
 # static and media files
 if DEBUG == True:
