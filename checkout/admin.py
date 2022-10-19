@@ -20,3 +20,12 @@ class PaymentAdmin(admin.ModelAdmin):
     search_fields = [
         "order__id",
     ]
+
+    def has_add_permission(self, request, obj=None):
+        return request.user.is_admin
+
+    def has_delete_permission(self, request, obj=None):
+        return request.user.is_admin
+
+    def has_change_permission(self, request, obj=None):
+        return request.user.is_admin

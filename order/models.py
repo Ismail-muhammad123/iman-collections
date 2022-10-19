@@ -36,6 +36,9 @@ class Order(models.Model):
     def items(self):
         return self.order_items.all()
 
+    def __str__(self) -> str:
+        return f"Order {self.id}"
+
 
 class OrderItem(models.Model):
     product = models.ForeignKey(
@@ -43,3 +46,6 @@ class OrderItem(models.Model):
     quantity = models.PositiveBigIntegerField()
     order = models.ForeignKey(
         Order, on_delete=models.CASCADE, related_name="order_items")
+
+    def __str__(self) -> str:
+        return self.product.name
