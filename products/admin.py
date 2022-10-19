@@ -21,6 +21,15 @@ class ProductAdmin(admin.ModelAdmin):
 
     exclude = ["added_by", "added_at"]
 
+    def has_add_permission(self, request, obj=None):
+        return request.user.is_admin
+
+    def has_delete_permission(self, request, obj=None):
+        return request.user.is_admin
+
+    def has_change_permission(self, request, obj=None):
+        return request.user.is_admin
+
     def save_model(self, request, obj, form, change):
         obj.added_by = request.user
         return super().save_model(request, obj, form, change)
@@ -40,6 +49,15 @@ class CategoryAdmin(admin.ModelAdmin):
         obj.added_by = request.user
         return super().save_model(request, obj, form, change)
 
+    def has_add_permission(self, request, obj=None):
+        return request.user.is_admin
+
+    def has_delete_permission(self, request, obj=None):
+        return request.user.is_admin
+
+    def has_change_permission(self, request, obj=None):
+        return request.user.is_admin
+
 
 @admin.register(Cart)
 class CartAdmin(admin.ModelAdmin):
@@ -51,3 +69,12 @@ class CartAdmin(admin.ModelAdmin):
     ]
 
     exclude = ["added_by", "added_at"]
+
+    def has_add_permission(self, request, obj=None):
+        return request.user.is_admin
+
+    def has_delete_permission(self, request, obj=None):
+        return request.user.is_admin
+
+    def has_change_permission(self, request, obj=None):
+        return request.user.is_admin

@@ -47,13 +47,13 @@ class OrderAdmin(admin.ModelAdmin):
     ]
 
     def has_add_permission(self, request, obj=None):
-        return False
+        return request.user.is_admin
 
     def has_delete_permission(self, request, obj=None):
-        return False
+        return request.user.is_admin
 
     def has_change_permission(self, request, obj=None):
-        return False
+        return request.user.is_admin
 
 
 @admin.register(OrderItem)
@@ -77,12 +77,13 @@ class OrderItemAdmin(admin.ModelAdmin):
         return obj.product.product_color
 
     def has_add_permission(self, request, obj=None):
-        return False
+        return request.user.is_admin
 
     def has_delete_permission(self, request, obj=None):
-        return False
+        return request.user.is_admin
 
     def has_change_permission(self, request, obj=None):
+        return request.user.is_admin
         return False
 
     list_display = [

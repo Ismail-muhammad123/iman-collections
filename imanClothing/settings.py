@@ -14,7 +14,7 @@ SECRET_KEY = 'django-insecure-o47&kilmpi3vgmw*u29c3yoip(t8^0&)yp%squ)u3!j6ianghk
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True if str(os.environ.get(
     "DJANGO_DEBUG", "False")) == "True" else False
-DEV = True
+DEV = False
 # Application definition
 
 INSTALLED_APPS = [
@@ -24,7 +24,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework.authtoken',
+
+    # 3rd party apps
+    # 'rest_framework.authtoken',
     'django.contrib.humanize',
 
     # apps
@@ -79,6 +81,7 @@ WSGI_APPLICATION = 'imanClothing.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 if DEV:
+    DEBUG = False
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
