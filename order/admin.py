@@ -46,6 +46,12 @@ class OrderAdmin(admin.ModelAdmin):
         "date_added",
     ]
 
+    list_filter = [
+        "status",
+        "delivery_date",
+        "date_added"
+    ]
+
     def has_add_permission(self, request, obj=None):
         return request.user.is_admin
 
@@ -94,6 +100,10 @@ class OrderItemAdmin(admin.ModelAdmin):
         "buyer",
         "price",
         "quantity",
+        "date",
+    ]
+
+    list_filter = [
         "date",
     ]
 
