@@ -103,10 +103,6 @@ class OrderItemAdmin(admin.ModelAdmin):
         "date",
     ]
 
-    list_filter = [
-        "date",
-    ]
-
     list_display_links = []
 
     search_fields = [
