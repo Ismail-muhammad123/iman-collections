@@ -17,6 +17,10 @@ class ContactAdmin(admin.ModelAdmin):
         "recieved_at",
     ]
 
+    list_filter = ["recieved_at", ]
+
+    search_fields = ["email", "full_name"]
+
     def has_add_permission(self, request, obj=None):
         return request.user.is_admin
 

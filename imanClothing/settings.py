@@ -9,7 +9,8 @@ from django.contrib.messages import constants as messages
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-o47&kilmpi3vgmw*u29c3yoip(t8^0&)yp%squ)u3!j6ianghk'
+SECRET_KEY = os.environ.get(
+    'SECRET_KEY', 'django-insecure-o47&kilmpi3vgmw*u29c3yoip(t8^0&)yp%squ)u3!j6ianghk')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True if str(os.environ.get(
@@ -24,9 +25,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    # 3rd party apps
-    # 'rest_framework.authtoken',
+    'rest_framework.authtoken',
     'django.contrib.humanize',
 
     # apps
@@ -81,7 +80,6 @@ WSGI_APPLICATION = 'imanClothing.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 if DEV:
-    DEBUG = False
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -189,8 +187,12 @@ LOGIN_URL = "/account/login"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # payment gateaway
-PAYMENT_GATEAWAY_URL = "https://api.flutterwave.com/v3/payments"
-PAYMENT_VERIFICATION_URL = "https://api.flutterwave.com/v3/transactions/verify_by_reference"
-PAYMENT_GATEAWAY_SECRET_KEY = os.environ.get("PAYMENT_GATEAWAY_SECRET_KEY")
+PAYMENT_GATEAWAY_URL = "https://api.paystack.co/transaction/initialize"
+PAYMENT_VERIFICATION_URL = " https://api.paystack.co/transaction/verify/"
+PAYMENT_GATEAWAY_SECRET_KEY = os.environ.get(
+    "PAYMENT_GATEAWAY_SECRET_KEY") if not DEV else "sk_test_a6ab34905d1976de1021fd6ff3ec79b9305b17e5"
+PAYMENT_GATEAWAY_PUBLIC_KEY = os.environ.get(
+    "PAYMENT_GATEAWAY_PUBLIC_KEY") if not DEV else "pk_test_4113a8e663d336eb320548c07ea77b4f06ce8ad8"
 
-REDIRECT_URL = "https://www.imanclothing.net/checout/verify"
+REDIRECT_URL = "https://www.imanclothing.net/checkout/verify"
+# REDIRECT_URL = "http://127.0.0.1:8000/checkout/verify"

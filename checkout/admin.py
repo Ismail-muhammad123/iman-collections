@@ -19,6 +19,14 @@ class PaymentAdmin(admin.ModelAdmin):
 
     search_fields = [
         "order__id",
+        "payment_reference_number",
+        "transaction_ref"
+    ]
+
+    list_filter = [
+        "created_at",
+        "payed_at",
+        "status",
     ]
 
     def has_add_permission(self, request, obj=None):

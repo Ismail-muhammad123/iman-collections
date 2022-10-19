@@ -6,7 +6,7 @@ class Size(models.Model):
     name = models.CharField(max_length=100)
     added_at = models.DateTimeField(auto_now_add=True)
     added_by = models.ForeignKey(
-        "user.User", on_delete=models.DO_NOTHING, related_name="sizes_added")
+        "user.User", on_delete=models.DO_NOTHING, limit_choices_to={"staff": True}, related_name="sizes_added")
 
     def __str__(self) -> str:
         return self.name
@@ -17,7 +17,7 @@ class Category(models.Model):
     image = models.ImageField(upload_to="categories", blank=True)
     added_at = models.DateTimeField(auto_now_add=True)
     added_by = models.ForeignKey(
-        "user.User", on_delete=models.DO_NOTHING, related_name="categories_added")
+        "user.User", on_delete=models.DO_NOTHING, limit_choices_to={"staff": True}, related_name="categories_added")
 
     class Meta:
         verbose_name_plural = "categories"
@@ -48,7 +48,7 @@ class Product(models.Model):
 
     added_at = models.DateTimeField(auto_now_add=True)
     added_by = models.ForeignKey(
-        "user.User", on_delete=models.DO_NOTHING, related_name="products_added")
+        "user.User", on_delete=models.DO_NOTHING, limit_choices_to={"staff": True}, related_name="products_added")
 
     def __str__(self) -> str:
         return self.name
