@@ -89,7 +89,7 @@ def add_order(request):
 
 @login_required
 def track_order(request):
-    orders = request.user.orders.all()
+    orders = request.user.orders.exclude(status=4)
 
     context = {"orders": orders}
 

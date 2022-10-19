@@ -91,8 +91,9 @@ def add_to_cart(request):
     quantity = request.GET.get("quantity")
     product = get_object_or_404(Product, id=id)
 
-    cart = Cart(product=product, quantity=quantity, user=request.user)
-    cart.save()
+    if len(Cart.objects.filter(product=product)) == 0:
+        cart = Cart(product=product, quantity=quantity, user=request.user)
+        cart.save()
     # messages.add_message(request, messages.SUCCESS,
     #                      "Item added to your shoping cart")
     return redirect(reverse('shoping_cart'))

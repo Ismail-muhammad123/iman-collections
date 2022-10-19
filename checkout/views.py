@@ -1,4 +1,5 @@
 from datetime import datetime
+from json import JSONDecoder
 from pprint import pprint
 from django.shortcuts import render, redirect
 from django.conf import settings
@@ -7,7 +8,6 @@ from django.shortcuts import get_object_or_404
 from .models import Payment
 from order.models import Order
 import requests
-import os
 from django.contrib import messages
 from django.urls import reverse
 from django.http import Http404
@@ -37,30 +37,29 @@ def checkout(request, order_id):
     headers = {"Authorization": f"Bearer {secret_key}"}
 
     data = {
-        "tx_ref": unique_id,
-        "amount": order.total_amount,
+        "reference": unique_id,
+        'email': request.user.email,
+        "amount": order.total_amount * 100,
         "currency": "NGN",
-        "redirect_url": verification_url,
-        "meta": {
+        "callback_url": verification_url,
+        "metadata": {
             "order_id": order.id,
+            "customer": {
+                "email": request.user.email,
+                "phonenumber": request.user.mobile_number,
+                "name": f"{request.user.first_name} {request.user.last_name}"
+            },
         },
-        "customer": {
-            "email": request.user.email,
-            "phonenumber": request.user.mobile_number,
-            "name": f"{request.user.first_name} {request.user.last_name}"
-        },
-        "customizations": {
-            "title": "Iman Clothing and Apparels",
-        }
     }
 
     # print('redirect urls', reverse('verify_checkout'))
 
     res = requests.post(url, headers=headers, json=data)
     response = res.json()
-
-    if response['status'] == "success":
-        return redirect(response['data']['link'])
+    print(response['status'])
+    print(response)
+    if response['status'] == True:
+        return redirect(response['data']['authorization_url'])
     else:
         # pprint(response)
         return redirect(reverse("new_order"))
@@ -70,16 +69,16 @@ def verify_payment(request):
     headers = {"Authorization": f"Bearer {settings.PAYMENT_GATEAWAY_SECRET_KEY}"}
     data = request.GET
 
-    tx_ref = data['tx_ref']
-    response = requests.get(settings.PAYMENT_VERIFICATION_URL,
-                            headers=headers, params={"tx_ref": tx_ref})
+    tx_ref = data['trxref']
+    response = requests.get(
+        settings.PAYMENT_VERIFICATION_URL + tx_ref, headers=headers)
     print(response.status_code)
     if response.status_code == 200:
         res = response.json()
-        status = res['status'] == "success"
+        status = res['data']['log']['success']
         print(status)
         if status:
-            order_id = res['data']['meta']['order_id']
+            order_id = res['data']['metadata']['order_id']
             try:
                 # get order object
                 order = Order.objects.get(id=order_id)
@@ -109,6 +108,7 @@ def verify_payment(request):
             # redirect to order-tracking page
             return redirect(reverse('track_order'))
         else:
+            print(res['data']['metadata'])
             order = Order.objects.get(id=order_id)
             order.delete()
             return render(request, "checkout/payment_failed.html")
