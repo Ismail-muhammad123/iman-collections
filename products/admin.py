@@ -19,6 +19,12 @@ class ProductAdmin(admin.ModelAdmin):
         "added_by"
     ]
 
+    list_filter = [
+        "category",
+        "gender",
+        "added_by",
+    ]
+
     exclude = ["added_by", "added_at"]
 
     def has_add_permission(self, request, obj=None):
@@ -41,6 +47,11 @@ class CategoryAdmin(admin.ModelAdmin):
         "name",
         "added_at",
         "added_by"
+    ]
+
+    list_filter = [
+        "added_at",
+        "added_by",
     ]
 
     exclude = ["added_by", "added_at"]
@@ -66,6 +77,10 @@ class CartAdmin(admin.ModelAdmin):
         "quantity",
         "added_at",
         "user",
+    ]
+
+    list_filter = [
+        "added_at",
     ]
 
     exclude = ["added_by", "added_at"]
