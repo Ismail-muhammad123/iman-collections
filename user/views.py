@@ -11,6 +11,8 @@ User = get_user_model()
 
 
 def signIn(request):
+    if request.user.is_authenticated:
+        return redirect(reverse("products"))
     if request.method == "POST":
         username = request.POST['email']
         password = request.POST['password']
@@ -36,7 +38,8 @@ def signIn(request):
 
 
 def register(request):
-
+    if request.user.is_authenticated:
+        return redirect(reverse("products"))
     error = False
 
     if request.method == "POST":
