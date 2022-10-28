@@ -24,27 +24,27 @@ def products(request):
     return render(request, template_name="products/products.html", context={"products": products, "categories": categories})
 
 
-def product_category(request, category_id):
+def product_category(request, slug):
 
     categories = Category.objects.all()
 
-    if category_id == 'all':
+    if slug == 'all':
         products = Product.objects.all()
     else:
-        category = get_object_or_404(Category, id=category_id)
+        category = get_object_or_404(Category, slug=slug)
         products = Product.objects.all().filter(category=category)
 
     context = {
         "products": products,
-        "category_name": "All Categories" if category_id == 'all' else category.name,
+        "category_name": "All Categories" if slug == 'all' else category.name,
         "categories": categories,
     }
     return render(request, template_name="products/products.html", context=context)
 
 
-def product_details(request, id):
+def product_details(request, slug, id):
 
-    product = get_object_or_404(Product, id=id)
+    product = get_object_or_404(Product, id=id, slug=slug)
 
     context = {
         "product": product,

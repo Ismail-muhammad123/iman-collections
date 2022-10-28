@@ -1,5 +1,6 @@
 from email.policy import default
 from django.db import models
+from django.utils.text import slugify
 
 
 class Size(models.Model):
@@ -13,17 +14,22 @@ class Size(models.Model):
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, unique=True)
     image = models.ImageField(upload_to="categories", blank=True)
     added_at = models.DateTimeField(auto_now_add=True)
     added_by = models.ForeignKey(
         "user.User", on_delete=models.DO_NOTHING, limit_choices_to={"staff": True}, related_name="categories_added")
+    slug = models.CharField(max_length=200, blank=True, default="")
 
     class Meta:
         verbose_name_plural = "categories"
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Category, self).save(*args, **kwargs)
 
 
 class Product(models.Model):
@@ -49,6 +55,12 @@ class Product(models.Model):
     added_at = models.DateTimeField(auto_now_add=True)
     added_by = models.ForeignKey(
         "user.User", on_delete=models.DO_NOTHING, limit_choices_to={"staff": True}, related_name="products_added")
+
+    slug = models.CharField(max_length=200, blank=True, default="")
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Product, self).save(*args, **kwargs)
 
     def __str__(self) -> str:
         return self.name
