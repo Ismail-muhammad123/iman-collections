@@ -16,10 +16,10 @@ urlpatterns = [
     path('update-cart', views.update_cart, name='update_cart'),
     path('cart', views.cart, name='shoping_cart'),
     path('categories', views.categories, name='categories'),
-    path('categories/<int:category_id>',
+    path('categories/<str:slug>',
          views.product_category, name='filter_category'),
     path('', views.products, name="products"),
     path('search', views.search, name="search_product"),
-    path('<int:id>',
+    path('<int:id>/<str:slug>',
          views.product_details, name='products_details'),
 ]

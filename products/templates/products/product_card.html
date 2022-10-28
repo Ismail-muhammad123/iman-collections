@@ -1,11 +1,12 @@
-<div class="col-sm-10 col-md-4 card col-lg-3 mb-5 m-2">
+<div class="col-5 col-md-5 shadow col-lg-2 mb-5 m-2">
     <!-- product card -->
-    <a href="{% url 'products_details' id=product.id %}" class="text-decoration-none text-uppercase">
-        <img src="{{product.image.url}}" alt="product image" class="card-img-top" />
+    <a href="{% url 'products_details' slug=product.slug id=product.id %}" class="text-decoration-none text-uppercase">
+        <img src="{{product.image.url}}" alt="product image" height="200px" width="100%" class="card-img-top" />
     </a>
     <div class="card-body align-items-end">
         <div class="col-12">
-            <a href="{% url 'products_details' id=product.id %}" class="text-decoration-none text-uppercase">
+            <a href="{% url 'products_details' id=product.id slug=product.slug %}"
+                class="text-decoration-none text-center pt-2 text-uppercase">
                 <h3 style="font-size: 20px; color: purple; font-weight: 700;">
                     {{product.name}}
                 </h3>
@@ -16,7 +17,7 @@
         <br />
 
         <span>
-            Categories: <a href="{% url 'filter_category' category_id=product.category.id %}">{{product.category}}</a>
+            Categories: <a href="{% url 'filter_category' slug=product.category.slug %}">{{product.category}}</a>
         </span>
         <br />
 
@@ -24,7 +25,7 @@
         <p class="text-success">
             Available
         </p>
-        <form class="form-group row justify-content-center align-items-center" action="{% url 'add_cart' %}"
+        <form class="form-group mb-3 row justify-content-center align-items-center" action="{% url 'add_cart' %}"
             method="get">
             <input type="number" hidden value="{{product.id}}" name="product_id" id="id">
             <div class="col-12">
