@@ -27,6 +27,14 @@ class ProductAdmin(admin.ModelAdmin):
 
     exclude = ["added_by", "added_at"]
 
+    actions = [
+        "create_slug",
+    ]
+
+    def create_slug(modeladmin, request, queryset):
+        for obj in queryset:
+            obj.save()
+
     def has_add_permission(self, request, obj=None):
         return request.user.is_admin
 
@@ -55,6 +63,14 @@ class CategoryAdmin(admin.ModelAdmin):
     ]
 
     exclude = ["added_by", "added_at"]
+
+    actions = [
+        "create_slug",
+    ]
+
+    def create_slug(modeladmin, request, queryset):
+        for obj in queryset:
+            obj.save()
 
     def save_model(self, request, obj, form, change):
         obj.added_by = request.user
