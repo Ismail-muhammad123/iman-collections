@@ -15,7 +15,7 @@ SECRET_KEY = os.environ.get(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True if str(os.environ.get(
     "DJANGO_DEBUG", "False")) == "True" else False
-DEV = False
+DEV = True
 # Application definition
 
 INSTALLED_APPS = [
@@ -86,7 +86,7 @@ if DEV:
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
-    DEBUG = False
+    DEBUG = True
     MEDIA_URL = '/media/'
     STATIC_URL = '/static/'
     STATIC_ROOT = BASE_DIR / 'static'
