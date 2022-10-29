@@ -14,7 +14,6 @@
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
     integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous" />
-
   <link rel="stylesheet" href="{% static 'user/styles.css' %}">
   <!-- Favicons -->
   <meta name="theme-color" content="#712cf9" />
@@ -22,73 +21,79 @@
 
 <body>
   <header>
-    <nav class="navbar navbar-expand-lg fixed-top" style="background-color: rgb(255, 218, 250);">
-      <div class="container">
-        <a class="navbar-brand me-5" href="/">
-          <img src="{% static 'base/images/name.svg' %}" alt="IMAN" height="40px">
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
-          aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-          <ul class="navbar-nav me-auto mb-2 mb-md-0 text-uppercase">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="/">Home</a>
-            </li>
+    <nav class="navbar navbar-expand-lg fixed-top px-3" style="background-color: rgb(255, 218, 250);">
+      <a class="navbar-brand me-5" href="/">
+        <img src="{% static 'base/images/name.svg' %}" alt="IMAN" height="40px">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+        aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav me-auto mb-2 mb-md-0 text-uppercase">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="/">Home</a>
+          </li>
 
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'products' %}">Products</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/#contact">Contact us</a>
-            </li>
-            {% if request.user.is_authenticated %}
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'track_order' %}">Track My Order</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'profile' %}">My profile</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link ms-1" href="{% url 'shoping_cart' %}"><svg xmlns="http://www.w3.org/2000/svg"
-                  width="20" height="20" fill="purple" class="bi bi-cart4" viewBox="0 0 16 16">
-                  <path
-                    d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l.5 2H5V5H3.14zM6 5v2h2V5H6zm3 0v2h2V5H9zm3 0v2h1.36l.5-2H12zm1.11 3H12v2h.61l.5-2zM11 8H9v2h2V8zM8 8H6v2h2V8zM5 8H3.89l.5 2H5V8zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z" />
-                </svg>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link text-danger" href="{% url 'logout' %}"><span class="mx-md-3 mx-lg-3">Logout</span></a>
-            </li>
-            {% else %}
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'login' %}">Sign In</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'create_account' %}">Sign Up</a>
-            </li>
-            {% endif %}
-          </ul>
-          <form class="d-flex" role="search" action="{% url 'search_product' %}" method="get">
-            <input class="form-control me-2" type="search" name="search_term" placeholder="search"
-              aria-label="Search" />
-            <button class="btn btn-outline-primary" type="submit">
-              Search
-            </button>
-          </form>
-        </div>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'categories' %}">Categories</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'products' %}">Products</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/#contact">Contact us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'track_order' %}">Track My Order</a>
+          </li>
+          {% if request.user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'profile' %}">My profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-danger" href="{% url 'logout' %}"><span class="mx-md-3 mx-lg-3">Logout</span></a>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'login' %}">Sign In</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'create_account' %}">Sign Up</a>
+          </li>
+          {% endif %}
+        </ul>
+        <a class="nav-link m-2 me-sm-5" href="{% url 'shoping_cart' %}"><svg xmlns="http://www.w3.org/2000/svg"
+            width="30" height="30" fill="purple" class="bi bi-cart4" viewBox="0 0 16 16">
+            <path
+              d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l.5 2H5V5H3.14zM6 5v2h2V5H6zm3 0v2h2V5H9zm3 0v2h1.36l.5-2H12zm1.11 3H12v2h.61l.5-2zM11 8H9v2h2V8zM8 8H6v2h2V8zM5 8H3.89l.5 2H5V8zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z" />
+          </svg>
+          <div class="badge bg-primary" id="cart-count">{{cart_count}}</div>
+        </a>
+        <form class="d-flex" role="search" action="{% url 'search_product' %}" method="get">
+          <input class="form-control me-2" type="search" name="search_term" placeholder="search" aria-label="Search" />
+          <button class="btn btn-outline-primary" type="submit">
+            Search
+          </button>
+        </form>
       </div>
     </nav>
   </header>
-  <main class="pt-5 ">
-
+  <main class="pt-5">
     {% block content %} {% endblock %}
-    <div class="text-center alert alert-info text-dark" role="alert">
-      By contnuing to use this site, you have agreed to the storing of cookies on your device to enhance your experience
-      and for analytical purposes.
-    </div>
   </main>
+
+  <div id="cookie-banner" style=" position: fixed;bottom: 0;width: 100%;"
+    class="text-center my-0 alert alert-info text-dark mt-5 pt-4" role="alert">
+    By contnuing to use this site or by clicking on the I agree button, you have agreed to the storing of cookies on
+    your device to
+    enhance your
+    experience
+    and for analytical purposes. <br />
+    <button id="agree-to-cookies-btn" class="btn btn-primary btn-sm">I Agree</button>
+  </div>
+
+
 
   <!-- FOOTER -->
   <footer class="container py-2"
@@ -104,6 +109,7 @@
         </svg></a>
     </p>
   </footer>
+<<<<<<< HEAD
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-SBXNC2QR1B"></script>
   <script>
@@ -115,11 +121,66 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
     integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+=======
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+    integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+  <script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+>>>>>>> dev
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js"
     integrity="sha384-ODmDIVzN+pFdexxHEHFBQH3/9/vQ9uori45z4JjnFsRydbmQbmL5t1tQ0culUzyK"
     crossorigin="anonymous"></script>
   <script>
-    $('.alert').alert()
+    $('document').ready(
+      function () {
+        $('.alert').alert()
+        if ($.cookie('use-cookie') == 1) {
+          $('#cookie-banner').remove();
+        }
+        $('#agree-to-cookies-btn').click(
+          function (e) {
+            $.cookie('use-cookie', 1);
+            $('#cookie-banner').remove();
+          }
+        );
+      }
+    );
+  </script>
+  <script>
+    function getCookie(name) {
+      var cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+          var cookie = cookies[i].trim();
+          // Does this cookie string begin with the name we want?
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+
+
+    function uuidv4() {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+      });
+    }
+
+
+
+
+    let device = getCookie('device')
+
+    if (device == null || device == undefined) {
+      device = uuidv4()
+    }
+
+    document.cookie = 'device=' + device + ";domain=;path=/"
   </script>
 </body>
 

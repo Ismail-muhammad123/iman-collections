@@ -1,4 +1,4 @@
-<div class="col-5 col-md-5 shadow col-lg-2 mb-5 m-2">
+<div class="col-5 col-md-5 text-center shadow col-lg-2 mb-5 m-2">
     <!-- product card -->
     <a href="{% url 'products_details' slug=product.slug id=product.id %}" class="text-decoration-none text-uppercase">
         <img src="{{product.image.url}}" alt="product image" height="200px" width="100%" class="card-img-top" />
@@ -16,28 +16,7 @@
         <span>N {{product.price}}</span>
         <br />
 
-        <span>
-            Categories: <a href="{% url 'filter_category' slug=product.category.slug %}">{{product.category}}</a>
-        </span>
-        <br />
-
-        {% if product.available_quantity %}
-        <p class="text-success">
-            Available
-        </p>
-        <form class="form-group mb-3 row justify-content-center align-items-center" action="{% url 'add_cart' %}"
-            method="get">
-            <input type="number" hidden value="{{product.id}}" name="product_id" id="id">
-            <div class="col-12">
-                <input type="number" name="quantity" id="quantity" min="1" max="{{product.available_quantity}}"
-                    value="1" class="input-group rounded" />
-            </div>
-            <div class="col-12 text-center mt-3">
-                <input type="submit" style="background-color: purple; color: white;width: 100%" value="Add to Cart"
-                    class="btn" />
-            </div>
-        </form>
-        {% else %}
+        {% if not product.available_quantity %}
         <p class="text-danger">
             Out of stock!
         </p>

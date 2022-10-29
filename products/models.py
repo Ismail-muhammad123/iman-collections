@@ -89,7 +89,10 @@ class Cart(models.Model):
     quantity = models.PositiveIntegerField()
     added_at = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(
-        "user.User", on_delete=models.DO_NOTHING, related_name="cart")
+        "user.User", on_delete=models.DO_NOTHING, null=True, blank=True, related_name="cart")
+
+    device = models.CharField(
+        max_length=100, null=True, blank=True, default="")
 
     class Meta:
         verbose_name_plural = "Cart"

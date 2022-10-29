@@ -17,15 +17,16 @@
             </div>
             <div class="row text-center text-align-center">
                 {% for cart_item in shoping_cart %}
-                <div class="col-sm-10 col-md-4 card col-lg-3 mb-5 m-2">
+                <div class="col-sm-10 col-md-4 shadow col-lg-3 mb-5 m-2">
                     <!-- product card -->
-                    <a href="{% url 'products_details' id=cart_item.product.id %}"
+                    <a href="{% url 'products_details' slug=cart_item.product.slug id=cart_item.product.id %}"
                         class="text-decoration-none text-uppercase">
-                        <img src="{{cart_item.product.image.url}}" alt="product image" class="card-img-top" />
+                        <img src="{{cart_item.product.image.url}}" alt="product image" width="100%"
+                            class="card-img-top" />
                     </a>
                     <div class="card-body align-items-end">
                         <div class="col-12">
-                            <a href="{% url 'products_details' id=cart_item.product.id %}"
+                            <a href="{% url 'products_details' slug=cart_item.product.slug id=cart_item.product.id %}"
                                 class="text-decoration-none text-uppercase">
                                 <h3 style="font-size: 20px; color: purple; font-weight: 700;">
                                     {{cart_item.product.name}}
@@ -38,7 +39,7 @@
 
                         <span>
                             Categories: <a
-                                href="{% url 'filter_category' category_id=cart_item.product.category.id %}">{{cart_item.product.category}}</a>
+                                href="{% url 'filter_category' slug=cart_item.product.category.slug %}">{{cart_item.product.category}}</a>
                         </span>
                         <br />
 
@@ -60,7 +61,7 @@
                                     value="Update" class="btn" />
                             </div>
                         </form>
-                        <div class="col-12">
+                        <div class="col-12 mb-3">
                             <a style=" width: 100%" href="{% url 'remove_cart' id=cart_item.id %}"
                                 class="btn btn-danger"> Remove</a>
                         </div>

@@ -1,4 +1,5 @@
-{% extends 'base/base.html' %} {% load static %} {% block title%} {% if category_name %} {{category_name}} {%endif%}
+{% extends 'base/base.html' %} {% load static %} {% block title%} {% if category_name %} {{category_name}} {% else %}
+Products {%endif%}
 {% endblock %} {% block content %}
 
 <section class="mt-5 py-5 px-3">
