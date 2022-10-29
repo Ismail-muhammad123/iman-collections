@@ -2,7 +2,7 @@ from unicodedata import category
 from django.contrib import messages
 from django.shortcuts import render
 from base.models import ContactMessage
-from products.models import Product, Category
+from products.models import Cart, Product, Category
 
 
 def index(request):
