@@ -15,7 +15,7 @@ SECRET_KEY = os.environ.get(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True if str(os.environ.get(
     "DJANGO_DEBUG", "False")) == "True" else False
-DEV = True
+DEV = False
 # Application definition
 
 INSTALLED_APPS = [
