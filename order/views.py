@@ -2,7 +2,7 @@ import datetime
 from multiprocessing import context
 from django.shortcuts import render, redirect
 from pytz import country_names
-from products.models import Product
+from products.models import Cart, Product
 from django.shortcuts import get_object_or_404
 from .models import Order, OrderItem
 from django.http import Http404
@@ -10,12 +10,19 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
-# Create your views here.
 
-
-@login_required
 def new_order(request):
-    cart_items = request.user.cart.all()
+
+    if request.user.is_authenticated:
+        cart_items = request.user.cart.all()
+        full_name = request.user.get_full_name()
+        email = request.user.email
+        phone_number = request.user.mobile_number
+    else:
+        device = request.COOKIES['device']
+
+        cart_items = Cart.objects.filter(device=device)
+
     sub_total = 0
     for item in cart_items:
         sub_total += item.product.price * item.quantity
@@ -25,11 +32,8 @@ def new_order(request):
     # countries.sort(reverse=True)
 
     countries = ['Nigeria']
-
     tax = 0
-
     delivery_fee = 0
-
     total = sub_total + tax + delivery_fee
 
     context = {
@@ -38,26 +42,34 @@ def new_order(request):
         "tax": tax,
         "countries": countries,
         "delivery_fee": delivery_fee,
-        "total": total
-
+        "total": total,
+        "full_name": full_name,
+        "email": email,
+        "phone_number": phone_number,
     }
     return render(request, template_name='order/new_order.html', context=context)
 
 
-@login_required
 def add_order(request):
-
     delivery_address = request.POST.get('delivery_address')
     country = request.POST.get('country')
     state = request.POST.get('state')
     zip_code = request.POST.get('zip_code')
+
+    full_name = request.POST.get('full_name')
+    email = request.POST.get('email')
+    phone_number = request.POST.get('phone')
 
     if (delivery_address == None or country == None or state == None):
         messages.add_message(request, messages.ERROR,
                              "All required fields must be provided")
         return new_order(request)
 
-    cart_items = request.user.cart.all()
+    cart_items = request.user.cart.all() if request.user.is_autheticated else Cart.objects.filter(
+        device=request.COOKIES['device'])
+
+    if len(cart_items) == 0:
+        raise Http404()
 
     total_amount = 0
 
@@ -65,14 +77,20 @@ def add_order(request):
         total_amount += item.product.price * item.quantity
 
     order = Order(
+        full_name=full_name,
+        email=email,
+        phone_number=phone_number,
         country=country,
         state=state,
         zip_code=zip_code,
         delivery_address=delivery_address,
         total_amount=total_amount,
-        user=request.user,
     )
 
+    if request.user.is_authenticated:
+        order.user = request.user
+    else:
+        order.device = request.COOKIES['device']
     order.save()
 
     for item in cart_items:
@@ -87,9 +105,20 @@ def add_order(request):
     return redirect(reverse("order_checkout", kwargs={"order_id": order.id}))
 
 
-@login_required
 def track_order(request):
-    orders = request.user.orders.exclude(status=4)
+    tracking_id = request.GET.get("tracking_id")
+    if tracking_id is not None:
+        orders = Order.objects.filter(
+            tracking_id=tracking_id)
+        context = {"orders": orders}
+
+        return render(request, "order/order.html", context=context)
+
+    if request.user.is_authenticated:
+        orders = request.user.orders.exclude(status=4)
+    else:
+        orders = Order.objects.filter(
+            device=request.COOKIES['device']).exclude(status=4)
 
     context = {"orders": orders}
 

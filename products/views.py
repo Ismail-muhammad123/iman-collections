@@ -79,27 +79,36 @@ def search(request):
         return render(request, 'products/products.html', context=context)
 
 
-@login_required
 def cart(request):
-    cart_items = request.user.cart.all()
+
+    if request.user.is_authenticated:
+        cart_items = request.user.cart.all()
+    else:
+        device = request.COOKIES['device']
+        cart_items = Cart.objects.filter(device=device)
     return render(request, "products/cart.html", context={"shoping_cart": cart_items})
 
 
-@login_required
 def add_to_cart(request):
+
     id = request.GET.get("product_id")
+    print("id", id)
     quantity = request.GET.get("quantity")
+
     product = get_object_or_404(Product, id=id)
 
-    if len(Cart.objects.filter(product=product)) == 0:
-        cart = Cart(product=product, quantity=quantity, user=request.user)
-        cart.save()
-    # messages.add_message(request, messages.SUCCESS,
-    #                      "Item added to your shoping cart")
+    if request.user.is_authenticated:
+        if len(request.user.cart.filter(product=product)) == 0:
+            cart = Cart(product=product, quantity=quantity, user=request.user)
+            cart.save()
+    else:
+        device = request.COOKIES['device']
+        if len(Cart.objects.filter(product=product, device=device)) == 0:
+            cart = Cart(product=product, quantity=quantity, device=device)
+            cart.save()
     return redirect(reverse('shoping_cart'))
 
 
-@login_required
 def update_cart(request):
     cart_id = request.POST.get("cart_id")
     quantity = request.POST.get("quantity")
@@ -114,7 +123,6 @@ def update_cart(request):
     return redirect(reverse("shoping_cart"))
 
 
-@login_required
 def delete_cart(request, id):
     cart = get_object_or_404(Cart, id=id)
     cart.delete()

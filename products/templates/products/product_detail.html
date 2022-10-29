@@ -96,9 +96,9 @@
               Available
             </p>
             <form class="form-group row justify-content-center align-items-center" action="{% url 'add_cart' %}"
-              method="post">
+              method="get">
               {% csrf_token %}
-              <input type="number" hidden value="{{product.id}}" name="product_id" id="id">
+              <input type="number" hidden value="{{product.id}}" name="product_id" id="product_id">
               <div class="col-12">
                 <input type="number" name="quantity" id="quantity" min="1" max="{{product.available_quantity}}"
                   value="1" class="input-group rounded" />

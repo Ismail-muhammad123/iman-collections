@@ -20,12 +20,20 @@ class Order(models.Model):
     ]
 
     user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="orders")
+        User, on_delete=models.CASCADE, blank=True, default="", null=True, related_name="orders")
     country = models.CharField(max_length=200)
     state = models.CharField(max_length=200)
     zip_code = models.CharField(max_length=10, null=True)
     delivery_address = models.TextField()
 
+    full_name = models.CharField(
+        max_length=200, blank=True, default="", null=True)
+    email = models.EmailField(blank=True, default="", null=True)
+    phone_number = models.CharField(
+        max_length=20, blank=True, default="", null=True)
+
+    device = models.CharField(
+        max_length=100, default="", blank=True, null=True)
     tracking_id = models.CharField(max_length=10, null=True)
     total_amount = models.FloatField()
     status = models.PositiveIntegerField(choices=STATUS_CHOICES, default=4)

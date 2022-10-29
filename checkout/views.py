@@ -10,11 +10,10 @@ from order.models import Order
 import requests
 from django.contrib import messages
 from django.urls import reverse
-from django.http import Http404
+from django.http import Http404, HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required
 
 
-@login_required
 def checkout(request, order_id):
 
     unique_id = str(uuid.uuid4())
@@ -23,9 +22,18 @@ def checkout(request, order_id):
 
     order = get_object_or_404(Order, id=order_id)
 
+    if request.user.is_authenticated:
+        email = request.user.email
+        full_name = request.user.get_full_name()
+        phone_number = request.user.mobile_number
+    else:
+        email = order.email
+        full_name = order.full_name
+        phone = order.phone_number
+
     payment = Payment(
         order=order,
-        user=request.user,
+        user=request.user if request.user.is_authenticated else request.COOKIES['device'],
         payment_referance_number=unique_id,
         amount=order.total_amount,
     )
@@ -38,16 +46,16 @@ def checkout(request, order_id):
 
     data = {
         "reference": unique_id,
-        'email': request.user.email,
+        'email': email,
         "amount": order.total_amount * 100,
         "currency": "NGN",
         "callback_url": verification_url,
         "metadata": {
             "order_id": order.id,
             "customer": {
-                "email": request.user.email,
-                "phonenumber": request.user.mobile_number,
-                "name": f"{request.user.first_name} {request.user.last_name}"
+                "email": email,
+                "phonenumber": phone_number,
+                "name": full_name
             },
         },
     }
