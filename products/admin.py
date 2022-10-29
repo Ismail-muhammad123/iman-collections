@@ -1,27 +1,46 @@
 from django.contrib import admin
+from django.urls import reverse
 from .models import Cart,  Product, Category
-# Register your models here.
+from django.utils.safestring import mark_safe
 
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
+
+    def available(self, obj):
+        return obj.available_quantity
+
+    def delivery(self, obj):
+        return obj.delivery_days
+
+    def size(self, obj):
+        return obj.product_size
+
+    def color(self, obj):
+        return obj.product_color
+
+    def by(self, obj):
+        return obj.added_by.first_name
+
     list_display = [
         "name",
         "category",
         "gender",
         "description",
         "price",
-        "product_size",
-        "product_color",
-        "available_quantity",
-        "delivery_days",
-        "image",
-        "added_by"
+        "size",
+        "color",
+        "available",
+        "delivery",
+        "is_active",
+        "by",
+        "product_image",
     ]
 
     list_filter = [
         "category",
         "gender",
+        "is_active",
         "added_by",
     ]
 
@@ -30,6 +49,16 @@ class ProductAdmin(admin.ModelAdmin):
     actions = [
         "create_slug",
     ]
+
+    search_fields = ["id"]
+
+    def product_image(self, obj):
+        display_text = "<a href={}>{}</a>".format(
+            obj.image.url, f"<img src={obj.image.url} width='100px' height='100px'/>")
+
+        if display_text:
+            return mark_safe(display_text)
+        return "-"
 
     def create_slug(modeladmin, request, queryset):
         for obj in queryset:
@@ -51,10 +80,20 @@ class ProductAdmin(admin.ModelAdmin):
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
+    def category_image(self, obj):
+        display_text = "<a href={}>{}</a>".format(
+            obj.image.url,
+            f"<img src={obj.image.url} width='100px' height='100px'/>")
+
+        if display_text:
+            return mark_safe(display_text)
+        return "-"
+
     list_display = [
         "name",
         "added_at",
-        "added_by"
+        "added_by",
+        "category_image",
     ]
 
     list_filter = [
@@ -88,11 +127,22 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Cart)
 class CartAdmin(admin.ModelAdmin):
+    def product_image(self, obj):
+        display_text = "<a href={}>{}</a>".format(
+            reverse('admin:{}_{}_changelist'.format(Product._meta.app_label, Product._meta.model_name),
+                    ) + f"?q={obj.product.pk}",
+            f"<img src={obj.product.image.url} width='100px' height='100px'/>")
+
+        if display_text:
+            return mark_safe(display_text)
+        return "-"
+
     list_display = [
         "product",
         "quantity",
         "added_at",
         "user",
+        "product_image",
     ]
 
     list_filter = [

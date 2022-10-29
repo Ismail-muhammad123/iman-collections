@@ -3,6 +3,7 @@ from django.urls import reverse
 from .models import Order, OrderItem
 from django.utils.safestring import mark_safe
 from checkout.models import Payment
+from products.models import Product
 
 
 @admin.register(Order)
@@ -44,6 +45,7 @@ class OrderAdmin(admin.ModelAdmin):
         "payment_status",
         "delivery_date",
         "date_added",
+        "by"
     ]
 
     list_filter = [
@@ -51,6 +53,9 @@ class OrderAdmin(admin.ModelAdmin):
         "delivery_date",
         "date_added"
     ]
+
+    def by(self, obj):
+        return obj.user if obj.user else "Guest"
 
     def has_add_permission(self, request, obj=None):
         return request.user.is_admin
@@ -82,6 +87,16 @@ class OrderItemAdmin(admin.ModelAdmin):
     def color(self, obj):
         return obj.product.product_color
 
+    def product_image(self, obj):
+        display_text = "<a href={}>{}</a>".format(
+            reverse('admin:{}_{}_changelist'.format(Product._meta.app_label, Product._meta.model_name),
+                    ) + f"?q={obj.product.pk}",
+            f"<img src={obj.product.image.url} width='100px' height='100px'/>")
+
+        if display_text:
+            return mark_safe(display_text)
+        return "-"
+
     def has_add_permission(self, request, obj=None):
         return request.user.is_admin
 
@@ -90,7 +105,6 @@ class OrderItemAdmin(admin.ModelAdmin):
 
     def has_change_permission(self, request, obj=None):
         return request.user.is_admin
-        return False
 
     list_display = [
         "product",
@@ -101,6 +115,7 @@ class OrderItemAdmin(admin.ModelAdmin):
         "price",
         "quantity",
         "date",
+        "product_image",
     ]
 
     list_display_links = []

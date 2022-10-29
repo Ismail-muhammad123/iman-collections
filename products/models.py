@@ -52,6 +52,8 @@ class Product(models.Model):
     description = models.TextField()
     image = models.ImageField(upload_to="product-images", blank=True)
 
+    is_active = models.BooleanField(default=True)
+
     added_at = models.DateTimeField(auto_now_add=True)
     added_by = models.ForeignKey(
         "user.User", on_delete=models.DO_NOTHING, limit_choices_to={"staff": True}, related_name="products_added")
