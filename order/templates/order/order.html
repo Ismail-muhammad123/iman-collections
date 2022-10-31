@@ -1,4 +1,5 @@
-{% extends 'base/base.html'%} {% load static%} {% load humanize %} {% block title %} Order History {% endblock %}
+{% extends 'base/base.html'%} {% load static%} {% load humanize %} {% block title %} Order History
+{% endblock %}
 {% block content %}
 <section class="container mt-5">
   <div class="row text-center">
@@ -37,13 +38,13 @@
             {{item.product.name}}
           </td>
           <td>
-            {{item.product.price}}
+            &#8358;{{item.product.price|intcomma}}
           </td>
           <td>
             {{item.quantity}}
           </td>
           <td>
-            {{order.total_amount}}
+            &#8358;{{order.total_amount|intcomma}}
           </td>
           <td>
             {% if order.delivery_date %}

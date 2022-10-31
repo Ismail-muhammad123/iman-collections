@@ -29,7 +29,7 @@
           <li class="list-group-item">
             <div class="row">
               <div class="col-4">
-                Description
+                Description:
               </div>
               <div class="col-8 text-end">
                 {{product.description}}
@@ -39,7 +39,7 @@
           <li class="list-group-item">
             <div class="row">
               <div class="col-4">
-                Categories
+                Categorie:
               </div>
               <div class="col-8 text-end">
                 {{product.category}}
@@ -52,7 +52,7 @@
                 Price(NGN):
               </div>
               <div class="col-6 text-end">
-                {{product.price|intcomma}}
+                &#8358;{{product.price|intcomma}}
               </div>
             </div>
           </li>
@@ -79,9 +79,9 @@
           </li>
 
           <li class="list-group-item">
-            <div class="row">
+            <div class="row align-items-center">
               <div class="col-6">
-                Delivery in:
+                Approximate delivery time:
               </div>
               <div class="col-6 text-end">
                 {{product.delivery_days}} days

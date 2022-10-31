@@ -2,16 +2,16 @@
 Products {%endif%}
 {% endblock %} {% block content %}
 
-<section class="mt-5 py-5 px-3">
+<section class="mt-4 px-2 px-md-4 px-lg-4">
   <div class="row">
     <!-- filter -->
-    <div class="col-sm-12 col-md-3 col-lg-2">
-      <h3 class="text-uppercase p-3" style="background-color: pink; color: purple; font-weight: 700;">
+    <div class="col-sm-12 mb-2 col-md-4 col-lg-2">
+      <h5 class="text-uppercase p-3" style="background-color: pink; color: purple;">
         Filter:
-      </h3>
+      </h5>
       <ul class="list-group">
         <li class="list-group-item text-uppercase active"
-          style="background-color: pink; border-color: pink; font-weight: 700; color: purple;">
+          style="background-color: pink; border-color: pink; color: purple;">
           Categories:
         </li>
         <li class="list-group-item">
@@ -27,19 +27,22 @@ Products {%endif%}
     </div>
 
     <!-- products -->
-    <div class="col-sm-12 col-md-9 col-lg-10">
+    <div class="col-sm-12 col-md-8 col-lg-10">
       <div class="row">
         <div class="col-12">
           <h3 style="background-color: pink;color: purple; font-weight: 700;" class="p-3 text-uppercase">
-            Products Gallery:
+            Products |
             <span class="text-capitalize">{{category_name}}</span>
           </h3>
         </div>
       </div>
-      <div class="row text-center alight-items-center justify-contents-center">
-        {% for product in products %}
-        {% include 'products/product_card.html' with product=product %}
-        {% endfor %}
+      <div class="container">
+        <div class="row text-center justify-content-center">
+
+          {% for product in products %}
+          {% include 'products/product_card.html' with product=product %}
+          {% endfor %}
+        </div>
       </div>
     </div>
   </div>

@@ -43,9 +43,9 @@ def new_order(request):
         "countries": countries,
         "delivery_fee": delivery_fee,
         "total": total,
-        "full_name": full_name,
-        "email": email,
-        "phone_number": phone_number,
+        "full_name": full_name if request.user.is_authenticated else "",
+        "email": email if request.user.is_authenticated else "",
+        "phone_number": phone_number if request.user.is_authenticated else "",
     }
     return render(request, template_name='order/new_order.html', context=context)
 

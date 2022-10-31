@@ -20,24 +20,24 @@
 
                 <li class="list-group-item justify-content-between lh-condensed">
                     <h6 class="col-12">{{item.product.name}}</h6>
-                    <span class="text-muted">NGN {{item.product.price|intcomma }} x {{item.quantity}}</span>
+                    <span class="text-muted">&#8358;{{item.product.price|intcomma }} (x{{item.quantity}})</span>
                 </li>
                 {% endfor %}
                 <li class="list-group-item d-flex border-top justify-content-between">
                     <span>Sub Total (NGN)</span>
-                    <strong>{{sub_total|intcomma}}</strong>
+                    <strong>&#8358;{{sub_total|intcomma}}</strong>
                 </li>
                 <li class="list-group-item d-flex justify-content-between">
                     <span>Tax (NGN)</span>
-                    <strong>{{tax|intcomma}}</strong>
+                    <strong>&#8358;{{tax|intcomma}}</strong>
                 </li>
                 <li class="list-group-item d-flex justify-content-between">
                     <span>Delivery Fee (NGN)</span>
-                    <strong>{{delivery_fee|intcomma}}</strong>
+                    <strong>&#8358;{{delivery_fee|intcomma}}</strong>
                 </li>
                 <li class="list-group-item d-flex justify-content-between">
                     <span>Total (NGN)</span>
-                    <strong>{{total|intcomma}}</strong>
+                    <strong>&#8358;{{total|intcomma}}</strong>
                 </li>
             </ul>
         </div>
