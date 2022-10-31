@@ -124,22 +124,6 @@
     integrity="sha384-ODmDIVzN+pFdexxHEHFBQH3/9/vQ9uori45z4JjnFsRydbmQbmL5t1tQ0culUzyK"
     crossorigin="anonymous"></script>
   <script>
-    $('document').ready(
-      function () {
-        $('.alert').alert()
-        if ($.cookie('use-cookie') == 1) {
-          $('#cookie-banner').remove();
-        }
-        $('#agree-to-cookies-btn').click(
-          function (e) {
-            $.cookie('use-cookie', 1);
-            $('#cookie-banner').remove();
-          }
-        );
-      }
-    );
-  </script>
-  <script>
     function getCookie(name) {
       var cookieValue = null;
       if (document.cookie && document.cookie !== '') {
@@ -163,10 +147,6 @@
         return v.toString(16);
       });
     }
-
-
-
-
     let device = getCookie('device')
 
     if (device == null || device == undefined) {
@@ -174,6 +154,22 @@
     }
 
     document.cookie = 'device=' + device + ";domain=;path=/"
+  </script>
+  <script>
+    $('document').ready(
+      function () {
+        $('.alert').alert()
+        if ($.cookie('use-cookie') == 1) {
+          $('#cookie-banner').remove();
+        }
+        $('#agree-to-cookies-btn').click(
+          function (e) {
+            $.cookie('use-cookie', 1);
+            $('#cookie-banner').remove();
+          }
+        );
+      }
+    );
   </script>
 </body>
 
