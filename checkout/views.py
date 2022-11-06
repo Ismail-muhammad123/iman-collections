@@ -20,57 +20,73 @@ def checkout(request, order_id):
 
     verification_url = settings.REDIRECT_URL
 
+    device = request.COOKIES['device']
+
     order = get_object_or_404(Order, id=order_id)
 
-    if request.user.is_authenticated:
-        email = request.user.email
-        full_name = request.user.get_full_name()
-        phone_number = request.user.mobile_number
-    else:
-        email = order.email
-        full_name = order.full_name
-        phone = order.phone_number
+    if order.user == request.user or order.device == device:
 
-    payment = Payment(
-        order=order,
-        user=request.user if request.user.is_authenticated else request.COOKIES['device'],
-        payment_referance_number=unique_id,
-        amount=order.total_amount,
-    )
-    payment.save()
+        if request.user.is_authenticated:
+            email = request.user.email
+            full_name = request.user.get_full_name()
+            phone_number = request.user.mobile_number
+        else:
+            email = order.email
+            full_name = order.full_name
+            phone_number = order.phone_number
 
-    url = settings.PAYMENT_GATEAWAY_URL
-    secret_key = settings.PAYMENT_GATEAWAY_SECRET_KEY
+        payment, created = Payment.objects.get_or_create(
+            order=order,
+            defaults={
+                "payment_referance_number": unique_id,
+                "amount": order.total_amount
+            }
+        )
 
-    headers = {"Authorization": f"Bearer {secret_key}"}
+        if not created:
+            if payment.status == 2:
+                messages.add_message(
+                    request, messages.INFO, "The payment for this order has already been completed.")
+                return render(request, "order/new_order.html")
 
-    data = {
-        "reference": unique_id,
-        'email': email,
-        "amount": order.total_amount * 100,
-        "currency": "NGN",
-        "callback_url": verification_url,
-        "metadata": {
-            "order_id": order.id,
-            "customer": {
-                "email": email,
-                "phonenumber": phone_number,
-                "name": full_name
+        if request.user.is_authenticated:
+            payment.user = request.user
+        else:
+            payment.device = device
+
+        payment.save()
+
+        url = settings.PAYMENT_GATEAWAY_URL
+        secret_key = settings.PAYMENT_GATEAWAY_SECRET_KEY
+
+        headers = {"Authorization": f"Bearer {secret_key}"}
+
+        data = {
+            "reference": unique_id,
+            'email': email,
+            "amount": order.total_amount * 100,
+            "currency": "NGN",
+            "callback_url": verification_url,
+            "metadata": {
+                "order_id": order.id,
+                "customer": {
+                    "email": email,
+                    "phonenumber": phone_number,
+                    "name": full_name
+                },
             },
-        },
-    }
-
-    # print('redirect urls', reverse('verify_checkout'))
-
-    res = requests.post(url, headers=headers, json=data)
-    response = res.json()
-    print(response['status'])
-    print(response)
-    if response['status'] == True:
-        return redirect(response['data']['authorization_url'])
+        }
+        res = requests.post(url, headers=headers, json=data)
+        response = res.json()
+        print(response['status'])
+        print(response)
+        if response['status'] == True:
+            return redirect(response['data']['authorization_url'])
+        else:
+            # pprint(response)
+            return redirect(reverse("new_order"))
     else:
-        # pprint(response)
-        return redirect(reverse("new_order"))
+        raise Http404()
 
 
 def verify_payment(request):
