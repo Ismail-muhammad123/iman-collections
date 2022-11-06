@@ -76,7 +76,10 @@ class OrderAdmin(admin.ModelAdmin):
 @admin.register(OrderItem)
 class OrderItemAdmin(admin.ModelAdmin):
     def buyer(self, obj):
-        return obj.order.user.first_name + " " + obj.order.user.last_name
+        if obj.user:
+            return f"{obj.user.first_name} {obj.user.last_name}"
+        else:
+            return obj.full_name
 
     def date(self, obj):
         return obj.order.date_added
