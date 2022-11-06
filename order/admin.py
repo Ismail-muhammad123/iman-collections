@@ -79,7 +79,7 @@ class OrderItemAdmin(admin.ModelAdmin):
         if obj.user:
             return f"{obj.user.first_name} {obj.user.last_name}"
         else:
-            return obj.full_name
+            return obj.order.full_name
 
     def date(self, obj):
         return obj.order.date_added
