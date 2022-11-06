@@ -108,7 +108,7 @@ def verify_payment(request):
         if status:
             order_id = res['data']['metadata']['order_id']
             # get order object
-            order = Order.objects.get(id=order_id)
+            order = get_object_or_404(Order, id=order_id)
             order.status = 3
             order.save()
 

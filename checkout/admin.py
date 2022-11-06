@@ -18,6 +18,7 @@ class PaymentAdmin(admin.ModelAdmin):
     ]
 
     search_fields = [
+        "id",
         "order__id",
         "payment_reference_number",
         "transaction_ref"
