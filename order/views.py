@@ -65,8 +65,13 @@ def add_order(request):
                              "All required fields must be provided")
         return new_order(request)
 
-    cart_items = request.user.cart.all() if request.user.is_autheticated else Cart.objects.filter(
-        device=request.COOKIES['device'])
+    if request.user.is_authenticated:
+        cart_items = request.user.cart.all()
+    else:
+        cart_items = Cart.objects.filter(device=request.COOKIES['device'])
+
+    # cart_items = request.user.cart.all() if request.user.is_autheticated else Cart.objects.filter(
+    #     device=request.COOKIES['device'])
 
     if len(cart_items) == 0:
         raise Http404()
