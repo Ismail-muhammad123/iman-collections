@@ -5,6 +5,8 @@ from django.shortcuts import render, redirect
 from django.conf import settings
 import uuid
 from django.shortcuts import get_object_or_404
+
+from products.models import Cart
 from .models import Payment
 from order.models import Order
 import requests
@@ -71,7 +73,7 @@ def checkout(request, order_id):
                 "order_id": order.id,
                 "customer": {
                     "email": email,
-                    "phonenumber": phone_number,
+                    "phone_number": phone_number,
                     "name": full_name
                 },
             },
@@ -96,11 +98,11 @@ def verify_payment(request):
     tx_ref = data['trxref']
     response = requests.get(
         settings.PAYMENT_VERIFICATION_URL + tx_ref, headers=headers)
-    print(response.status_code)
+    # print(response.status_code)
     if response.status_code == 200:
         res = response.json()
         status = res['data']['log']['success']
-        print(status)
+        # print(status)
         if status:
             order_id = res['data']['metadata']['order_id']
             try:
@@ -127,7 +129,10 @@ def verify_payment(request):
                 raise Http404
             # empty the cart
 
-            [item.delete() for item in request.user.cart.all()]
+            cart = request.user.cart if request.is_authenticated else Cart.objects.filter(
+                device=request.COOKIES['device'])
+
+            [item.delete() for item in cart]
 
             # redirect to order-tracking page
             return redirect(reverse('track_order'))

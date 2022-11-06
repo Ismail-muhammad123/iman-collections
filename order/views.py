@@ -19,8 +19,10 @@ def new_order(request):
         email = request.user.email
         phone_number = request.user.mobile_number
     else:
+        full_name = ""
+        email = ""
+        phone_number = ""
         device = request.COOKIES['device']
-
         cart_items = Cart.objects.filter(device=device)
 
     sub_total = 0
@@ -43,9 +45,9 @@ def new_order(request):
         "countries": countries,
         "delivery_fee": delivery_fee,
         "total": total,
-        "full_name": full_name if request.user.is_authenticated else "",
-        "email": email if request.user.is_authenticated else "",
-        "phone_number": phone_number if request.user.is_authenticated else "",
+        "full_name": full_name,
+        "email": email,
+        "phone_number": phone_number,
     }
     return render(request, template_name='order/new_order.html', context=context)
 
@@ -58,7 +60,7 @@ def add_order(request):
 
     full_name = request.POST.get('full_name')
     email = request.POST.get('email')
-    phone_number = request.POST.get('phone')
+    phone_number = request.POST.get('phone_number')
 
     if (delivery_address == None or country == None or state == None):
         messages.add_message(request, messages.ERROR,
