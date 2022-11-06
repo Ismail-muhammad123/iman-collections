@@ -9,8 +9,8 @@ class PaymentAdmin(admin.ModelAdmin):
         return obj.order.id
 
     list_display = [
+        'id',
         "amount",
-        "payment_referance_number",
         "transaction_ref",
         "created_at",
         "payed_at",
@@ -20,7 +20,6 @@ class PaymentAdmin(admin.ModelAdmin):
     search_fields = [
         "id",
         "order__id",
-        "payment_reference_number",
         "transaction_ref"
     ]
 
