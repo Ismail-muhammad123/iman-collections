@@ -1,4 +1,6 @@
 from datetime import datetime
+from django.conf import settings
+from django.utils.timezone import make_aware
 from json import JSONDecoder
 from pprint import pprint
 from django.shortcuts import render, redirect
@@ -113,7 +115,9 @@ def verify_payment(request):
 
                 # get payment object and update its attributes
                 payment = order.payment
-                payment.payed_at = datetime.now()
+                payed_at = datetime.now()
+                aware_datetime = make_aware(payed_at)
+                payment.payed_at = aware_datetime
                 payment.status = 2
                 payment.transaction_ref = tx_ref
                 payment.save()
