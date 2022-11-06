@@ -135,7 +135,7 @@ def verify_payment(request):
             #     raise Http404
             # empty the cart
 
-            cart = request.user.cart if request.is_authenticated else Cart.objects.filter(
+            cart = request.user.cart if request.user.is_authenticated else Cart.objects.filter(
                 device=request.COOKIES['device'])
 
             [item.delete() for item in cart]
