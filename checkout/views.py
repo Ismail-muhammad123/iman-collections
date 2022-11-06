@@ -125,7 +125,10 @@ def verify_payment(request):
             sold_products = order.order_items.all()
             for item in sold_products:
                 p = item.product
-                p.available_quantity -= item.quantity
+                if p.available_quantity - item.quantity >= 0:
+                    p.available_quantity -= item.quantity
+                else:
+                    p.available_quantity = 0
                 p.save()
 
             # except Order.DoesNotExist:
