@@ -107,30 +107,29 @@ def verify_payment(request):
         # print(status)
         if status:
             order_id = res['data']['metadata']['order_id']
-            try:
-                # get order object
-                order = Order.objects.get(id=order_id)
-                order.status = 3
-                order.save()
+            # get order object
+            order = Order.objects.get(id=order_id)
+            order.status = 3
+            order.save()
 
-                # get payment object and update its attributes
-                payment = order.payment
-                payed_at = datetime.now()
-                aware_datetime = make_aware(payed_at)
-                payment.payed_at = aware_datetime
-                payment.status = 2
-                payment.transaction_ref = tx_ref
-                payment.save()
+            # get payment object and update its attributes
+            payment = order.payment
+            payed_at = datetime.now()
+            aware_datetime = make_aware(payed_at)
+            payment.payed_at = aware_datetime
+            payment.status = 2
+            payment.transaction_ref = tx_ref
+            payment.save()
 
-                # update product
-                sold_products = order.order_items.all()
-                for item in sold_products:
-                    p = item.product
-                    p.available_quantity -= item.quantity
-                    p.save()
+            # update product
+            sold_products = order.order_items.all()
+            for item in sold_products:
+                p = item.product
+                p.available_quantity -= item.quantity
+                p.save()
 
-            except Order.DoesNotExist:
-                raise Http404
+            # except Order.DoesNotExist:
+            #     raise Http404
             # empty the cart
 
             cart = request.user.cart if request.is_authenticated else Cart.objects.filter(
