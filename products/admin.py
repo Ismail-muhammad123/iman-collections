@@ -89,8 +89,12 @@ class CategoryAdmin(admin.ModelAdmin):
             return mark_safe(display_text)
         return "-"
 
+    def number_of_products(self, obj):
+        return obj.products.count()
+
     list_display = [
         "name",
+        "number_of_products",
         "added_at",
         "added_by",
         "category_image",
