@@ -1,8 +1,6 @@
 {% block product_category %}
-<div class="col-5 col-md-3 col-lg-2 m-1 text-center shadow">
-    <a href="{% url 'filter_category' slug=category.slug %}">
-        <img class="card-img-top" src="{{category.image.url}}" height="250px" alt="" />
-    </a>
+<div class="card col-5 col-md-3 col-lg-2 m-1 text-center rounded">
+    <img class="card-img-top" src="{{category.image.url}}" height="200px" width="200px" alt="" />
     <div class="card-body py-4 text-center">
         <a class="text-decoration-none" href="{% url 'filter_category' slug=category.slug %}">
             <h3>

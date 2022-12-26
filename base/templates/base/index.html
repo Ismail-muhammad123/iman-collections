@@ -1,230 +1,113 @@
-{% extends './base.html' %} {% load static %} {% block title%} Home {% endblock%} {% block content %}
+{% extends './base.html' %} {% load humanize %}
+{% load static %} {% block title%} Home {% endblock%} {% block content %}
 
-<!-- hero section -->
-<section class="text-center pt-3" style="background-color: rgb(255, 218, 250);">
-  {% if messages %} {% for message in messages %}
 
-  <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
-    {{message}}
-  </div>
-
-  {% endfor %} {% endif %}
-  <div class="row" style="align-items: center; justify-content: center;">
-    <div class="col-sm-12 col-md-6 col-lg-6 text-lg-end text-sm-center text-md-end p-5">
-      <div class="row">
-        <h2 class="text-uppercase"
-          style="color: brown; font-weight:700; font-size: 3rem; font-family: Verdana, Geneva, Tahoma, sans-serif;">
-          <span style="font-size: 1.8rem; font-style:italic; color:rgb(94, 94, 94)">Welcome to</span> <br /> <span
-            style="font-size: 4.3rem;">Iman</span>
-          <br />Clothing and Apparels
-        </h2>
+<!-- Couresol -->
+<section class="row">
+  <div class="col-12">
+    <div id="couresol" class="row align-items-center justify-content-center">
+      <div class="col-sm-12 d-block d-sm-hidden col-md-3 col-lg-3 px-2 text-end">
+        <img src="{% static 'base/images/female-category.png' %}" height="500px" class="hero-image" alt="Hero Image">
       </div>
-      <div class="row">
-        <div class="col-12 text-lg-end text-sm-center text-md-end">
-          <a href="{% url 'create_account' %}" class="btn btn-lg m-2"
-            style="border-color: purple; background-color: purple;color: white;">Get Started</a>
-        </div>
+      <div class="col-sm-12 col-md-6 col-lg-6 text-center px-5">
+        <p class="text-dark fw-bold" style="font-style: italic;">Welcome to</p>
+        <h3 class="text-uppercase" style="font-size: 40px; color: rgb(124, 13, 13); font-weight: 700;">Iman Collections
+        </h3>
+        <p>Enjoy pure fashion</p>
       </div>
-    </div>
-    <div class="col-sm-12 col-md-6 col-lg-6">
-      <img src="{% static 'base/images/carousel2.jpg' %}" width="100%" alt="" class="p-4" />
-    </div>
-  </div>
-</section>
-
-
-
-
-<!-- categories -->
-<section>
-  <div class="row p-5" style="align-items: center; justify-content: center; color:purple;">
-    <h3 class="text-center text-uppercase" style="color: purple; font-size: 2rem">
-      Categories
-    </h3>
-
-    {% for category in categories %}
-    {% include 'products/category_card.html' with category=category %}
-    {% endfor %}
-
-  </div>
-  <div class="row">
-    <div class="col-12 text-center">
-      <a href="{% url 'categories' %}" class="btn w-20"
-        style="font-size: 1.5rem; background-color: rgb(255, 100, 234); ">View All</a>
-    </div>
-  </div>
-</section>
-
-<div class="container">
-  <hr />
-</div>
-
-<!-- products overview -->
-<section class="container">
-  <div class="row">
-    <h3 class="text-uppercase" style="font-size: 2rem; color: purple; font-weight: 700;">
-      TOP Products
-    </h3>
-  </div>
-  <div class="row text-alight-center justify-content-center">
-    {% for product in products %}
-    {% include 'products/product_card.html' with product=product %}
-    {% endfor %}
-
-    <div class="row">
-      <div class="col-12 text-center">
-        <a href="{% url 'products' %}" class="btn w-50"
-          style="font-size: 1.5rem; background-color: rgb(255, 100, 234); ">View More</a>
+      <div class="col-sm-12 col-md-3 col-lg-3 px-2">
+        <img src="{% static 'base/images/male-category.png' %}" height="500px" class="hero-image" alt="Hero Image">
       </div>
     </div>
   </div>
 </section>
 
 <!-- features section -->
-<section class="container my-3">
-  <div class="row justify-content-center">
-    <div class="col-sm-12 col-lg-2 col-md-4 p-5 m-2 text-center align-middle justify-content-center"
-      style="background-color: rgb(255, 218, 250);">
+<section>
+  <div class="row justify-content-evenly bg-light">
+    <div class="col-sm-6 col-lg-2 col-md-6 py-5 px-2 text-center align-middle justify-content-center">
       <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="purple" class="bi bi-truck"
         viewBox="0 0 16 16">
         <path
           d="M0 3.5A1.5 1.5 0 0 1 1.5 2h9A1.5 1.5 0 0 1 12 3.5V5h1.02a1.5 1.5 0 0 1 1.17.563l1.481 1.85a1.5 1.5 0 0 1 .329.938V10.5a1.5 1.5 0 0 1-1.5 1.5H14a2 2 0 1 1-4 0H5a2 2 0 1 1-3.998-.085A1.5 1.5 0 0 1 0 10.5v-7zm1.294 7.456A1.999 1.999 0 0 1 4.732 11h5.536a2.01 2.01 0 0 1 .732-.732V3.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .294.456zM12 10a2 2 0 0 1 1.732 1h.768a.5.5 0 0 0 .5-.5V8.35a.5.5 0 0 0-.11-.312l-1.48-1.85A.5.5 0 0 0 13.02 6H12v4zm-9 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm9 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
       </svg>
-      <h3 style="color: purple;">Fast Delivery</h3>
+      <h3 style="color: purple;">Free Shipping</h3>
+      <p>Get Your Items delivered to your address within few days of purchase free of charge</p>
     </div>
-
-    <div class="col-sm-12 col-lg-2 col-md-4 p-4 m-2 text-center align-middle justify-content-center"
-      style="background-color: rgb(255, 218, 250); border-color: purple; border-width: 5px;">
+    <div class="col-sm-6 col-lg-2 col-md-6 py-5 px-2 text-center align-middle justify-content-center">
       <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="purple" class="bi bi-credit-card"
         viewBox="0 0 16 16">
         <path
           d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1H2zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V7z" />
         <path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1z" />
       </svg>
-      <h3 style="color: purple;">Easy checkout</h3>
+      <h3 style="color: purple;">Secure Payments</h3>
+      <p>Complete the your checkout easily and securely</p>
     </div>
 
-    <div class="col-sm-12 col-lg-2 col-md-4 p-5 m-2 text-center align-middle justify-content-center"
-      style="background-color: rgb(255, 218, 250); border-color: purple; border-width: 5px;">
+    <div class="col-sm-6 col-lg-2 col-md-6 py-5 px-2 text-center align-middle justify-content-center">
       <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="purple" class="bi bi-check-all"
         viewBox="0 0 16 16">
         <path
           d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992a.252.252 0 0 1 .02-.022zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486-.943 1.179z" />
       </svg>
-      <h3 style="color: purple;">Best Quality</h3>
-    </div>
-
-    <div class="col-sm-12 col-lg-2 col-md-4 p-5 m-2 text-center align-middle justify-content-center"
-      style="background-color: rgb(255, 218, 250); border-color: purple; border-width: 5px;">
-      <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="purple" class="bi bi-tags"
-        viewBox="0 0 16 16">
-        <path
-          d="M3 2v4.586l7 7L14.586 9l-7-7H3zM2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586V2z" />
-        <path
-          d="M5.5 5a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1zm0 1a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM1 7.086a1 1 0 0 0 .293.707L8.75 15.25l-.043.043a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 0 7.586V3a1 1 0 0 1 1-1v5.086z" />
-      </svg>
-      <h3 style="color: purple;">Good Price</h3>
+      <h3 style="color: purple;">Customer Support</h3>
+      <p>Talk to our customer support team at anytime and from anywhere</p>
     </div>
   </div>
 </section>
 <!-- Features end -->
 
 
-<!--Section: Contact v.2-->
-<section id="contact" class="my-2 container p-5 card shadow" style="background-color: rgb(248, 151, 248);">
+<!-- Messages Start -->
+{% if messages %}
+<section class="text-center pt-3 my-5">
+  {% for message in messages %}
+  <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+    {{message}}
+  </div>
+  {% endfor %}
+</section>
+{% endif %}
+<!-- Messages End -->
 
-  <!--Section heading-->
-  <h2 class="h1-responsive font-weight-bold text-center my-4 text-uppercase">Contact us</h2>
-  <!--Section description-->
-  <p class="text-center w-responsive mx-auto mb-5">Do you have any questions? Please do not hesitate to contact us
-    directly. Our team will come back to you to help you.</p>
 
-  <div class="row">
 
-    <!--Grid column-->
-    <div class="col-md-9 mb-md-0 mb-5">
-      <form id="contact-form" name="contact-form" action="{% url 'contact' %}" method="POST">
-        {% csrf_token %}
-        <!--Grid row-->
-        <div class="row">
-
-          <!--Grid column-->
-          <div class="col-md-6">
-            <div class="md-form mb-0">
-              <input type="text" id="name" name="full_name" class="form-control">
-              <label for="name" class="">Your name</label>
-            </div>
+<!-- New Arrivals -->
+<section class="my-2 container">
+  <div class="text-capitalize text-center fw-bold py-3" style="font-size: 24px; font-weight: 700;">New Arrivals
+  </div>
+  <p class="text-capitalize text-center">catch up to the lates arrived items from our inventory</p>
+  <div class="row  justify-content-center">
+    {% for product in products %}
+    <div class="col-sm-8 col-md-5 col-lg-3 rounded shadow text-center pb-4 bg-light m-1">
+      <!-- product card -->
+      <div class="col-12">
+        <img src="{{product.image.url}}" alt="product image" style="object-fit: contain;" width="200px" />
+      </div>
+      <div class="card-body align-items-end">
+        <a href="{% url 'products_details' id=product.id slug=product.slug %}" style="font-weight: 600;"
+          class="text-decoration-none text-center text-dark fs-5 pt-2 text-uppercase">
+          <div class="card-title">
+            {{product.name}}
           </div>
-          <!--Grid column-->
+        </a>
 
-          <!--Grid column-->
-          <div class="col-md-6">
-            <div class="md-form mb-0">
-              <input type="text" id="email" name="email" class="form-control rounded">
-              <label for="email" class="">Your email</label>
-            </div>
-          </div>
-          <!--Grid column-->
+        <span>&#8358; {{product.price|intcomma}}</span>
+        <br />
 
-        </div>
-        <!--Grid row-->
-
-        <!--Grid row-->
-        <div class="row">
-          <div class="col-md-12">
-            <div class="md-form mb-0">
-              <input type="text" id="subject" name="subject" class="form-control">
-              <label for="subject" class="">Subject</label>
-            </div>
-          </div>
-        </div>
-        <!--Grid row-->
-
-        <!--Grid row-->
-        <div class="row">
-
-          <!--Grid column-->
-          <div class="col-md-12">
-
-            <div class="md-form">
-              <textarea type="text" id="message" name="message" rows="2" class="form-control md-textarea"></textarea>
-              <label for="message">Your message</label>
-            </div>
-
-          </div>
-        </div>
-        <center class="text-center">
-          <button type="submit" class="btn btn-primary" style="width: 200px;">Send</button>
-        </center>
-        <!--Grid row-->
-      </form>
-
-      <div class="status"></div>
+        {% if not product.available_quantity %}
+        <p class="text-danger">
+          Out of stock!
+        </p>
+        {% endif %}
+      </div>
     </div>
-    <!--Grid column-->
-
-    <!--Grid column-->
-    <div class="col-md-3 text-center">
-      <ul class="list-unstyled mb-0">
-        <li><i class="fas fa-map-marker-alt fa-2x"></i>
-          <p>Kano State, Nigeria.</p>
-        </li>
-
-        <li><i class="fas fa-phone mt-4 fa-2x"></i>
-          <p>+ 234 8163351109</p>
-        </li>
-
-        <li><i class="fas fa-envelope mt-4 fa-2x"></i>
-          <a href="mailto:imanclohingandapparels@gmail.com"
-            class="text-decoration-none text-dark">imanclohingandapparels@gmail.com</a>
-        </li>
-      </ul>
-    </div>
-    <!--Grid column-->
-
+    {% endfor %}
   </div>
 
 </section>
-<!--Section: Contact v.2-->
+
+
 
 {% endblock %}

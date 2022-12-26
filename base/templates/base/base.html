@@ -17,11 +17,57 @@
   <link rel="stylesheet" href="{% static 'user/styles.css' %}">
   <!-- Favicons -->
   <meta name="theme-color" content="#712cf9" />
+
+  <style>
+    body {
+      background-color: whitesmoke;
+    }
+
+    #couresol {
+      margin-top: 20px;
+      height: auto;
+      /* background-image: url("{% static 'base/images/fabric.jpg' %}"); */
+      background-color: rgb(214, 255, 241);
+    }
+
+    #hero-image {
+      width: 100%;
+      height: 400px;
+
+    }
+
+    #hero {
+      height: 500px;
+      width: 100%;
+
+    }
+
+    ul#new-arrivals {
+      overflow: auto;
+      white-space: nowrap;
+    }
+
+    ul#new-arrivals>li {
+      white-space: normal;
+      display: inline-block;
+
+    }
+
+    @media only screen and (max-width: 460px) {
+      #couresol {
+        height: 300px;
+      }
+
+      .hero-image {
+        display: none;
+      }
+    }
+  </style>
 </head>
 
 <body>
   <header>
-    <nav class="navbar navbar-expand-lg fixed-top px-3" style="background-color: rgb(255, 218, 250);">
+    <nav class="navbar navbar-expand-lg fixed-top px-3 bg-light shadow text-dark">
       <a class="navbar-brand me-5" href="/">
         <img src="{% static 'base/images/name.svg' %}" alt="IMAN" height="40px">
       </a>
@@ -95,14 +141,110 @@
 
 
 
+
+  <!--Section: Contact v.2-->
+  <section id="contact" class="p-5 mt-5" style="background-color: rgb(190, 192, 191);">
+    <div class="row align-items-start justify-content-evenly">
+
+      <div class="col-lg-4 col-sm-12 col-md-12 m-3">
+        <!-- <form id="contact-form" name="contact-form" action="{% url 'contact' %}" method="POST">
+        {% csrf_token %}
+        <div class="row">
+
+          <div class="col-md-6">
+            <div class="md-form mb-0">
+              <input type="text" id="name" name="full_name" class="form-control">
+              <label for="name" class="">Your name</label>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="md-form mb-0">
+              <input type="text" id="email" name="email" class="form-control rounded">
+              <label for="email" class="">Your email</label>
+            </div>
+          </div>
+
+        </div>
+      
+        <div class="row">
+          <div class="col-md-12">
+            <div class="md-form mb-0">
+              <input type="text" id="subject" name="subject" class="form-control">
+              <label for="subject" class="">Subject</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+
+          <div class="col-md-12">
+
+            <div class="md-form">
+              <textarea type="text" id="message" name="message" rows="2" class="form-control md-textarea"></textarea>
+              <label for="message">Your message</label>
+            </div>
+
+          </div>
+        </div>
+        <center class="text-center">
+          <button type="submit" class="btn btn-primary" style="width: 200px;">Send</button>
+        </center>
+      </form> -->
+        <h4 class="fw-bold text-uppercase ">Iman Clothing &amp; Apparels</h4>
+        <p>Get the best Nigerian and western clothing and apparels From any the comfort of your house.</p>
+      </div>
+
+      <div class="col-lg-2 col-sm-12 col-md-4 text-center my-3">
+        <ul class="list-unstyled mb-0 text-sm-center text-md-start text-lg-start">
+          <li><i class="fas fa-map-marker-alt fa-2x"></i>
+            <h4 class="fw-bold text-uppercase">Products.</h4>
+          </li>
+          <li class="my-2">Categories</li>
+          <li class="my-2">Trending Styles</li>
+          <li class="my-2">New Arivals</li>
+          <li class="my-2">Accesories</li>
+          <li class="my-2">On Sale</li>
+        </ul>
+      </div>
+
+      <div class="col-lg-2 col-sm-12 col-md-4 text-center my-3">
+        <ul class="list-unstyled mb-0 text-sm-center text-md-start text-lg-start">
+          <li><i class="fas fa-map-marker-alt fa-2x"></i>
+            <h4 class="fw-bold text-uppercase">Shotcuts.</h4>
+          </li>
+          <li class="my-2">Cart</li>
+          <li class="my-2">Contact</li>
+          <li class="my-2">Sign Up</li>
+          <li class="my-2">Log in</li>
+        </ul>
+      </div>
+
+      <div class="col-lg-2 col-sm-12 col-md-4 text-center my-3">
+        <ul class="list-unstyled mb-0 text-sm-center text-md-start text-lg-start">
+          <li><i class="fas fa-map-marker-alt fa-2x"></i>
+            <h4 class="fw-bold text-uppercase">Address.</h4>
+          </li>
+          <li class="my-2">Cart</li>
+          <li class="my-2">Contact</li>
+          <li class="my-2">Sign Up</li>
+          <li class="my-2">Log in</li>
+        </ul>
+      </div>
+
+    </div>
+
+  </section>
+  <!--Section: Contact v.2-->
   <!-- FOOTER -->
   <footer class="container py-2"
-    style="min-width: 100%; max-width: 100%; height: auto;  background-color:rgb(255, 218, 250); display: flex; align-items: center; justify-content: space-between;">
-    <p>
+    style="min-width: 100%; max-width: 100%; height: auto;  background-color:rgb(190, 192, 191); display: flex; align-items: center; justify-content: space-between;">
+
+    <p class="mx-2">
       &copy; 2022-2025 Iman Clothing &amp; Apparels. &middot;
       <!-- <a href="#">Privacy</a> &middot; <a href="#">Terms</a> -->
     </p>
-    <p class="float-end"><a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="purple"
+    <p><a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="white"
           class="bi bi-arrow-up-circle-fill" viewBox="0 0 16 16">
           <path
             d="M16 8A8 8 0 1 0 0 8a8 8 0 0 0 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z" />

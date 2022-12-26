@@ -1,16 +1,13 @@
 {% load humanize %}
-<div class="col-6 col-md-6 col-lg-3 text-center product mb-3 pb-4  mx-lg-auto border">
+<div style="width: 200px;" class="card text-center pb-4 bg-light m-1 mx-lg-auto">
     <!-- product card -->
-    <a href="{% url 'products_details' slug=product.slug id=product.id %}" class="text-decoration-none text-uppercase">
-        <img src="{{product.image.url}}" alt="product image" height="200px" class="card-img-top" />
-    </a>
+    <img src="{{product.image.url}}" alt="product image" class="card-img-top" />
+
     <div class="card-body align-items-end">
-        <div class="col-12">
-            <a href="{% url 'products_details' id=product.id slug=product.slug %}"
-                class="text-decoration-none text-center pt-2 text-uppercase">
-                <p style="color: purple; font-weight: 700;">
-                    {{product.name}}
-                </p>
+        <div class="card-title">
+            <a href="{% url 'products_details' id=product.id slug=product.slug %}" style="font-weight: 600;"
+                class="text-decoration-none text-center text-dark fs-5 pt-2 text-uppercase">
+                {{product.name}}
             </a>
         </div>
 
