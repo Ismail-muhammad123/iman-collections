@@ -52,6 +52,8 @@ class Product(models.Model):
     description = models.TextField()
     image = models.ImageField(upload_to="product-images", blank=True)
 
+    on_sale = models.BooleanField(default=False)
+
     is_active = models.BooleanField(default=True)
 
     added_at = models.DateTimeField(auto_now_add=True)

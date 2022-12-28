@@ -109,5 +109,19 @@
 </section>
 
 
+<!-- categories -->
+<section class="my-2 mt-4 bg-light p-2">
+  <div class="text-capitalize text-center py-3" style="font-size: 30px; font-weight: 500;">Categories
+  </div>
+  <!-- <p class="text-capitalize text-center">catch up to the lates arrived items from our inventory</p> -->
+  <div class="row  justify-content-center">
+    {% for category in categories %}
+    {% include 'products/category_card.html' with category=category %}
+    {% endfor %}
+  </div>
+
+</section>
+
+
 
 {% endblock %}

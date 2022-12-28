@@ -1,11 +1,19 @@
 {% block product_category %}
-<div class="card col-5 col-md-3 col-lg-2 m-1 text-center rounded">
-    <img class="card-img-top" src="{{category.image.url}}" height="200px" width="200px" alt="" />
-    <div class="card-body py-4 text-center">
-        <a class="text-decoration-none" href="{% url 'filter_category' slug=category.slug %}">
-            <h3>
+<div class="col-sm-12 col-md-3 shadow rounded col-lg-2 border text-center p-4 bg-light m-1">
+    <!-- product card -->
+    <div>
+        <a href="{%url 'filter_category' slug=category.slug %}">
+
+            <img src="{{category.image.url}}" alt="product image" style="object-fit: contain;" height="200px"
+                width="150px" />
+        </a>
+    </div>
+    <div class="card-body align-items-end">
+        <a href="{%url 'filter_category' slug=category.slug %}" style="font-weight: 600;"
+            class="text-decoration-none text-center text-dark fs-5 pt-2 text-uppercase">
+            <div class="card-title">
                 {{category.name}}
-            </h3>
+            </div>
         </a>
     </div>
 </div>

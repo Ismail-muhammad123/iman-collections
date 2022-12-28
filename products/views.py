@@ -7,6 +7,7 @@ from django.contrib.postgres.search import SearchVector
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+import datetime
 
 
 def categories(request):
@@ -30,13 +31,22 @@ def product_category(request, slug):
 
     if slug == 'all':
         products = Product.objects.all()
+    elif slug == 'new':
+        d = datetime.datetime.today() - datetime.timedelta(days=30)
+        products = Product.objects.all().filter(added_at__gt=d)
+    elif slug == 'trending':
+        products = Product.objects.all()
+        products = [
+            product for product in products if product.orders.count() >= 10]
+    elif slug == 'sale':
+        products = Product.objects.filter(on_sale=True)
     else:
         category = get_object_or_404(Category, slug=slug)
         products = Product.objects.all().filter(category=category)
 
     context = {
         "products": products,
-        "category_name": "All Categories" if slug == 'all' else category.name,
+        "category_name": "All Categories" if slug == 'all' else str.join(" ", str.split(slug, "-")),
         "categories": categories,
     }
     return render(request, template_name="products/products.html", context=context)

@@ -32,6 +32,7 @@ class ProductAdmin(admin.ModelAdmin):
         "color",
         "available",
         "delivery",
+        "added_at",
         "is_active",
         "by",
         "product_image",

@@ -6,8 +6,8 @@ from products.models import Cart, Product, Category
 
 
 def index(request):
-    products = Product.objects.all()[0:8]
-    categories = Category.objects.all()[:5]
+    products = Product.objects.all()[0:15]
+    categories = Category.objects.all()[:10]
     return render(request, 'base/index.html', context={"products": products, "categories": categories})
 
 

@@ -13,8 +13,9 @@ SECRET_KEY = os.environ.get(
     'SECRET_KEY', 'django-insecure-o47&kilmpi3vgmw*u29c3yoip(t8^0&)yp%squ)u3!j6ianghk')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True if str(os.environ.get(
-    "DJANGO_DEBUG", "False")) == "True" else False
+# DEBUG = True if str(os.environ.get(
+#     "DJANGO_DEBUG", "False")) == "True" else False
+DEBUG = True
 DEV = True if str(os.environ.get("DEV", "False")) == "True" else False
 # Application definition
 
@@ -70,6 +71,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'base.cart_count_context.get_cart_count',
+                'base.categories_context.get_categories',
             ],
         },
     },

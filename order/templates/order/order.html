@@ -4,14 +4,14 @@
 <section class="container mt-5">
   <div class="row text-center">
     <div class="col-12">
-      <h3 style="background-color: pink;color: purple; font-weight: 700; width: 100%" class="p-3 text-uppercase">
+      <h3 style="background-color: white;color: purple; font-weight: 700; width: 100%" class="p-3 text-uppercase">
         Order History
       </h3>
     </div>
   </div>
   {% for order in orders %}
-  <div class="row p-2"
-    style="width: 100%; background-color: rgb(248, 134, 233); padding: 10px; color: white; font-weight: 700; font-size: 22.0px;">
+  <div class="row p-2 mt-3"
+    style="width: 100%; background-color: rgb(141, 141, 141); padding: 10px; color: white; font-weight: 500; font-size: 22.0px;">
     <small class="col-4">
       Order ID: {% if order.tracking_id %} {{order.tracking_id}} {% endif %}
     </small>
