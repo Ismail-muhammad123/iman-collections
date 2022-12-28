@@ -13,9 +13,9 @@ SECRET_KEY = os.environ.get(
     'SECRET_KEY', 'django-insecure-o47&kilmpi3vgmw*u29c3yoip(t8^0&)yp%squ)u3!j6ianghk')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True if str(os.environ.get(
-#     "DJANGO_DEBUG", "False")) == "True" else False
-DEBUG = True
+DEBUG = True if str(os.environ.get(
+    "DJANGO_DEBUG", "False")) == "True" else False
+# DEBUG = True
 DEV = True if str(os.environ.get("DEV", "False")) == "True" else False
 # Application definition
 
