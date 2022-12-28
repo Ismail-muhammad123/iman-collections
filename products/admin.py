@@ -34,6 +34,7 @@ class ProductAdmin(admin.ModelAdmin):
         "delivery",
         "added_at",
         "is_active",
+        "on_sale",
         "by",
         "product_image",
     ]
@@ -43,6 +44,7 @@ class ProductAdmin(admin.ModelAdmin):
         "gender",
         "is_active",
         "added_by",
+        "added_at",
     ]
 
     exclude = ["added_by", "added_at"]
