@@ -1,9 +1,7 @@
 from email.policy import default
 from django.db import models
 from django.db import models
-from django.contrib.auth.models import (
-    BaseUserManager, AbstractBaseUser
-)
+from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 
 
 class UserManager(BaseUserManager):
@@ -12,7 +10,7 @@ class UserManager(BaseUserManager):
         Creates and saves a User with the given email and password.
         """
         if not email:
-            raise ValueError('Users must have an email address')
+            raise ValueError("Users must have an email address")
 
         user = self.model(
             email=self.normalize_email(email),
@@ -49,14 +47,13 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser):
-
     GENDER_CHOICES = [
         ("M", "Male"),
         ("F", "Female"),
     ]
     objects = UserManager()
     email = models.EmailField(
-        verbose_name='email address',
+        verbose_name="email address",
         max_length=255,
         unique=True,
     )
@@ -67,13 +64,15 @@ class User(AbstractBaseUser):
     last_name = models.CharField(max_length=200, blank=True, default="")
     mobile_number = models.CharField(max_length=20)
     gender = models.CharField(
-        max_length=1, choices=GENDER_CHOICES, blank=True, default="")
+        max_length=1, choices=GENDER_CHOICES, blank=True, default=""
+    )
     address = models.TextField(blank=True, default="")
     added_at = models.DateTimeField(auto_now_add=True)
+    is_seller = models.BooleanField(default=False)
 
     # notice the absence of a "Password field", that is built in.
 
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
     def get_full_name(self):
@@ -106,3 +105,33 @@ class User(AbstractBaseUser):
     def is_admin(self):
         "Is the user a admin member?"
         return self.admin
+
+
+class Store(models.Model):
+    title = models.CharField(max_length=200, unique=True)
+    business_name = models.CharField(max_length=200)
+    address = models.TextField()
+    email = models.EmailField()
+    phone_number = models.CharField(max_length=100)
+    about = models.TextField()
+
+
+class VerificationDocument(models.Model):
+    file = models.FileField()
+
+
+class StoreVerification(models.Model):
+    STATUS_CHOICES = [
+        (1, "Pending"),
+        (2, "Rejected"),
+        (3, "Approved"),
+    ]
+
+    rc_number = models.CharField(max_length=30)
+    submitted_at = models.DateTimeField(auto_now_add=True)
+    responded_at = models.DateTimeField(auto_now_add=True)
+    rejection_reason = models.TextField()
+    status = models.PositiveIntegerField(choices=STATUS_CHOICES, default=1)
+    files = models.ManyToManyField(
+        VerificationDocument, related_name="uploaded_files", null=True
+    )

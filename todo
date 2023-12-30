@@ -1,0 +1,24 @@
+user app
+    user verification
+    password reset email
+
+store app  
+    store creation
+    store editing
+    store approval
+    store verification
+
+product app 
+    product creation  
+        variety creation  
+    product editing
+    product viewing
+    product deleting
+
+order app
+    order fulfilment status
+    order cancelation
+    order list
+
+
+

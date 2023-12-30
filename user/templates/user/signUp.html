@@ -21,31 +21,31 @@ Sign Up
 
         <div class="form-floating">
             <input type="text" class="form-control" id="first_name" name="first_name">
-            <label for="first_name">First Name</label>
+            <label for="first_name">First Name <span class="text-danger">*</span> </label>
         </div>
         <div class="form-floating">
             <input type="text" class="form-control" id="last_name" name="last_name">
-            <label for="last_name">Last Name</label>
+            <label for="last_name">Last Name <span class="text-secondary">(optional)</span></label>
         </div>
         <div class="form-floating">
             <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com">
-            <label for="email">Email address</label>
+            <label for="email">Email address <span class="text-danger">*</span></label>
         </div>
         <div class="form-floating">
             <input type="tel" class="form-control" id="phone" name="phone" placeholder="+234 12345678">
-            <label for="phone">Phone Number</label>
+            <label for="phone">Phone Number <span class="text-danger">*</span></label>
         </div>
         <div class="form-floating">
             <select id="gender" class="form-control" name="gender" aria-label="Default select example">
                 <option value="M">Male</option>
                 <option value="F">Female</option>
             </select>
-            <label for="gender">Gender</label>
+            <label for="gender">Gender <span class="text-secondary">(optional)</span></label>
         </div>
 
         <div class="form-floating">
             <input type="password" class="form-control" name="password" id="password" placeholder="Password">
-            <label for="password">Password</label>
+            <label for="password">Password <span class="text-danger">*</span></label>
         </div>
 
         <button class="w-100 my-2 btn btn-lg btn-primary" type="submit">Sign in</button>

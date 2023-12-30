@@ -4,12 +4,25 @@ from django.utils.text import slugify
 
 
 class Size(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
     added_at = models.DateTimeField(auto_now_add=True)
     added_by = models.ForeignKey(
-        "user.User", on_delete=models.DO_NOTHING, limit_choices_to={"staff": True}, related_name="sizes_added")
+        "user.User",
+        on_delete=models.DO_NOTHING,
+        limit_choices_to={"staff": True},
+        related_name="sizes_added",
+    )
 
     def __str__(self) -> str:
+        return self.name
+
+
+class Color(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    color_hex_code = models.CharField(max_length=20)
+    added_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
         return self.name
 
 
@@ -18,7 +31,11 @@ class Category(models.Model):
     image = models.ImageField(upload_to="categories", blank=True)
     added_at = models.DateTimeField(auto_now_add=True)
     added_by = models.ForeignKey(
-        "user.User", on_delete=models.DO_NOTHING, limit_choices_to={"staff": True}, related_name="categories_added")
+        "user.User",
+        on_delete=models.DO_NOTHING,
+        limit_choices_to={"staff": True},
+        related_name="categories_added",
+    )
     slug = models.CharField(max_length=200, blank=True, default="")
 
     class Meta:
@@ -32,33 +49,61 @@ class Category(models.Model):
         super(Category, self).save(*args, **kwargs)
 
 
-class Product(models.Model):
-    GENDER_CHOICES = [
-        ("M", "Male"),
-        ("F", "Female"),
-        ("U", "Unisex")
-    ]
+class SubCategory(models.Model):
+    name = models.CharField(max_length=100)
+    category = models.ForeignKey(
+        Category, on_delete=models.SET_NULL, null=True, related_name="sub_categories"
+    )
+    image = models.ImageField(upload_to="sub_categories/", blank=True)
+    added_at = models.DateTimeField(auto_now_add=True)
+    added_by = models.ForeignKey(
+        "user.User",
+        on_delete=models.DO_NOTHING,
+        limit_choices_to={"staff": True},
+        related_name="categories_added",
+    )
+    slug = models.CharField(max_length=200, blank=True, default="", unique=True)
 
-    brand_name = models.CharField(max_length=200, blank=True, default="")
+    class Meta:
+        verbose_name_plural = "sub categories"
+
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Category, self).save(*args, **kwargs)
+
+
+class Product(models.Model):
+    GENDER_CHOICES = [("M", "Male"), ("F", "Female"), ("U", "Unisex")]
+
+    name = models.CharField(max_length=30)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
     category = models.ForeignKey(
-        Category, on_delete=models.CASCADE, null=True, related_name="products")
-    name = models.CharField(max_length=30)
-    price = models.FloatField()
-    product_size = models.CharField(max_length=200, blank=True, default="")
-    product_color = models.CharField(max_length=200, blank=True, default="")
-    available_quantity = models.PositiveBigIntegerField()
+        Category, on_delete=models.CASCADE, null=True, related_name="products"
+    )
+    sub_category = models.ForeignKey(
+        SubCategory, on_delete=models.SET_NULL, null=True, related_name="products"
+    )
     delivery_days = models.PositiveIntegerField()
     description = models.TextField()
-    image = models.ImageField(upload_to="product-images", blank=True)
-
     on_sale = models.BooleanField(default=False)
+    store = models.ForeignKey(
+        "Store", on_delete=models.SET_NULL, null=True, related_name="products"
+    )
+    variants = models.ManyToManyField("ProductVariant", related_name="products")
+    images = models.ManyToManyField("ProductImage", related_name="products")
 
     is_active = models.BooleanField(default=True)
 
     added_at = models.DateTimeField(auto_now_add=True)
     added_by = models.ForeignKey(
-        "user.User", on_delete=models.DO_NOTHING, limit_choices_to={"staff": True}, related_name="products_added")
+        "user.User",
+        on_delete=models.DO_NOTHING,
+        limit_choices_to={"staff": True},
+        related_name="products_added",
+    )
 
     slug = models.CharField(max_length=200, blank=True, default="")
 
@@ -70,33 +115,44 @@ class Product(models.Model):
         return self.name
 
 
-# class Inventory(models.Model):
-#     name = models.CharField(max_length=200, blank=True)
-#     product = models.ForeignKey(
-#         Product, on_delete=models.DO_NOTHING, related_name="inventory")
-#     size = models.ForeignKey(
-#         Size, on_delete=models.DO_NOTHING, related_name="inventory")
-#     color = models.ForeignKey(
-#         Color, on_delete=models.DO_NOTHING, related_name="inventory")
-#     price = models.FloatField()
-#     available_quantity = models.PositiveIntegerField()
-#     # images = models.ManyToManyField(
-#     #     Image, related_name="inevntory_images")
+class ProductVariant(models.Model):
+    product = models.ForeignKey(
+        Product, on_delete=models.CASCADE, related_name="product_variants"
+    )
+    size = models.ForeignKey(
+        Size, on_delete=models.SET_NULL, null=True, related_name="product_variants"
+    )
+    color = models.ForeignKey(
+        Color, on_delete=models.SET_NULL, null=True, related_name="product_variants"
+    )
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    available_quantity = models.PositiveIntegerField()
+    image = models.ImageField(upload_to="product_images/")
 
-#     added_at = models.DateTimeField(auto_now_add=True)
-#     added_by = models.ForeignKey(
-#         "user.User", on_delete=models.DO_NOTHING, related_name="inventory_added")
+    def __str__(self):
+        return f"{self.product.name} - {self.size.name} - {self.color.name}"
+
+
+class ProductImages(models.Model):
+    product = models.ForeignKey(
+        Product, on_delete=models.CASCADE, related_name="product_variants"
+    )
+    image = models.ImageField(upload_to="product_images/")
 
 
 class Cart(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.DO_NOTHING)
+    product_variant = models.ForeignKey(ProductVariant, on_delete=models.DO_NOTHING)
     quantity = models.PositiveIntegerField()
     added_at = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(
-        "user.User", on_delete=models.DO_NOTHING, null=True, blank=True, related_name="cart")
+        "user.User",
+        on_delete=models.DO_NOTHING,
+        null=True,
+        blank=True,
+        related_name="cart",
+    )
 
-    device = models.CharField(
-        max_length=100, null=True, blank=True, default="")
+    device = models.CharField(max_length=100, null=True, blank=True, default="")
 
     class Meta:
         verbose_name_plural = "Cart"
