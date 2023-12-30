@@ -1,8 +1,5 @@
 from django.shortcuts import render
 
-# Create your views here.
-
-
 
 def create_store(request):
     pass
@@ -15,8 +12,6 @@ def update_store(request):
 
 def close_store(request):
     pass
-
-
 
 
 # PRODUCTS

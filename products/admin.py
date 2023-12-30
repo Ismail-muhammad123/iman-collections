@@ -4,7 +4,7 @@ from .models import (
     Cart,
     Product,
     Category,
-    ProductImages,
+    ProductImage,
     ProductVariant,
     Size,
     Color,
@@ -140,6 +140,13 @@ class SubCategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
+    def product_images(self, obj):
+        display_text = f"<img src={obj.image.url} width='100px' height='100px'/>"
+
+        if display_text:
+            return mark_safe(display_text)
+        return "-"
+
     def variants(self, obj):
         return obj.product_variants.count()
 
@@ -153,12 +160,11 @@ class ProductAdmin(admin.ModelAdmin):
         "gender",
         "description",
         "on_sale",
-        "available_quantity",
         "delivery_days",
         "added_at",
         "is_active",
         "seller",
-        "images",
+        "product_images",
     ]
 
     list_filter = [
@@ -218,8 +224,8 @@ class ProductVariantAdmin(admin.ModelAdmin):
     ]
 
 
-@admin.register(ProductImages)
-class ProductImagesAdmin(admin.modelAdmin):
+@admin.register(ProductImage)
+class ProductImageAdmin(admin.ModelAdmin):
     def product_image(self, obj):
         display_text = "<a href={}>{}</a>".format(
             obj.image.url, f"<img src={obj.image.url} width='100px' height='100px'/>"

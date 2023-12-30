@@ -106,32 +106,3 @@ class User(AbstractBaseUser):
         "Is the user a admin member?"
         return self.admin
 
-
-class Store(models.Model):
-    title = models.CharField(max_length=200, unique=True)
-    business_name = models.CharField(max_length=200)
-    address = models.TextField()
-    email = models.EmailField()
-    phone_number = models.CharField(max_length=100)
-    about = models.TextField()
-
-
-class VerificationDocument(models.Model):
-    file = models.FileField()
-
-
-class StoreVerification(models.Model):
-    STATUS_CHOICES = [
-        (1, "Pending"),
-        (2, "Rejected"),
-        (3, "Approved"),
-    ]
-
-    rc_number = models.CharField(max_length=30)
-    submitted_at = models.DateTimeField(auto_now_add=True)
-    responded_at = models.DateTimeField(auto_now_add=True)
-    rejection_reason = models.TextField()
-    status = models.PositiveIntegerField(choices=STATUS_CHOICES, default=1)
-    files = models.ManyToManyField(
-        VerificationDocument, related_name="uploaded_files", null=True
-    )

@@ -1,6 +1,7 @@
 from email.policy import default
 from django.db import models
 from django.utils.text import slugify
+from store.models import Store
 
 
 class Size(models.Model):
@@ -60,7 +61,7 @@ class SubCategory(models.Model):
         "user.User",
         on_delete=models.DO_NOTHING,
         limit_choices_to={"staff": True},
-        related_name="categories_added",
+        related_name="sub_categories_added",
     )
     slug = models.CharField(max_length=200, blank=True, default="", unique=True)
 
@@ -90,7 +91,7 @@ class Product(models.Model):
     description = models.TextField()
     on_sale = models.BooleanField(default=False)
     store = models.ForeignKey(
-        "Store", on_delete=models.SET_NULL, null=True, related_name="products"
+        Store, on_delete=models.SET_NULL, null=True, related_name="products"
     )
     variants = models.ManyToManyField("ProductVariant", related_name="products")
     images = models.ManyToManyField("ProductImage", related_name="products")
@@ -133,15 +134,17 @@ class ProductVariant(models.Model):
         return f"{self.product.name} - {self.size.name} - {self.color.name}"
 
 
-class ProductImages(models.Model):
+class ProductImage(models.Model):
     product = models.ForeignKey(
-        Product, on_delete=models.CASCADE, related_name="product_variants"
+        Product, on_delete=models.CASCADE, related_name="product_images"
     )
     image = models.ImageField(upload_to="product_images/")
 
 
 class Cart(models.Model):
-    product_variant = models.ForeignKey(ProductVariant, on_delete=models.DO_NOTHING)
+    product_variant = models.ForeignKey(
+        ProductVariant, on_delete=models.SET_NULL, null=True
+    )
     quantity = models.PositiveIntegerField()
     added_at = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(

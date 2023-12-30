@@ -11,24 +11,19 @@ import datetime
 
 
 def categories(request):
-
     categories = Category.objects.all()
-
     return render(request, 'products/categories.html', context={"categories": categories})
 
 
 def products(request):
-
     products = Product.objects.all()
     categories = Category.objects.all()
-
     return render(request, template_name="products/products.html", context={"products": products, "categories": categories})
 
 
+
 def product_category(request, slug):
-
     categories = Category.objects.all()
-
     if slug == 'all':
         products = Product.objects.all()
     elif slug == 'new':
