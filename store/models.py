@@ -8,11 +8,11 @@ class Store(models.Model):
     name = models.CharField(max_length=200, unique=True)
     business_name = models.CharField(max_length=200, blank=True, null=True)
     address = models.TextField()
-    owener = models.OneToOneField(
+    owner = models.OneToOneField(
         User, on_delete=models.SET_NULL, null=True, related_name="store"
     )
     email = models.EmailField()
-    alternate_email = models.EmailField(null=True)
+    alternate_email = models.EmailField(null=True, blank=True)
     phone_number = models.CharField(max_length=100)
     alternate_phone_number = models.CharField(max_length=100, null=True, blank=True)
     bio = models.CharField(max_length=250, null=True, blank=True)
@@ -39,6 +39,7 @@ class Store(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class Payout(models.Model):
     CURRENCY_CHOICES = [

@@ -11,7 +11,7 @@ class StoreAdmin(admin.ModelAdmin):
         "name",
         "business_name",
         "address",
-        "owener",
+        "owner",
         "email",
         "alternate_email",
         "phone_number",

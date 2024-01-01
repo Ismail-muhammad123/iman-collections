@@ -1,6 +1,5 @@
 from django.urls import path
 from .apis import UserDetails
-# from rest_framework.authtoken import views
 from . import views
 
 urlpatterns = [

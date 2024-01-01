@@ -1,6 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework import permissions, status
 from products.models import ProductVariant
+from store.models import Store
 from .serializers import StoreSerializer
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
@@ -23,22 +24,21 @@ class StoreDetails(APIView):
             serializer = StoreSerializer(instance=store)
             return Response(serializer.data)
         else:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def post(self, request):
         data = request.data
-        files = request.FILES
 
         store = request.user.store
         if store is not None:
-            serializer = StoreSerializer(instance=store, data=data, files=files)
+            serializer = StoreSerializer(instance=store, data=data)
             if serializer.is_valid():
                 serializer.save()
-                return Response(serializer, status=status.HTTP_201_CREATED)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
             else:
-                return Response(status=status.HTTP_400_BAD_REQUEST)
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         else:
-            return Response(status=status.HTTP_401_UNAUTHORIZED)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 # CREATE STORE
@@ -49,19 +49,29 @@ class CreateStoreAPI(APIView):
 
     def post(self, request):
         data = request.data
-        files = request.FILES
 
-        store = request.user.store
-        if store is None:
+        try:
+            store = request.user.store
+            if store is not None:
+                return Response(
+                    "user already has a store", status=status.HTTP_400_BAD_REQUEST
+                )
+        except:
+            pass
+        data["owner"] = request.user
+        serializer = StoreSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            new_store = Store.objects.get(pk=serializer.data["id"])
+            if new_store is not None:
+                new_store.owner = request.user
+                new_store.save()
             user: User = request.user
             user.is_seller = True
             user.save()
-            serializer = StoreSerializer(data=data, files=files)
-            if serializer.is_valid():
-                serializer.create(serializer.validated_data)
-                return Response(serializer, status=status.HTTP_201_CREATED)
-            return Response(status=status.HTTP_400_BAD_REQUEST)
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 # DELETE Store

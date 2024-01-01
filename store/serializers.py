@@ -6,16 +6,19 @@ from .models import Payout, Store
 
 
 class StoreSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Store
         read_only_fields = (
+            "id",
             "is_active",
             "created_at",
             "last_viewed",
-            "owener",
+            "owner",
             "is_verified",
         )
         fields = [
+            "id",
             "name",
             "business_name",
             "address",

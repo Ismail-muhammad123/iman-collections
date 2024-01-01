@@ -6,7 +6,6 @@ User = get_user_model()
 
 
 class AccountSerializer(serializers.ModelSerializer):
-
     gender = serializers.CharField(source="get_gender_display")
 
     def get_gender_display(self, obj):
@@ -14,12 +13,14 @@ class AccountSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        read_only_fields = ('is_active', 'is_staff', "email")
+        read_only_fields = ("is_active", "is_staff", "email", "is_seller")
         fields = [
             "email",
             "first_name",
             "last_name",
-            "profile_picture",
+            "mobile_number",
             "gender",
-            "mobile_number"
+            "address",
+            "added_at",
+            "is_seller",
         ]
