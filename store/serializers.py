@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Store
+from .models import Payout, Store
 
 # from django.contrib.auth import get_user_model
 # User = get_user_model()
@@ -32,4 +32,19 @@ class StoreSerializer(serializers.ModelSerializer):
             "is_verified",
             "is_open",
             "last_viewed",
+        ]
+
+
+class PayoutSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Payout
+        fields = [
+            "currency",
+            "amount",
+            "store",
+            "bank_name",
+            "account_name",
+            "account_number",
+            "time",
+            "added_by",
         ]

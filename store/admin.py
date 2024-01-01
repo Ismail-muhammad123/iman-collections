@@ -1,13 +1,13 @@
 from django.contrib import admin
 
-from store.models import Store
+from store.models import Payout, Store
 
 # Register your models here.
 
 
 @admin.register(Store)
 class StoreAdmin(admin.ModelAdmin):
-    list_display =[
+    list_display = [
         "name",
         "business_name",
         "address",
@@ -25,4 +25,18 @@ class StoreAdmin(admin.ModelAdmin):
         "is_verified",
         "is_open",
         "last_viewed",
+    ]
+
+
+@admin.register(Payout)
+class PayoutAdmin(admin.ModelAdmin):
+    list_display = [
+        "currency",
+        "amount",
+        "store",
+        "bank_name",
+        "account_name",
+        "account_number",
+        "time",
+        "added_by",
     ]

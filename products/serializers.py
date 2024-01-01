@@ -24,6 +24,30 @@ class SubCategorySerializer(serializers.ModelSerializer):
         ]
 
 
+class ProductVariantSerializer(serializers.ModelSerializer):
+    class Meta:
+        models = ProductVariant
+        field = [
+            "id",
+            "product",
+            "size",
+            "color",
+            "price",
+            "available_quantity",
+            "image",
+        ]
+
+
+class ProductImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        mode = ProductImage
+        fields = [
+            "id",
+            "product",
+            "image",
+        ]
+
+
 class ProductSerializer(serializers.ModelSerializer):
     gender = serializers.CharField(source="get_gender_display")
     # category = serializers.CharField(source='category__name')
@@ -33,15 +57,23 @@ class ProductSerializer(serializers.ModelSerializer):
 
     category = CategorySerializer()
 
+    sub_category = SubCategorySerializer()
+
+    variants = ProductVariantSerializer(many=True)
+
+    images = ProductImageSerializer(many=True)
+
     class Meta:
         model = Product
         fields = [
             "id",
             "gender",
             "category",
+            "sub_category",
+            "variants",
             "name",
             "price",
             "delivery_days",
             "description",
-            "image",
+            "images",
         ]

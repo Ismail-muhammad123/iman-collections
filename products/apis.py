@@ -6,7 +6,7 @@ from products.serializers import (
     CategorySerializer,
     SubCategorySerializer,
 )
-from .models import Category, Product
+from .models import Category, Product, SubCategory
 
 
 class CategoryList(APIView):
@@ -25,11 +25,11 @@ class SubCategoryList(APIView):
 
     def get(self, request):
         category = request.GET.get("category", None)
-        if category is None:
+        if category is not None:
             cat = Category.objects.get(id=category)
             if cat is not None:
-                categories = SubCategorySerializer.objects.filter(category=cat)
-                serializer = SubCategorySerializer(instance=categories, many=True)
+                sub_categories = SubCategory.objects.filter(category=cat)
+                serializer = SubCategorySerializer(instance=sub_categories, many=True)
                 return Response(serializer.data)
         return Response()
 
@@ -54,3 +54,8 @@ class ProductCategoryList(APIView):
         serializer = ProductSerializer(instance=product, many=True)
 
         return Response(serializer.data)
+
+
+
+
+
