@@ -84,6 +84,7 @@ class Product(models.Model):
     category = models.ForeignKey(
         Category, on_delete=models.CASCADE, null=True, related_name="products"
     )
+
     sub_category = models.ForeignKey(
         SubCategory, on_delete=models.SET_NULL, null=True, related_name="products"
     )

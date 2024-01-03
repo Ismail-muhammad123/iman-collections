@@ -1,4 +1,6 @@
+from typing import Any
 from django.contrib import admin
+from django.http.request import HttpRequest
 from django.urls import reverse
 from .models import Order, OrderItem
 from django.utils.safestring import mark_safe
@@ -76,14 +78,17 @@ class OrderAdmin(admin.ModelAdmin):
     def by(self, obj):
         return obj.user if obj.user else "Guest"
 
+    def has_view_permission(self, request: HttpRequest, obj=None) -> bool:
+        return request.user.is_admin or obj.seller == request.user.store
+
     def has_add_permission(self, request, obj=None):
-        return request.user.is_admin
+        return request.user.is_admin or obj.seller == request.user.store
 
     def has_delete_permission(self, request, obj=None):
-        return request.user.is_admin
+        return request.user.is_admin or obj.seller == request.user.store
 
     def has_change_permission(self, request, obj=None):
-        return request.user.is_admin
+        return request.user.is_admin or obj.seller == request.user.store
 
 
 @admin.register(OrderItem)
@@ -124,14 +129,17 @@ class OrderItemAdmin(admin.ModelAdmin):
             return mark_safe(display_text)
         return "-"
 
+    def has_view_permission(self, request, obj=None) -> bool:
+        return request.user.is_admin or obj.order.seller == request.user.store
+
     def has_add_permission(self, request, obj=None):
-        return request.user.is_admin
+        return request.user.is_admin or obj.order.seller == request.user.store
 
     def has_delete_permission(self, request, obj=None):
-        return request.user.is_admin
+        return request.user.is_admin or obj.order.seller == request.user.store
 
     def has_change_permission(self, request, obj=None):
-        return request.user.is_admin
+        return request.user.is_admin or obj.order.seller == request.user.store
 
     list_display = [
         "product",

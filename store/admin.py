@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.http import HttpRequest
 
 from store.models import Payout, Store
 
@@ -27,6 +28,21 @@ class StoreAdmin(admin.ModelAdmin):
         "last_viewed",
     ]
 
+    def has_module_permission(self, request: HttpRequest, obj=None) -> bool:
+        return request.user.is_admin or request.user.is_seller
+
+    def has_view_permission(self, request: HttpRequest, obj=None) -> bool:
+        return request.user.is_admin or obj == request.user.store
+
+    def has_add_permission(self, request, obj=None):
+        return request.user.is_admin or obj == request.user.store
+
+    def has_delete_permission(self, request, obj=None):
+        return request.user.is_admin or obj == request.user.store
+
+    def has_change_permission(self, request, obj=None):
+        return request.user.is_admin or obj == request.user.store
+
 
 @admin.register(Payout)
 class PayoutAdmin(admin.ModelAdmin):
@@ -40,3 +56,18 @@ class PayoutAdmin(admin.ModelAdmin):
         "time",
         "added_by",
     ]
+
+    def has_module_permission(self, request: HttpRequest, obj=None) -> bool:
+        return request.user.is_admin or request.user.is_seller
+
+    def has_view_permission(self, request: HttpRequest, obj=None) -> bool:
+        return request.user.is_admin or obj.store == request.user.store
+
+    def has_add_permission(self, request, obj=None):
+        return request.user.is_admin or obj.store == request.user.store
+
+    def has_delete_permission(self, request, obj=None):
+        return request.user.is_admin or obj.store == request.user.store
+
+    def has_change_permission(self, request, obj=None):
+        return request.user.is_admin or obj.store == request.user.store

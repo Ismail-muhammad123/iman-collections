@@ -12,4 +12,4 @@ class ContactMessage(models.Model):
     recieved_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
-        return self.email
+        return self.subject

@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.http.request import HttpRequest
 from django.urls import reverse
 from .models import (
     Cart,
@@ -21,14 +22,44 @@ class SizeAdmin(admin.ModelAdmin):
         "added_by",
     ]
 
+    def has_view_permission(self, request: HttpRequest, obj=None):
+        return request.user.is_admin
+
+    def has_change_permission(self, request: HttpRequest, obj=None) -> bool:
+        return request.user.is_admin
+
+    def has_add_permission(self, request: HttpRequest, obj=None) -> bool:
+        return request.user.is_admin
+
+    def has_delete_permission(self, request: HttpRequest, obj=None) -> bool:
+        return request.user.is_admin
+
+    def has_module_permission(self, request: HttpRequest, obj=None) -> bool:
+        return request.user.is_admin
+
 
 @admin.register(Color)
-class SizeAdmin(admin.ModelAdmin):
+class ColorAdmin(admin.ModelAdmin):
     list_display = [
         "name",
         "added_at",
         "color_hex_code",
     ]
+
+    def has_view_permission(self, request, obj=None):
+        return request.user.is_admin
+
+    def has_change_permission(self, request, obj=None) -> bool:
+        return request.user.is_admin
+
+    def has_add_permission(self, request, obj=None) -> bool:
+        return request.user.is_admin
+
+    def has_delete_permission(self, request, obj=None) -> bool:
+        return request.user.is_admin
+
+    def has_module_permission(self, request: HttpRequest, obj=None) -> bool:
+        return request.user.is_admin
 
 
 @admin.register(Category)
@@ -75,6 +106,12 @@ class CategoryAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
         obj.added_by = request.user
         return super().save_model(request, obj, form, change)
+
+    # def has_module_permission(self, request: HttpRequest, obj) -> bool:
+    #     return request.user.is_admin
+
+    def has_view_permission(self, request: HttpRequest, obj=None) -> bool:
+        return request.user.is_admin
 
     def has_add_permission(self, request, obj=None):
         return request.user.is_admin
@@ -127,6 +164,12 @@ class SubCategoryAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
         obj.added_by = request.user
         return super().save_model(request, obj, form, change)
+
+    # def has_module_permission(self, request: HttpRequest, obj) -> bool:
+    #     return request.user.is_admin
+
+    def has_view_permission(self, request: HttpRequest, obj=None) -> bool:
+        return request.user.is_admin
 
     def has_add_permission(self, request, obj=None):
         return request.user.is_admin
@@ -189,17 +232,30 @@ class ProductAdmin(admin.ModelAdmin):
         for obj in queryset:
             obj.save()
 
+    def has_view_permission(self, request: HttpRequest, obj=None) -> bool:
+        return request.user.is_admin or (
+            request.user.is_seller and obj.seller == request.user.store
+        )
+
     def has_add_permission(self, request, obj=None):
-        return request.user.is_admin
+        return request.user.is_admin or (
+            request.user.is_seller and obj.seller == request.user.store
+        )
 
     def has_delete_permission(self, request, obj=None):
-        return request.user.is_admin
+        return request.user.is_admin or (
+            request.user.is_seller and obj.seller == request.user.store
+        )
 
     def has_change_permission(self, request, obj=None):
-        return request.user.is_admin
+        return request.user.is_admin or (
+            request.user.is_seller and obj.seller == request.user.store
+        )
 
     def save_model(self, request, obj, form, change):
         obj.added_by = request.user
+        if request.user.store is not None:
+            obj.seller = request.user.store
         return super().save_model(request, obj, form, change)
 
 
@@ -223,6 +279,26 @@ class ProductVariantAdmin(admin.ModelAdmin):
         "variant_image",
     ]
 
+    def has_view_permission(self, request: HttpRequest, obj=None) -> bool:
+        return request.user.is_admin or (
+            request.user.is_seller and obj.product.seller == request.user.store
+        )
+
+    def has_add_permission(self, request, obj=None):
+        return request.user.is_admin or (
+            request.user.is_seller and obj.product.seller == request.user.store
+        )
+
+    def has_delete_permission(self, request, obj=None):
+        return request.user.is_admin or (
+            request.user.is_seller and obj.product.seller == request.user.store
+        )
+
+    def has_change_permission(self, request, obj=None):
+        return request.user.is_admin or (
+            request.user.is_seller and obj.product.seller == request.user.store
+        )
+
 
 @admin.register(ProductImage)
 class ProductImageAdmin(admin.ModelAdmin):
@@ -239,6 +315,26 @@ class ProductImageAdmin(admin.ModelAdmin):
         "product",
         "product_image",
     ]
+
+    def has_view_permission(self, request: HttpRequest, obj=None) -> bool:
+        return request.user.is_admin or (
+            request.user.is_seller and obj.product.seller == request.user.store
+        )
+
+    def has_add_permission(self, request, obj=None):
+        return request.user.is_admin or (
+            request.user.is_seller and obj.product.seller == request.user.store
+        )
+
+    def has_delete_permission(self, request, obj=None):
+        return request.user.is_admin or (
+            request.user.is_seller and obj.product.seller == request.user.store
+        )
+
+    def has_change_permission(self, request, obj=None):
+        return request.user.is_admin or (
+            request.user.is_seller and obj.product.seller == request.user.store
+        )
 
 
 @admin.register(Cart)
@@ -272,6 +368,12 @@ class CartAdmin(admin.ModelAdmin):
     ]
 
     exclude = ["added_by", "added_at"]
+
+    # def has_module_permission(self, request: HttpRequest, obj) -> bool:
+    #     return request.user.is_admin
+
+    def has_view_permission(self, request: HttpRequest, obj=None) -> bool:
+        return request.user.is_admin
 
     def has_add_permission(self, request, obj=None):
         return request.user.is_admin

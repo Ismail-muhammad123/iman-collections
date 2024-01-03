@@ -1,5 +1,6 @@
-import imp
+from typing import Any
 from django.contrib import admin
+from django.http.request import HttpRequest
 from .models import Payment
 
 
@@ -9,7 +10,7 @@ class PaymentAdmin(admin.ModelAdmin):
         return obj.order.id
 
     list_display = [
-        'id',
+        "id",
         "amount",
         "transaction_ref",
         "created_at",
@@ -17,17 +18,16 @@ class PaymentAdmin(admin.ModelAdmin):
         "status",
     ]
 
-    search_fields = [
-        "id",
-        "order__id",
-        "transaction_ref"
-    ]
+    search_fields = ["id", "order__id", "transaction_ref"]
 
     list_filter = [
         "created_at",
         "payed_at",
         "status",
     ]
+
+    def has_view_permission(self, request, obj=None) -> bool:
+        return request.user.is_admin
 
     def has_add_permission(self, request, obj=None):
         return request.user.is_admin
