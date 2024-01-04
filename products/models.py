@@ -73,7 +73,7 @@ class SubCategory(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
-        super(Category, self).save(*args, **kwargs)
+        super(SubCategory, self).save(*args, **kwargs)
 
 
 class Product(models.Model):
@@ -94,8 +94,8 @@ class Product(models.Model):
     store = models.ForeignKey(
         Store, on_delete=models.SET_NULL, null=True, related_name="products"
     )
-    variants = models.ManyToManyField("ProductVariant", related_name="products")
-    images = models.ManyToManyField("ProductImage", related_name="products")
+    # images = models.ManyToManyField("ProductImage", related_name="products")
+    # variants = models.ManyToManyField("ProductVariant", related_name="products")
 
     is_active = models.BooleanField(default=True)
 

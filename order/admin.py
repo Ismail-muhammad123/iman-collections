@@ -75,20 +75,28 @@ class OrderAdmin(admin.ModelAdmin):
         "delivery_status",
     ]
 
+    # actions = [
+
+    # ]
+
     def by(self, obj):
         return obj.user if obj.user else "Guest"
 
     def has_view_permission(self, request: HttpRequest, obj=None) -> bool:
-        return request.user.is_admin or obj.seller == request.user.store
+        return (
+            request.user.is_authenticated
+            and request.user.is_admin
+            or obj.seller == request.user.store
+        )
 
     def has_add_permission(self, request, obj=None):
-        return request.user.is_admin or obj.seller == request.user.store
+        return False
 
     def has_delete_permission(self, request, obj=None):
-        return request.user.is_admin or obj.seller == request.user.store
+        return False
 
     def has_change_permission(self, request, obj=None):
-        return request.user.is_admin or obj.seller == request.user.store
+        return False
 
 
 @admin.register(OrderItem)
@@ -133,13 +141,13 @@ class OrderItemAdmin(admin.ModelAdmin):
         return request.user.is_admin or obj.order.seller == request.user.store
 
     def has_add_permission(self, request, obj=None):
-        return request.user.is_admin or obj.order.seller == request.user.store
+        return False
 
     def has_delete_permission(self, request, obj=None):
-        return request.user.is_admin or obj.order.seller == request.user.store
+        return False
 
     def has_change_permission(self, request, obj=None):
-        return request.user.is_admin or obj.order.seller == request.user.store
+        return False
 
     list_display = [
         "product",

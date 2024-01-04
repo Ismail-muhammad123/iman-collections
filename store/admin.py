@@ -29,19 +29,19 @@ class StoreAdmin(admin.ModelAdmin):
     ]
 
     def has_module_permission(self, request: HttpRequest, obj=None) -> bool:
-        return request.user.is_admin or request.user.is_seller
+        return request.user.is_authenticated and request.user.is_admin
 
     def has_view_permission(self, request: HttpRequest, obj=None) -> bool:
-        return request.user.is_admin or obj == request.user.store
+        return request.user.is_authenticated and request.user.is_admin
 
     def has_add_permission(self, request, obj=None):
-        return request.user.is_admin or obj == request.user.store
+        return request.user.is_authenticated and request.user.is_admin
 
     def has_delete_permission(self, request, obj=None):
-        return request.user.is_admin or obj == request.user.store
+        return request.user.is_authenticated and request.user.is_admin
 
     def has_change_permission(self, request, obj=None):
-        return request.user.is_admin or obj == request.user.store
+        return request.user.is_authenticated and request.user.is_admin
 
 
 @admin.register(Payout)
@@ -58,16 +58,20 @@ class PayoutAdmin(admin.ModelAdmin):
     ]
 
     def has_module_permission(self, request: HttpRequest, obj=None) -> bool:
-        return request.user.is_admin or request.user.is_seller
+        return request.user.is_authenticated and (
+            request.user.is_admin or request.user.is_seller
+        )
 
     def has_view_permission(self, request: HttpRequest, obj=None) -> bool:
-        return request.user.is_admin or obj.store == request.user.store
+        return request.user.is_authenticated and (
+            request.user.is_admin or obj.store == request.user.store
+        )
 
     def has_add_permission(self, request, obj=None):
-        return request.user.is_admin or obj.store == request.user.store
+        return False
 
     def has_delete_permission(self, request, obj=None):
-        return request.user.is_admin or obj.store == request.user.store
+        return False
 
     def has_change_permission(self, request, obj=None):
-        return request.user.is_admin or obj.store == request.user.store
+        return False
