@@ -26,8 +26,8 @@ class SubCategorySerializer(serializers.ModelSerializer):
 
 class ProductVariantSerializer(serializers.ModelSerializer):
     class Meta:
-        models = ProductVariant
-        field = [
+        model = ProductVariant
+        fields = [
             "id",
             "product",
             "size",

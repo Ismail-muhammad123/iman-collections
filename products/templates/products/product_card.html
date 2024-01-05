@@ -1,27 +1,27 @@
 {% load humanize %}
-<div class="col-sm-8 col-md-5 col-lg-3 rounded text-center pb-4 bg-light m-1">
+<div class="col-sm-8 col-md-5 col-lg-3 border rounded text-center pb-4 bg-light m-1">
     <!-- product card -->
     <div class="col-12">
         <a href="{% url 'products_details' id=product.id slug=product.slug %}">
-            <img src="{{product.image.url}}" alt="product image" style="object-fit: contain;" height="300px"
-                width="200px" />
+            <img src="{{product.product_images.first.image.url}}" alt="product image" style="object-fit: contain;"
+                height="300px" width="200px" />
         </a>
     </div>
     <div class="card-body align-items-end">
         <a href="{% url 'products_details' id=product.id slug=product.slug %}" style="font-weight: 600;"
-            class="text-decoration-none text-center text-dark fs-5 pt-2 text-uppercase">
-            <div class="card-title">
+            class="text-decoration-none text-start text-dark fs-5 pt-2 text-uppercase">
+            <div class="card-title text-center">
                 {{product.name}}
             </div>
         </a>
 
-        <span>&#8358; {{product.price|intcomma}}</span>
+        <span>&#8358; {{product.product_variants.first.price|intcomma}}</span>
         <br />
-        {% if product.available_quantity %}
+        {% if product.product_variants.first.available_quantity %}
         <p class="text-success">
-            Available
+            <a href="{% url 'products_details' id=product.id slug=product.slug %}" class="btn btn-primary">View</a>
         </p>
-        <form class="form-group row justify-content-center align-items-center" action="{% url 'add_cart' %}"
+        <!-- <form class="form-group row justify-content-center align-items-center" action="{% url 'add_cart' %}"
             method="get">
             {% csrf_token %}
             <input type="number" hidden value="{{product.id}}" name="product_id" id="product_id">
@@ -32,7 +32,7 @@
             <div class="col-12 text-center mt-3">
                 <input type="submit" style="border-color: purple; width: 100%;" value="Add to Cart" class="btn" />
             </div>
-        </form>
+        </form> -->
         {% else %}
 
         <p class="text-danger">

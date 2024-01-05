@@ -79,7 +79,7 @@ class SubCategory(models.Model):
 class Product(models.Model):
     GENDER_CHOICES = [("M", "Male"), ("F", "Female"), ("U", "Unisex")]
 
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=200)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
     category = models.ForeignKey(
         Category, on_delete=models.CASCADE, null=True, related_name="products"
@@ -131,6 +131,16 @@ class ProductVariant(models.Model):
     available_quantity = models.PositiveIntegerField()
     image = models.ImageField(upload_to="product_images/")
     active = models.BooleanField(default=True)
+
+    def as_dict(self):
+        return {
+            "product": self.product,
+            "size": self.size,
+            "color": self.color,
+            "price": self.price,
+            "available_quantity": self.available_quantity,
+            "image": self.image,
+        }
 
     def __str__(self):
         return f"{self.product.name} - {self.size.name} - {self.color.name}"

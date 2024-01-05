@@ -278,8 +278,10 @@
         </svg></a>
     </p>
   </footer>
-  <script src="https://code.jquery.com/jquery-3.6.1.min.js"
-    integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+  <!-- <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+    integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script> -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
   <script type="text/javascript"
     src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9 /dist/umd/popper.min.js"
@@ -354,6 +356,65 @@
           }
         );
 
+        // Product details images selection
+        $('.variant-thumbnail').on('click', function () {
+          // Get the source of the clicked thumbnail
+          var thumbnailSrc = $(this).attr('src');
+
+          $('.variant-thumbnail').removeClass("border");
+          $(this).addClass("border");
+
+          // Update the source of the main product image
+          $('#main-image').attr('src', thumbnailSrc);
+        });
+
+
+        // Function to fetch the JSON list of variants
+        function fetchVariants() {
+          $.ajax({
+            url: "{% url 'variants_json' %}",  // Replace with your actual API endpoint
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+              // Once the data is successfully fetched, proceed
+              initializePage(data);
+            },
+            error: function (error) {
+              console.error('Error fetching variants:', error);
+            }
+          });
+        }
+
+        // Function to initialize the page after fetching variants
+        function initializePage(variants) {
+          // Event handler for variant radio buttons
+          $('.variant-radio').on('change', function () {
+            // Get selected color and size
+            var selectedColor = $('input[name="color"]:checked').val();
+            var selectedSize = $('input[name="size"]:checked').val();
+
+            // Find the selected variant in the variants list
+            var selectedVariant = findVariant(selectedColor, selectedSize);
+
+
+
+            // Update main image source based on selected variant
+            if (selectedVariant) {
+              $('#main-image').attr('src', selectedVariant.image);
+              $("#product_variant_id").attr("value", selectedVariant.id);
+            }
+          });
+
+          // Function to find the variant in the variants list
+          function findVariant(color, size) {
+            return variants.find(function (variant) {
+              return variant.color == color && variant.size == size;
+            });
+          }
+        }
+
+        // Fetch variants before initializing the page
+        fetchVariants();
       }
     );
   </script>

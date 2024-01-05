@@ -19,6 +19,7 @@ urlpatterns = [
     path('categories/<str:slug>',
          views.product_category, name='filter_category'),
     path('', views.products, name="products"),
+    path('variants', views.variants_json, name="variants_json"),
     path('search', views.search, name="search_product"),
     path('<int:id>/<str:slug>',
          views.product_details, name='products_details'),

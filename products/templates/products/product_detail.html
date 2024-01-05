@@ -5,11 +5,37 @@
 {{ product.name }}
 {% endblock %}
 {% block content %}
-<section class="container mt-5 bg-light shadow rounded">
+<style>
+  .variant-color {
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+</style>
+
+<section class=" m-5 bg-light shadow rounded">
   <div class="row">
-    <div class="col-md-6 col-sm-12 col-lg-6 d-flex align-items-center justify-content-center">
-      <img id="product-details-image" class="w-sm-100 w-lg-40 w-md-40" src="{{ product.image.url }}" alt="" />
+    <div class="col-md-6 col-sm-10 col-lg-6 align-items-center justify-content-center">
+      <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-8">
+          <img id="main-image" class="w-100 p-3" src="{{ product.product_images.first.image.url }}" alt="" />
+        </div>
+        <div class="mt-4 col-sm-12 col-md-12 col-lg-4">
+          <div class="row align-items-center justify-content-center">
+            {% for image in product.product_images.all %}
+            <span class="col-3 xcol-sm-3 col-md-3  col-lg-12 my-lg-2 d-inline-block text-center fw-bold fs-2">
+              <img src="{{image.image.url}}" alt="Product image" height="80px" width="80px"
+                class="rounded p-2 variant-thumbnail {% if forloop.first %} border {% endif %} ">
+            </span>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
     </div>
+
+
+
     <div class="col-md-6 col-sm-12 col-lg-6 p-sm-1 p-md-3 p-lg-2">
       <div id="details-info" style="font-size: 18px;">
         <div class=" p-3">
@@ -17,22 +43,15 @@
             <div class="col-12 text-uppercase fw-bold fs-2">
               {{product.name}}
             </div>
-
           </div>
-          <hr />
-          <div class="row">
-            <div class="col-12 text-capitalize">
 
-              {{product.description}}
-            </div>
-          </div>
           <hr />
           <div class="row">
             <div class="col-4">
-              Categories:
+              Category:
             </div>
             <div class="col-8 text-end">
-              {{product.category}}
+              {{product.category}} | {{product.sub_category}}
             </div>
           </div>
           <hr />
@@ -40,46 +59,66 @@
             <div class="col-6">
               Price(NGN):
             </div>
-            <div class="col-6 text-end">
-              &#8358;{{product.price|intcomma}}
+            <div class="col-6 text-end" id="price">
+              &#8358;{{product.product_variants.first.price|intcomma}}
+            </div>
+          </div>
+          <hr />
+
+          <div class="row">
+            <div class="col-4">
+              Sizes:
+            </div>
+            <div class="col-8 text-end">
+              {% for variant in product.product_variants.all %}
+              {% ifchanged variant.size %}
+              <span class="border p-1 rounded">
+                <label class="custom-radio">
+                  <input type="radio" name="size" {% if forloop.first %} checked {% endif %} value="{{variant.size.id}}"
+                    class="variant-radio" />
+                  <span class="checkmark"></span>
+                  <span class="radio-label">{{variant.size}}</span>
+                </label>
+              </span>
+              {% endifchanged %}
+
+              {% endfor %}
             </div>
           </div>
           <hr />
           <div class="row">
-            <div class="col-6">
-              Size:
+            <div class="col-4">
+              Colors:
             </div>
-            <div class="col-6 text-end">
-              {{product.product_size}}
-            </div>
-          </div>
-          <hr />
-          <div class="row">
-            <div class="col-6">
-              Color:
-            </div>
-            <div class="col-6 text-end">
-              {{product.product_color}}
-            </div>
-          </div>
-          <hr />
-          <div class="row align-items-center">
-            <div class="col-6">
-              Approximate delivery time:
-            </div>
-            <div class="col-6 text-end">
-              {{product.delivery_days}} days
+            <div class="col-8 text-end">
+              {% for variant in product.product_variants.all %}
+              {% ifchanged variant.color %}
+              <span class="border p-2 m-1 rounded d-inline-block">
+                <label class="custom-radio">
+                  <input type="radio" name="color" class="variant-radio" {% if forloop.first %} checked {% endif %}
+                    value="{{variant.color.id}}" />
+                  <span class="checkmark"></span>
+                  <span class="radio-label text-capitalize" style="color: {{variant.color}}; font-weight: bold;">
+                    {{variant.color}}
+                  </span>
+                </label>
+              </span>
+
+              {% endifchanged %}
+              {% endfor %}
             </div>
           </div>
           <hr />
-          {% if product.available_quantity %}
+
+          {% if product.product_variants.first.available_quantity %}
           <p class="text-success">
-            Available
+            In Stock
           </p>
           <form class="form-group row justify-content-center align-items-center" action="{% url 'add_cart' %}"
             method="get">
             {% csrf_token %}
-            <input type="number" hidden value="{{product.id}}" name="product_id" id="product_id">
+            <input type="number" hidden value="{{product.product_variants.first.id}}" name="product_variant_id"
+              id="product_variant_id">
             <div class="col-12">
               <input type="number" name="quantity" id="quantity" min="1" max="{{product.available_quantity}}" value="1"
                 class="input-group rounded" />
@@ -91,26 +130,28 @@
           </form>
           {% else %}
           <p class="text-danger">
-            {{product.available_quantity}} available
+            {{product.product_variants.first.available_quantity}} available
           </p>
           {% endif %}
+          <hr />
+          <div class="row">
+            <div class="col-12 text-capitalize">
+              <strong>Description: </strong>
+              {{product.description}}
+            </div>
+          </div>
         </div>
 
         <br />
       </div>
     </div>
   </div>
-  <script>
-    $('#add-quantity').click(function (e) {
-      e.preventDefault()
-      var quantity = $('#quantity').val()
-      $('#quantity').val(quantity + 1)
-    })
-    $('#subtract-quantity').click(function (e) {
-      e.preventDefault()
-      var quantity = $('#quantity').val()
-      $('#quantity').val(quantity - 1)
-    })
-  </script>
 </section>
+
+
+<script>
+  $(document).ready(function () {
+
+  });
+</script>
 {% endblock content %}
