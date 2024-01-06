@@ -153,7 +153,6 @@ class OrderItemAdmin(admin.ModelAdmin):
 
     list_display = [
         "product",
-        "brand",
         "size",
         "color",
         "buyer",
