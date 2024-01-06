@@ -49,6 +49,8 @@ class Order(models.Model):
     device = models.CharField(max_length=100, default="", blank=True, null=True)
     tracking_id = models.CharField(max_length=10, null=True)
     total_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    tax = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    delivery_fee = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     status = models.PositiveIntegerField(choices=STATUS_CHOICES, default=4)
     delivery_status = models.PositiveIntegerField(
         choices=DELIVERY_STATUS_CHOICES, default=1

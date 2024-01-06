@@ -35,7 +35,6 @@ def products(request):
 def variants_json(request):
     variants = ProductVariant.objects.all()
     serializer = ProductVariantSerializer(instance=variants, many=True)
-    print(json.dumps(serializer.data))
     return HttpResponse(json.dumps(serializer.data))
 
 

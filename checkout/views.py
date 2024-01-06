@@ -19,17 +19,15 @@ from django.contrib.auth.decorators import login_required
 
 
 def checkout(request, order_id):
-
     unique_id = str(uuid.uuid4())
 
     verification_url = settings.REDIRECT_URL
 
-    device = request.COOKIES['device']
+    device = request.COOKIES["device"]
 
     order = get_object_or_404(Order, id=order_id)
 
     if order.user == request.user or order.device == device:
-
         if request.user.is_authenticated:
             email = request.user.email
             full_name = request.user.get_full_name()
@@ -43,14 +41,17 @@ def checkout(request, order_id):
             order=order,
             defaults={
                 "payment_referance_number": unique_id,
-                "amount": order.total_amount
-            }
+                "amount": order.total_amount,
+            },
         )
 
         if not created:
             if payment.status == 2:
                 messages.add_message(
-                    request, messages.INFO, "The payment for this order has already been completed.")
+                    request,
+                    messages.INFO,
+                    "The payment for this order has already been completed.",
+                )
                 return render(request, "order/new_order.html")
 
         if request.user.is_authenticated:
@@ -67,8 +68,8 @@ def checkout(request, order_id):
 
         data = {
             "reference": unique_id,
-            'email': email,
-            "amount": order.total_amount * 100,
+            "email": email,
+            "amount": float(order.total_amount) * 100,
             "currency": "NGN",
             "callback_url": verification_url,
             "metadata": {
@@ -76,16 +77,16 @@ def checkout(request, order_id):
                 "customer": {
                     "email": email,
                     "phone_number": phone_number,
-                    "name": full_name
+                    "name": full_name,
                 },
             },
         }
         res = requests.post(url, headers=headers, json=data)
         response = res.json()
-        print(response['status'])
+        print(response["status"])
         print(response)
-        if response['status'] == True:
-            return redirect(response['data']['authorization_url'])
+        if response["status"] == True:
+            return redirect(response["data"]["authorization_url"])
         else:
             # pprint(response)
             return redirect(reverse("new_order"))
@@ -97,16 +98,15 @@ def verify_payment(request):
     headers = {"Authorization": f"Bearer {settings.PAYMENT_GATEAWAY_SECRET_KEY}"}
     data = request.GET
 
-    tx_ref = data['trxref']
-    response = requests.get(
-        settings.PAYMENT_VERIFICATION_URL + tx_ref, headers=headers)
+    tx_ref = data["trxref"]
+    response = requests.get(settings.PAYMENT_VERIFICATION_URL + tx_ref, headers=headers)
     # print(response.status_code)
     if response.status_code == 200:
         res = response.json()
-        status = res['data']['log']['success']
+        status = res["data"]["log"]["success"]
         # print(status)
         if status:
-            order_id = res['data']['metadata']['order_id']
+            order_id = res["data"]["metadata"]["order_id"]
             # get order object
             order = get_object_or_404(Order, id=order_id)
             order.status = 3
@@ -136,15 +136,18 @@ def verify_payment(request):
             #     raise Http404
             # empty the cart
 
-            cart = request.user.cart if request.user.is_authenticated else Cart.objects.filter(
-                device=request.COOKIES['device'])
+            cart = (
+                request.user.cart
+                if request.user.is_authenticated
+                else Cart.objects.filter(device=request.COOKIES["device"])
+            )
 
             [item.delete() for item in cart]
 
             # redirect to order-tracking page
-            return redirect(reverse('track_order'))
+            return redirect(reverse("track_order"))
         else:
-            print(res['data']['metadata'])
+            print(res["data"]["metadata"])
             order = Order.objects.get(id=order_id)
             order.delete()
             return render(request, "checkout/payment_failed.html")

@@ -17,10 +17,12 @@
             </h4>
             <ul class="list-group mb-3">
                 {% for item in cart_items %}
-
                 <li class="list-group-item justify-content-between lh-condensed">
-                    <h6 class="col-12">{{item.product.name}}</h6>
-                    <span class="text-muted">&#8358;{{item.product.price|intcomma }} (x{{item.quantity}})</span>
+                    <h6 class="col-12 text-capitalize">{{item.product_variant.product.name}} <small class="text-muted">
+                            (
+                            {{item.product_variant.color}},
+                            {{item.product_variant.size}})</small> </h6>
+                    <span class="text-muted">&#8358;{{item.product_variant.price|intcomma }} (x{{item.quantity}})</span>
                 </li>
                 {% endfor %}
                 <li class="list-group-item d-flex border-top justify-content-between">

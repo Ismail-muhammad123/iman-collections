@@ -384,7 +384,7 @@ class CartAdmin(admin.ModelAdmin):
                 ),
             )
             + f"?q={obj.pk}",
-            f"<img src={obj.image.url} width='100px' height='100px'/>",
+            f"<img src={obj.product_variant.image.url} width='100px' height='100px'/>",
         )
 
         if display_text:

@@ -128,6 +128,7 @@ class ProductVariant(models.Model):
         Color, on_delete=models.SET_NULL, null=True, related_name="product_variants"
     )
     price = models.DecimalField(max_digits=10, decimal_places=2)
+    delivery_fee = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     available_quantity = models.PositiveIntegerField()
     image = models.ImageField(upload_to="product_images/")
     active = models.BooleanField(default=True)

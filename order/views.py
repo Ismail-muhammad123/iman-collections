@@ -12,7 +12,6 @@ from django.contrib import messages
 
 
 def new_order(request):
-
     if request.user.is_authenticated:
         cart_items = request.user.cart.all()
         full_name = request.user.get_full_name()
@@ -22,21 +21,24 @@ def new_order(request):
         full_name = ""
         email = ""
         phone_number = ""
-        device = request.COOKIES['device']
+        device = request.COOKIES["device"]
         cart_items = Cart.objects.filter(device=device)
 
     sub_total = 0
+    delivery_fee = 0
+    total = 0
     for item in cart_items:
-        sub_total += item.product.price * item.quantity
+        sub_total += item.product_variant.price * item.quantity
+        delivery_fee += item.product_variant.delivery_fee * item.quantity
 
     # countries = [i[1] for i in country_names.items()]
 
     # countries.sort(reverse=True)
 
-    countries = ['Nigeria']
+    countries = ["Nigeria"]
+    total = sub_total + delivery_fee
+    # tax = 7.5 * 0.01 * float(total)
     tax = 0
-    delivery_fee = 0
-    total = sub_total + tax + delivery_fee
 
     context = {
         "cart_items": cart_items,
@@ -49,28 +51,29 @@ def new_order(request):
         "email": email,
         "phone_number": phone_number,
     }
-    return render(request, template_name='order/new_order.html', context=context)
+    return render(request, template_name="order/new_order.html", context=context)
 
 
 def add_order(request):
-    delivery_address = request.POST.get('delivery_address')
-    country = request.POST.get('country')
-    state = request.POST.get('state')
-    zip_code = request.POST.get('zip_code')
+    delivery_address = request.POST.get("delivery_address")
+    country = request.POST.get("country")
+    state = request.POST.get("state")
+    zip_code = request.POST.get("zip_code")
 
-    full_name = request.POST.get('full_name')
-    email = request.POST.get('email')
-    phone_number = request.POST.get('phone_number')
+    full_name = request.POST.get("full_name")
+    email = request.POST.get("email")
+    phone_number = request.POST.get("phone_number")
 
-    if (delivery_address == None or country == None or state == None):
-        messages.add_message(request, messages.ERROR,
-                             "All required fields must be provided")
+    if delivery_address == None or country == None or state == None:
+        messages.add_message(
+            request, messages.ERROR, "All required fields must be provided"
+        )
         return new_order(request)
 
     if request.user.is_authenticated:
         cart_items = request.user.cart.all()
     else:
-        cart_items = Cart.objects.filter(device=request.COOKIES['device'])
+        cart_items = Cart.objects.filter(device=request.COOKIES["device"])
 
     # cart_items = request.user.cart.all() if request.user.is_autheticated else Cart.objects.filter(
     #     device=request.COOKIES['device'])
@@ -78,10 +81,15 @@ def add_order(request):
     if len(cart_items) == 0:
         raise Http404()
 
-    total_amount = 0
+    sub_total = 0
+    total_delivery_fee = 0
+    tax = 0
 
     for item in cart_items:
-        total_amount += item.product.price * item.quantity
+        sub_total += item.product_variant.price * item.quantity
+        total_delivery_fee += item.product_variant.delivery_fee
+
+    total_amount = tax + sub_total + total_delivery_fee
 
     order = Order(
         full_name=full_name,
@@ -91,20 +99,20 @@ def add_order(request):
         state=state,
         zip_code=zip_code,
         delivery_address=delivery_address,
+        tax=tax,
+        delivery_fee=total_delivery_fee,
         total_amount=total_amount,
     )
 
     if request.user.is_authenticated:
         order.user = request.user
     else:
-        order.device = request.COOKIES['device']
+        order.device = request.COOKIES["device"]
     order.save()
 
     for item in cart_items:
         order_item = OrderItem(
-            product=item.product,
-            quantity=item.quantity,
-            order=order
+            product=item.product_variant, quantity=item.quantity, order=order
         )
 
         order_item.save()
@@ -115,8 +123,7 @@ def add_order(request):
 def track_order(request):
     tracking_id = request.GET.get("tracking_id")
     if tracking_id is not None:
-        orders = Order.objects.filter(
-            tracking_id=tracking_id)
+        orders = Order.objects.filter(tracking_id=tracking_id)
         context = {"orders": orders}
 
         return render(request, "order/order.html", context=context)
@@ -124,8 +131,9 @@ def track_order(request):
     if request.user.is_authenticated:
         orders = request.user.orders.exclude(status=4)
     else:
-        orders = Order.objects.filter(
-            device=request.COOKIES['device']).exclude(status=4)
+        orders = Order.objects.filter(device=request.COOKIES["device"]).exclude(
+            status=4
+        )
 
     context = {"orders": orders}
 
