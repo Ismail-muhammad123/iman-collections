@@ -402,6 +402,13 @@
             if (selectedVariant) {
               $('#main-image').attr('src', selectedVariant.image);
               $("#product_variant_id").attr("value", selectedVariant.id);
+              $("#price").text(selectedVariant.price);
+              if (selectedVariant.delivery_fee > 0) {
+                $("#delivery-fee").text("&#8358;" + selectedVariant.delivery_fee);
+              } else {
+                $("#delivery-fee").text("Free Delivery");
+                $("#delivery-fee").addClass("font-weight-bold");
+              }
             }
           });
 

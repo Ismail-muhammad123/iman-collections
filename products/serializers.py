@@ -34,6 +34,7 @@ class ProductVariantSerializer(serializers.ModelSerializer):
             "color",
             "price",
             "available_quantity",
+            "delivery_fee",
             "image",
         ]
 

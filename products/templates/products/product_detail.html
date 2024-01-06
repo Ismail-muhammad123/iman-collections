@@ -59,9 +59,24 @@
             <div class="col-6">
               Price(NGN):
             </div>
-            <div class="col-6 text-end" id="price">
-              &#8358;{{product.product_variants.first.price|intcomma}}
+            <div class="col-6 text-end">
+              &#8358;<span id="price"> {{product.product_variants.first.price|intcomma}}</span>
             </div>
+          </div>
+          <hr />
+          <div class="row">
+            <div class="col-6">
+              Delivery Fee(NGN):
+            </div>
+            <div class="col-6 font-weight-bold text-end">
+              <strong id="delivery-fee">{% if product.product_variants.first.delivery_fee > 0 %}
+                &#8358;{{product.product_variants.first.delivery_fee|intcomma}}
+                {% else %}
+                Free Delivery
+                {% endif %}
+              </strong>
+            </div>
+
           </div>
           <hr />
 
