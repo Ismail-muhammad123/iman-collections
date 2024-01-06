@@ -296,6 +296,7 @@ class ProductVariantAdmin(admin.ModelAdmin):
         "size",
         "color",
         "price",
+        "delivery_fee",
         "available_quantity",
         "variant_image",
     ]

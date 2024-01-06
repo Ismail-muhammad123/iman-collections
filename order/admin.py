@@ -60,6 +60,8 @@ class OrderAdmin(admin.ModelAdmin):
         "delivery_address",
         "tracking_id",
         "total_amount",
+        "tax",
+        "delivery_fee",
         "status",
         "delivery_status",
         "payment_status",
