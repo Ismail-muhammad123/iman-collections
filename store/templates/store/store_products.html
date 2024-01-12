@@ -1,0 +1,63 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title%}
+{% if store_name %} {{store_name}} {% endif %}
+{% if category_name %} {{category_name}} {% else %} Products {% endif %}
+{% endblock %}
+{% block content %}
+
+<div class="row p-4 bg-secondary m-0 mt-3">
+    <div class="col-12 text-center">
+        <h4 class="text-light">
+            <strong>Store: </strong> {{store.name}}
+        </h4>
+    </div>
+</div>
+<section class="mt-4 px-2 px-md-4 px-lg-4">
+    <div class="row my-5 py-5">
+        <!-- filter -->
+        <div class="col-sm-12 mb-2 col-md-4 col-lg-2">
+            <h5 class="text-uppercase p-3" style="color: purple;">
+                Filter:
+            </h5>
+            <ul class="list-group">
+                <li class="list-group-item text-uppercase bg-secondary text-light fw-bold" style="border-color: grey;">
+                    Categories:
+                </li>
+                <li class="list-group-item">
+                    <a class="text-decoration-none text-dark"
+                        href="{% url 'store_products_page' store_id=store.id %}">All</a>
+                </li>
+                {% for category in categories %}
+                <li class="list-group-item">
+                    <a class="text-decoration-none text-dark"
+                        href="{% url 'store_products_page' store_id=store.id %}?category={{category.id}}">{{category.name|default:"All"}}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- products -->
+        <div class="col-sm-12 col-md-8 col-lg-10 bg-light">
+            <div class="row">
+                <div class="col-12">
+                    <h3 style="font-weight: 700;" class="p-3 text-uppercase">
+                        Products |
+                        <span class="text-capitalize fw-normal">
+                            <i>
+                                {% if category_name %} {{category_name}} {% else %} All {% endif %}
+                            </i>
+                        </span>
+                    </h3>
+                </div>
+            </div>
+            <div class="row text-center justify-content-center  mb-5 pb-5">
+                {% for product in products %}
+                {% include 'products/product_card.html' with product=product %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

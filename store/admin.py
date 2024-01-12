@@ -1,23 +1,108 @@
 from django.contrib import admin
 from django.http import HttpRequest
 
-from store.models import Payout, Store
+from store.models import Payout, Store, Plan, Subscription, SubscriptionPayment
 
 # Register your models here.
+
+
+@admin.register(Plan)
+class PlanAdmin(admin.ModelAdmin):
+    list_display = [
+        "name",
+        "code",
+        "created_at",
+        "price",
+    ]
+
+    def has_view_permission(self, request: HttpRequest, obj=None) -> bool:
+        return request.user.is_admin
+
+    def has_add_permission(self, request: HttpRequest, obj=None) -> bool:
+        return request.user.is_admin
+
+    def has_delete_permission(self, request: HttpRequest, obj=None) -> bool:
+        return request.user.is_admin
+
+    def has_change_permission(self, request: HttpRequest, obj=None) -> bool:
+        return request.user.is_admin
+
+    def has_module_permission(self, request: HttpRequest, obj=None) -> bool:
+        return request.user.is_admin
+
+
+@admin.register(SubscriptionPayment)
+class SubscriptionPaymentAdmin(admin.ModelAdmin):
+    list_display = [
+        "subscription",
+        "amount",
+        "store",
+        "added_at",
+        "status",
+    ]
+
+    def has_view_permission(self, request: HttpRequest, obj=None) -> bool:
+        return request.user.is_admin or (
+            request.user.store is not None and obj.store == request.user.store
+        )
+
+    def has_add_permission(self, request: HttpRequest, obj=None) -> bool:
+        return request.user.is_admin
+
+    def has_delete_permission(self, request: HttpRequest, obj=None) -> bool:
+        return request.user.is_admin
+
+    def has_change_permission(self, request: HttpRequest, obj=None) -> bool:
+        return request.user.is_admin
+
+    def has_module_permission(self, request: HttpRequest, obj=None) -> bool:
+        return request.user.is_admin or (
+            request.user.store is not None and obj.store == request.user.store
+        )
+
+
+@admin.register(Subscription)
+class SubscriptionAdmin(admin.ModelAdmin):
+    list_display = [
+        "plan",
+        "created_at",
+        "store",
+        "amount",
+        "subscription_code",
+        "status",
+        "canceled_at",
+    ]
+
+    def has_view_permission(self, request: HttpRequest, obj=None) -> bool:
+        return request.user.is_admin or (
+            request.user.store is not None and obj.store == request.user.store
+        )
+
+    def has_add_permission(self, request: HttpRequest, obj=None) -> bool:
+        return request.user.is_admin
+
+    def has_delete_permission(self, request: HttpRequest, obj=None) -> bool:
+        return request.user.is_admin
+
+    def has_change_permission(self, request: HttpRequest, obj=None) -> bool:
+        return request.user.is_admin
+
+    def has_module_permission(self, request: HttpRequest, obj=None) -> bool:
+        return request.user.is_admin or (
+            request.user.store is not None and obj.store == request.user.store
+        )
 
 
 @admin.register(Store)
 class StoreAdmin(admin.ModelAdmin):
     list_display = [
-        "name",
         "business_name",
-        "address",
+        "business_address",
         "owner",
         "email",
         "alternate_email",
         "phone_number",
         "alternate_phone_number",
-        "bio",
         "about",
         "is_registered",
         "created_at",

@@ -1,0 +1,204 @@
+{% extends 'base/base.html' %}
+{% block title %}
+Create Seller Profile
+{% endblock %}
+{% load static %}
+{% block content %}
+<div class="py-5 container my-5 mx-5 px-5">
+    {% for message in messages %}
+    <div class="container-fluid p-0">
+        <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="True">&times;</span>
+            </button>
+            {{ message }}
+        </div>
+    </div>
+    {% endfor %}
+    <form action="{% url 'create_new_store' %}" method="post">
+        {% csrf_token %}
+        <h1 class="text-center text-uppercase mb-3" style="color: purple; font-weight: 700;">Create A New Store</h1>
+        <!--
+        <div class="form-floating">
+            <input type="text" class="form-control" id="store_name" name="store_name">
+            <label for="first_name">Store Name <span class="text-danger">*</span> </label>
+        </div>
+        <div class="form-floating">
+            <input type="text" class="form-control" id="business_name" name="business_name">
+            <label for="last_name">Business Name <span class="text-secondary">(optional)</span></label>
+        </div>
+        <div class="form-floating">
+            <input type="address" class="form-control" id="address" name="address">
+            <label for="email">Business Address <span class="text-danger">*</span></label>
+        </div>
+        <div class="form-floating">
+            <input type="tel" class="form-control" id="phone" name="phone" placeholder="+234 12345678">
+            <label for="phone">Phone Number <span class="text-danger">*</span></label>
+        </div>
+        <div class="form-floating">
+            <select id="gender" class="form-control" name="gender" aria-label="Default select example">
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+            </select>
+            <label for="gender">Gender <span class="text-secondary">(optional)</span></label>
+        </div>
+
+        <div class="form-floating">
+            <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+            <label for="password">Password <span class="text-danger">*</span></label>
+        </div> -->
+
+        <div class="form-row">
+            <div class="col-12 ">
+                <h5 class="text-uppercase fw-bold" style="color: purple;">Store Information</h5>
+            </div>
+            <div class="col-12 my-1">
+                <div class="form-floating">
+                    <input type="tel" class="form-control rounded" id="business_name" name="business_name"
+                        placeholder="name">
+                    <label for="business_name">Registered Business Name <span class="text-danger">*</span></label>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-6 my-1">
+                    <div class="form-floating">
+                        <textarea class="form-control rounded" id="business_address" name="business_address"
+                            placeholder="Address..."></textarea>
+                        <label for="business_address">Registered Business Address <span
+                                class="text-danger">*</span></label>
+                    </div>
+                </div>
+                <div class="col-6 my-1">
+                    <div class="form-floating">
+                        <select id="gender" class="form-control" name="country" id="country">
+                            <option selected value="NIG">Nigeria</option>
+                        </select>
+                        <label for="country">Country <span class="text-danger">*</span></label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6 my-1">
+                    <div class="form-floating">
+                        <input type="email" class="form-control rounded" id="email" name="email" placeholder="name">
+                        <label for="email">Email <span class="text-danger">*</span></label>
+                    </div>
+                </div>
+                <div class="col-6 my-1">
+                    <div class="form-floating">
+                        <input type="email" class="form-control rounded" id="alternate_email" name="alternate_email"
+                            placeholder="name">
+                        <label for="alternate_email">Alternate Email </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6 my-1">
+                    <div class="form-floating">
+                        <input type="tel" class="form-control rounded" id="phone_number" name="phone_number"
+                            placeholder="name">
+                        <label for="phone_number">Phone Number <span class="text-danger">*</span></label>
+                    </div>
+                </div>
+                <div class="col-6 my-1">
+                    <div class="form-floating">
+                        <input type="tel" class="form-control rounded" id="alternate_phone_number"
+                            name="alternate_phone_number" placeholder="name">
+                        <label for="alternate_phone_number">Alternate Phone Number </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 my-1">
+                <div class="form-floating">
+                    <textarea type="tel" class="form-control rounded" id="about" name="about"
+                        placeholder="About your business"></textarea>
+                    <label for="about">About <span class="text-danger">*</span></label>
+                </div>
+            </div>
+            <div class="col-12 my-1">
+                <div class="form-floating">
+                    <input type="file" accept="image/*" class="form-control rounded" id="profile_picture"
+                        name="profile_picture" placeholder="profile_picture your business" />
+                    <label for="profile_picture">Profile Picture </label>
+                </div>
+            </div>
+            <hr />
+            <div class="col-10 mt-3">
+                <h5 class="text-uppercase fw-bold " style="color: purple;">Business Registration
+                    Information
+                </h5>
+            </div>
+            <div class="row">
+                <div class="col-12 my-1">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" value="" id="is_registred" name="is_registered">
+                        <label class="form-check-label" for="is_registred">
+                            Business is registered
+                        </label>
+                    </div>
+                </div>
+                <div class="col-6 my-1">
+                    <div class="form-floating">
+                        <input type="text" class="form-control rounded" id="tin" name="tin" placeholder="name">
+                        <label for="tin">Tax Identification Number <span class="text-danger">*</span></label>
+                    </div>
+                </div>
+                <div class="col-6 my-1">
+                    <div class="form-floating">
+                        <input type="text" class="form-control rounded" id="rc_number" name="rc_number">
+                        <label for="rc_number">RC Number <span class="text-danger">*</span></label>
+                    </div>
+                </div>
+                <div class="col-12 my-1">
+                    <div class="form-floating">
+                        <input type="file" class="form-control rounded" id="registration_certificate"
+                            name="registration_certificate">
+                        <label for="registration_certificate">Registration certificate </label>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="col-10 mt-3">
+                <h5 class="text-uppercase fw-bold " style="color: purple;">Banking Information
+                </h5>
+            </div>
+            <div class="row">
+                <div class="col-6 my-1">
+                    <div class="form-floating">
+                        <input type="text" class="form-control rounded" id="bank_name" name="bank_name"
+                            placeholder="name">
+                        <label for="bank_name">Bank Name <span class="text-danger">*</span></label>
+                    </div>
+                </div>
+                <div class="col-6 my-1">
+                    <div class="form-floating">
+                        <input type="text" class="form-control rounded" id="account_number" name="account_number"
+                            placeholder="name">
+                        <label for="account_number">Account Number <span class="text-danger">*</span></label>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-6 my-1">
+                    <div class="form-floating">
+                        <input type="text" class="form-control rounded" id="account_name" name="account_name"
+                            placeholder="name">
+                        <label for="account_name">Account Name <span class="text-danger">*</span></label>
+                    </div>
+                </div>
+                <div class="col-6 my-1">
+                    <div class="form-floating">
+                        <input type="text" class="form-control rounded" id="bvn" name="bvn" placeholder="name">
+                        <label for="bvn">Bank Verification number (BVN) <span class="text-danger">*</span></label>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <button class="w-100 my-2 btn btn-lg btn-primary" type="submit">Submit </button>
+    </form>
+</div>
+{% endblock %}

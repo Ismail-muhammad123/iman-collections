@@ -43,12 +43,20 @@
   <div class="text-capitalize text-center fw-bold py-3" style="font-size: 24px; font-weight: 700;">New Arrivals
   </div>
   <p class="text-capitalize text-center">catch up to the lates arrived items from our inventory</p>
+  <div class="text-center">
+    <a class="m-1 text-decoration-none btn btn-primary fw-bold text-light" href="{%url 'products' %}">View
+      All</a>
+  </div>
   <div class="row  justify-content-center">
+    {% if products %}
     {% for product in products %}
     {% include 'products/product_card.html' with product=product %}
     {% endfor %}
+    <div class="text-center">
+      <a class="m-1 text-decoration-none btn btn-primary fw-bold text-light" href="{%url 'products' %}">Browse More</a>
+    </div>
+    {% endif %}
   </div>
-
 </section>
 
 
@@ -76,6 +84,7 @@
       </svg>
       <h3 style="color: purple;">Free Shipping</h3>
       <p>Get Your Items delivered to your address within few days of purchase free of charge</p>
+      
     </div>
     <div class="col-sm-6 col-lg-2 col-md-6 py-5 px-2 text-center align-middle justify-content-center">
       <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="purple" class="bi bi-credit-card"

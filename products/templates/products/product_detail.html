@@ -43,18 +43,18 @@
             <div class="col-12 text-uppercase fw-bold fs-2">
               {{product.name}}
             </div>
+            <div class="col-12 fw-small">
+              <!-- TODO: set a link to the seller page -->
+              <strong class="text-secondary">Seller: </strong>
+              <a href="{% url 'store_products_page' store_id=product.store.id %}">
+                <i>
+                  {{product.store}}</i>
+              </a>
+            </div>
           </div>
 
           <hr />
-          <div class="row">
-            <div class="col-4">
-              Category:
-            </div>
-            <div class="col-8 text-end">
-              {{product.category}} | {{product.sub_category}}
-            </div>
-          </div>
-          <hr />
+
           <div class="row">
             <div class="col-6">
               Price(NGN):
@@ -114,7 +114,8 @@
                     value="{{variant.color.id}}" />
                   <span class="checkmark"></span>
                   <span class="radio-label text-capitalize" style="color: {{variant.color}}; font-weight: bold;">
-                    {{variant.color}}
+                    <!-- {{variant.color}} -->
+                    <img src="{{variant.image.url}}" alt="Product image" height="50px" width="50px" class="rounded p-2">
                   </span>
                 </label>
               </span>
@@ -148,6 +149,15 @@
             {{product.product_variants.first.available_quantity}} available
           </p>
           {% endif %}
+          <hr />
+          <div class="row">
+            <div class="col-4">
+              Category:
+            </div>
+            <div class="col-8 text-end">
+              {{product.category}} | {{product.sub_category}}
+            </div>
+          </div>
           <hr />
           <div class="row">
             <div class="col-12 text-capitalize">

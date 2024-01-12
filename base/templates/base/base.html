@@ -216,8 +216,16 @@
       </form> -->
         <h4 class="fw-bold text-uppercase ">Iman Clothing &amp; Apparels</h4>
         <p>Get the best Nigerian and English Wears From any the comfort of your house.</p>
-      </div>
+        {% if request.user.store %}
+        <a style="background-color: purple;" class="text-decoration-none btn fw-bold text-light" href="/admin">My Store
+          Dashboard</a>
+        {% else %}
+        <a style="background-color: purple;" class="text-decoration-none btn fw-bold text-light"
+          href="{%url 'create_new_store' %}">Become a
+          seller</a>
 
+        {% endif %}
+      </div>
       <div class="col-lg-2 col-sm-12 col-md-4 text-center my-3">
         <ul class="list-unstyled mb-0 text-sm-center text-md-start text-lg-start">
           <li><i class="fas fa-map-marker-alt fa-2x"></i>

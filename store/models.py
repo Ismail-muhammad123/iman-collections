@@ -4,10 +4,59 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
+class Plan(models.Model):
+    name = models.CharField(max_length=200)
+    code = models.CharField(max_length=200)
+    created_at = models.DateTimeField(auto_now_add=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+
+
+class Subscription(models.Model):
+    STATUS_CHOICES = [
+        (0, "Inactive"),
+        (1, "Active"),
+    ]
+
+    plan = models.ForeignKey(
+        Plan, on_delete=models.SET_NULL, null=True, related_name="subscriptions"
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    store = models.ForeignKey(
+        "Store", on_delete=models.SET_NULL, null=True, related_name="subscriptions"
+    )
+
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    subscription_code = models.CharField(max_length=200, null=True, blank=True)
+    status = models.PositiveIntegerField(choices=STATUS_CHOICES, default=0)
+    canceled_at = models.DateTimeField(null=True, blank=True)
+
+
+class SubscriptionPayment(models.Model):
+    STATUS_CHOICES = [
+        (0, "Failed"),
+        (1, "Pending"),
+        (2, "Success"),
+    ]
+
+    # fields
+    subscription = models.ForeignKey(
+        Subscription, on_delete=models.SET_NULL, null=True, related_name="payments"
+    )
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    store = models.ForeignKey(
+        "Store",
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="subscription_payments",
+    )
+    added_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=3, choices=STATUS_CHOICES)
+
+
 class Store(models.Model):
-    name = models.CharField(max_length=200, unique=True)
     business_name = models.CharField(max_length=200, blank=True, null=True)
-    address = models.TextField()
+    business_address = models.TextField()
     owner = models.OneToOneField(
         User, on_delete=models.SET_NULL, null=True, related_name="store"
     )
@@ -15,12 +64,15 @@ class Store(models.Model):
     alternate_email = models.EmailField(null=True, blank=True)
     phone_number = models.CharField(max_length=100)
     alternate_phone_number = models.CharField(max_length=100, null=True, blank=True)
-    bio = models.CharField(max_length=250, null=True, blank=True)
     about = models.TextField(blank=True)
-    is_registered = models.BooleanField(default=False)
+    display_picture = models.ImageField(
+        upload_to="display_pictures/", null=True, blank=True
+    )
     created_at = models.DateTimeField(auto_now=True)
 
-    # bank registration info
+    # Business registration info
+    is_registered = models.BooleanField(default=False)
+    tin = models.CharField(max_length=200, blank=True, null=True)
     rc_number = models.CharField(max_length=10, null=True, blank=True)
     registration_certificate = models.FileField(
         upload_to="store_verification_files/", null=True, blank=True
@@ -38,7 +90,7 @@ class Store(models.Model):
     last_viewed = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.name
+        return self.business_name
 
 
 class Payout(models.Model):

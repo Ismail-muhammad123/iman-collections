@@ -154,7 +154,17 @@ def editProfile(request):
 
 
 def reset_password(request):
+    if request.method=="POST":
+        email = request.data.get("email")
+        if email is not None:
+            user = User.objects.get(email=email)
+            if user is not None:
+                pass
+                # TODO: send password-reset email
+                send_mail()
     return render(request, template_name='user/reset_password.html')
+
+
 
 
 @login_required
