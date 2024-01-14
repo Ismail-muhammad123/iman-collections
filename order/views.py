@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime, timedelta
 from multiprocessing import context
 from django.shortcuts import render, redirect
 from pytz import country_names
@@ -114,10 +114,9 @@ def add_order(request):
             seller=item.product.store,
             tax=0,
             delivery_fee=item.product.delivery_fee,
-            status=4,
             delivery_status=1,
-            delivery_date=datetime.datetime.today()
-            + datetime.timedelta(days=item.product.product.delivery_days),
+            delivery_date=datetime.today()
+            + timedelta(days=item.product.product.delivery_days),
         )
 
         order_item.save()
@@ -125,13 +124,6 @@ def add_order(request):
 
 
 def track_order(request):
-    tracking_id = request.GET.get("tracking_id")
-    if tracking_id is not None:
-        orders = Order.objects.filter(tracking_id=tracking_id)
-        context = {"orders": orders}
-
-        return render(request, "order/order.html", context=context)
-
     if request.user.is_authenticated:
         orders = request.user.orders.exclude(status=4)
     else:

@@ -12,6 +12,13 @@ User = get_user_model()
 
 
 class Order(models.Model):
+    STATUS_CHOICES = [
+        (1, "Canceled"),
+        (2, "Recieved"),
+        (3, "Processing"),
+        (4, "Pending"),
+    ]
+
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -30,9 +37,10 @@ class Order(models.Model):
     email = models.EmailField(blank=True, default="", null=True)
     phone_number = models.CharField(max_length=20, blank=True, default="", null=True)
 
+    status = models.PositiveIntegerField(choices=STATUS_CHOICES, default=4)
     device = models.CharField(max_length=100, default="", blank=True, null=True)
     date_added = models.DateTimeField(auto_now_add=True)
-
+    
     @property
     def total_amount(self):
         total_price = 0
@@ -53,13 +61,6 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
-    STATUS_CHOICES = [
-        (1, "Canceled"),
-        (2, "Recieved"),
-        (3, "Processing"),
-        (4, "Pending"),
-    ]
-
     DELIVERY_STATUS_CHOICES = [
         (1, "Unfulfiled"),
         (2, "Fulfiled"),
@@ -78,7 +79,6 @@ class OrderItem(models.Model):
     )
     tax = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     delivery_fee = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    status = models.PositiveIntegerField(choices=STATUS_CHOICES, default=4)
     delivery_status = models.PositiveIntegerField(
         choices=DELIVERY_STATUS_CHOICES, default=1
     )

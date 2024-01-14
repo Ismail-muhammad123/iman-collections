@@ -52,6 +52,7 @@ class OrderAdmin(admin.ModelAdmin):
     list_display = [
         "id",
         "name",
+        "status",
         "items",
         "country",
         "state",
@@ -164,7 +165,6 @@ class OrderItemAdmin(admin.ModelAdmin):
         "price",
         "tax",
         "delivery_fee",
-        "status",
         "tracking_id",
         "delivery_status",
         "payment_status",

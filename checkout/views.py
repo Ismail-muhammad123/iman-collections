@@ -28,14 +28,9 @@ def checkout(request, order_id):
     order = get_object_or_404(Order, id=order_id)
 
     if order.user == request.user or order.device == device:
-        if request.user.is_authenticated:
-            email = request.user.email
-            full_name = request.user.get_full_name()
-            phone_number = request.user.mobile_number
-        else:
-            email = order.email
-            full_name = order.full_name
-            phone_number = order.phone_number
+        email = order.email
+        full_name = order.full_name
+        phone_number = order.phone_number
 
         payment, created = Payment.objects.get_or_create(
             order=order,
@@ -45,14 +40,13 @@ def checkout(request, order_id):
             },
         )
 
-        if not created:
-            if payment.status == 2:
-                messages.add_message(
-                    request,
-                    messages.INFO,
-                    "The payment for this order has already been completed.",
-                )
-                return render(request, "order/new_order.html")
+        if not created and payment.status == 2:
+            messages.add_message(
+                request,
+                messages.INFO,
+                "The payment for this order has already been completed.",
+            )
+            return render(request, "order/new_order.html")
 
         if request.user.is_authenticated:
             payment.user = request.user
@@ -83,8 +77,8 @@ def checkout(request, order_id):
         }
         res = requests.post(url, headers=headers, json=data)
         response = res.json()
-        print(response["status"])
-        print(response)
+        # print(response["status"])
+        # print(response)
         if response["status"] == True:
             return redirect(response["data"]["authorization_url"])
         else:
@@ -125,10 +119,11 @@ def verify_payment(request):
             sold_products = order.order_items.all()
             for item in sold_products:
                 p = item.product
-                try:
-                    p.available_quantity -= item.quantity
-                except:
-                    p.available_quantity = 0
+                if p.track_inventory:
+                    try:
+                        p.available_quantity -= item.quantity
+                    except:
+                        p.available_quantity = 0
 
                 p.save()
 
@@ -158,9 +153,6 @@ def verify_payment(request):
     # messages.add_message(request, messages.ERROR, "Traonsaction has Failed")
     # return render(request, template_name='base/index.html')
 
-
-
-        
 
 def subscription_webhook(request):
     pass

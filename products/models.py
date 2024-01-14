@@ -129,6 +129,7 @@ class ProductVariant(models.Model):
     )
     price = models.DecimalField(max_digits=10, decimal_places=2)
     delivery_fee = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    track_inventory = models.BooleanField(default=True)
     available_quantity = models.PositiveIntegerField()
     image = models.ImageField(upload_to="product_images/")
     active = models.BooleanField(default=True)
@@ -172,6 +173,6 @@ class Cart(models.Model):
 
     class Meta:
         verbose_name_plural = "Cart"
-    
+
     def __str__(self) -> str:
         return f"{self.product_variant.product.name} x {self.quantity}"
