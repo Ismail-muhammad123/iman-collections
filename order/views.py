@@ -93,6 +93,7 @@ def add_order(request):
         state=state,
         zip_code=zip_code,
         delivery_address=delivery_address,
+        user=request.user,
     )
     order.save()
 

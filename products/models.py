@@ -172,3 +172,6 @@ class Cart(models.Model):
 
     class Meta:
         verbose_name_plural = "Cart"
+    
+    def __str__(self) -> str:
+        return f"{self.product_variant.product.name} x {self.quantity}"

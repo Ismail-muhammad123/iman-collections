@@ -11,6 +11,9 @@ class Plan(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
 
+    def __str__(self) -> str:
+        return self.name
+
 
 class Subscription(models.Model):
     STATUS_CHOICES = [
@@ -35,7 +38,8 @@ class Subscription(models.Model):
     def has_expired(self):
         return (self.expires_at - datetime.now()).days > 0
 
-    
+    def __str__(self) -> str:
+        return self.plan.name
 
 
 class SubscriptionPayment(models.Model):
@@ -58,6 +62,9 @@ class SubscriptionPayment(models.Model):
     )
     added_at = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=3, choices=STATUS_CHOICES)
+
+    def __str__(self) -> str:
+        return f"{self.subscription} - {self.amount}"
 
 
 class Store(models.Model):
@@ -128,3 +135,6 @@ class Payout(models.Model):
         related_name="payouts",
         limit_choices_to={"admin": True},
     )
+
+    def __str__(self) -> str:
+        return f"{self.currency}{self.amount} to {self.store}"

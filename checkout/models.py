@@ -23,3 +23,7 @@ class Payment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     payed_at = models.DateTimeField(null=True)
     status = models.PositiveIntegerField(choices=STATUS_CHOICES, default=1)
+
+    def __str__(self) -> str:
+        return self.transaction_ref
+    
