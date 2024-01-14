@@ -48,7 +48,9 @@
               <strong class="text-secondary">Seller: </strong>
               <a href="{% url 'store_products_page' store_id=product.store.id %}">
                 <i>
-                  {{product.store}}</i>
+                  {% if product.store.is_verified%}{{product.store.name}}
+                  {% else %} #{{product.store.id}}
+                  {%endif%}</i>
               </a>
             </div>
           </div>

@@ -157,3 +157,10 @@ def verify_payment(request):
 
     # messages.add_message(request, messages.ERROR, "Traonsaction has Failed")
     # return render(request, template_name='base/index.html')
+
+
+
+        
+
+def subscription_webhook(request):
+    pass

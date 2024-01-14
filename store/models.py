@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from datetime import datetime, timedelta
 
 User = get_user_model()
 
@@ -22,14 +23,19 @@ class Subscription(models.Model):
     )
 
     created_at = models.DateTimeField(auto_now_add=True)
-    store = models.ForeignKey(
-        "Store", on_delete=models.SET_NULL, null=True, related_name="subscriptions"
+    store = models.OneToOneField(
+        "Store", on_delete=models.SET_NULL, null=True, related_name="subscription"
     )
-
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
     subscription_code = models.CharField(max_length=200, null=True, blank=True)
     status = models.PositiveIntegerField(choices=STATUS_CHOICES, default=0)
     canceled_at = models.DateTimeField(null=True, blank=True)
+
+    expires_at = models.DateField(null=True, blank=True)
+
+    def has_expired(self):
+        return (self.expires_at - datetime.now()).days > 0
+
+    
 
 
 class SubscriptionPayment(models.Model):
@@ -91,6 +97,12 @@ class Store(models.Model):
 
     def __str__(self):
         return self.business_name
+
+    def trial_expired(self):
+        return (datetime.now() - self.created_at).days >= 14
+
+    def is_subscribed(self):
+        return self.subscription is not None and self.subscription.is_active
 
 
 class Payout(models.Model):

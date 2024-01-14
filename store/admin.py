@@ -42,9 +42,7 @@ class SubscriptionPaymentAdmin(admin.ModelAdmin):
     ]
 
     def has_view_permission(self, request: HttpRequest, obj=None) -> bool:
-        return request.user.is_admin or (
-            request.user.store is not None and obj.store == request.user.store
-        )
+        return request.user.is_admin
 
     def has_add_permission(self, request: HttpRequest, obj=None) -> bool:
         return request.user.is_admin
@@ -56,9 +54,7 @@ class SubscriptionPaymentAdmin(admin.ModelAdmin):
         return request.user.is_admin
 
     def has_module_permission(self, request: HttpRequest, obj=None) -> bool:
-        return request.user.is_admin or (
-            request.user.store is not None and obj.store == request.user.store
-        )
+        return request.user.is_admin
 
 
 @admin.register(Subscription)
@@ -67,16 +63,13 @@ class SubscriptionAdmin(admin.ModelAdmin):
         "plan",
         "created_at",
         "store",
-        "amount",
         "subscription_code",
         "status",
         "canceled_at",
     ]
 
     def has_view_permission(self, request: HttpRequest, obj=None) -> bool:
-        return request.user.is_admin or (
-            request.user.store is not None and obj.store == request.user.store
-        )
+        return request.user.is_admin
 
     def has_add_permission(self, request: HttpRequest, obj=None) -> bool:
         return request.user.is_admin
@@ -88,9 +81,7 @@ class SubscriptionAdmin(admin.ModelAdmin):
         return request.user.is_admin
 
     def has_module_permission(self, request: HttpRequest, obj=None) -> bool:
-        return request.user.is_admin or (
-            request.user.store is not None and obj.store == request.user.store
-        )
+        return request.user.is_admin
 
 
 @admin.register(Store)
@@ -114,19 +105,19 @@ class StoreAdmin(admin.ModelAdmin):
     ]
 
     def has_module_permission(self, request: HttpRequest, obj=None) -> bool:
-        return request.user.is_authenticated and request.user.is_admin
+        return request.user.is_admin
 
     def has_view_permission(self, request: HttpRequest, obj=None) -> bool:
-        return request.user.is_authenticated and request.user.is_admin
+        return request.user.is_admin
 
     def has_add_permission(self, request, obj=None):
-        return request.user.is_authenticated and request.user.is_admin
+        return request.user.is_admin
 
     def has_delete_permission(self, request, obj=None):
-        return request.user.is_authenticated and request.user.is_admin
+        return request.user.is_admin
 
     def has_change_permission(self, request, obj=None):
-        return request.user.is_authenticated and request.user.is_admin
+        return request.user.is_admin
 
 
 @admin.register(Payout)
@@ -143,17 +134,13 @@ class PayoutAdmin(admin.ModelAdmin):
     ]
 
     def has_module_permission(self, request: HttpRequest, obj=None) -> bool:
-        return request.user.is_authenticated and (
-            request.user.is_admin or request.user.is_seller
-        )
+        return request.user.is_admin or request.user.is_seller
 
     def has_view_permission(self, request: HttpRequest, obj=None) -> bool:
-        return request.user.is_authenticated and (
-            request.user.is_admin or obj.store == request.user.store
-        )
+        return request.user.is_admin or (obj and obj.store == request.user.store)
 
     def has_add_permission(self, request, obj=None):
-        return False
+        return request.user.is_admin
 
     def has_delete_permission(self, request, obj=None):
         return False

@@ -12,18 +12,6 @@ User = get_user_model()
 
 
 class Order(models.Model):
-    STATUS_CHOICES = [
-        (1, "Canceled"),
-        (2, "Recieved"),
-        (3, "Processing"),
-        (4, "Pending"),
-    ]
-
-    DELIVERY_STATUS_CHOICES = [
-        (1, "Unfulfiled"),
-        (2, "Fulfiled"),
-    ]
-
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -31,10 +19,6 @@ class Order(models.Model):
         default="",
         null=True,
         related_name="orders",
-    )
-
-    seller = models.ForeignKey(
-        Store, on_delete=models.SET_NULL, null=True, related_name="orders"
     )
 
     country = models.CharField(max_length=200)
@@ -47,16 +31,18 @@ class Order(models.Model):
     phone_number = models.CharField(max_length=20, blank=True, default="", null=True)
 
     device = models.CharField(max_length=100, default="", blank=True, null=True)
-    tracking_id = models.CharField(max_length=10, null=True)
-    total_amount = models.DecimalField(max_digits=10, decimal_places=2)
-    tax = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    delivery_fee = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    status = models.PositiveIntegerField(choices=STATUS_CHOICES, default=4)
-    delivery_status = models.PositiveIntegerField(
-        choices=DELIVERY_STATUS_CHOICES, default=1
-    )
-    delivery_date = models.DateField(null=True)
     date_added = models.DateTimeField(auto_now_add=True)
+
+    @property
+    def total_amount(self):
+        total_price = 0
+        tax = 0
+        delivery_fee = 0
+        for item in self.order_items.all():
+            total_price += item.quantity * item.product.price
+            delivery_fee += item.product.product.delivery_fee
+
+        return total_price + tax + delivery_fee
 
     @property
     def items(self):
@@ -67,13 +53,36 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
+    STATUS_CHOICES = [
+        (1, "Canceled"),
+        (2, "Recieved"),
+        (3, "Processing"),
+        (4, "Pending"),
+    ]
+
+    DELIVERY_STATUS_CHOICES = [
+        (1, "Unfulfiled"),
+        (2, "Fulfiled"),
+    ]
+
     product = models.ForeignKey(
         ProductVariant, on_delete=models.DO_NOTHING, related_name="orders"
     )
-    quantity = models.PositiveBigIntegerField()
     order = models.ForeignKey(
         Order, on_delete=models.CASCADE, related_name="order_items"
     )
+    quantity = models.PositiveBigIntegerField()
+    tracking_id = models.CharField(max_length=10, null=True)
+    seller = models.ForeignKey(
+        Store, on_delete=models.SET_NULL, null=True, related_name="orders"
+    )
+    tax = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    delivery_fee = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    status = models.PositiveIntegerField(choices=STATUS_CHOICES, default=4)
+    delivery_status = models.PositiveIntegerField(
+        choices=DELIVERY_STATUS_CHOICES, default=1
+    )
+    delivery_date = models.DateField(null=True)
 
     def __str__(self) -> str:
         return self.product.product.name

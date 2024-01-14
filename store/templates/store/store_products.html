@@ -9,7 +9,7 @@
 <div class="row p-4 bg-secondary m-0 mt-3">
     <div class="col-12 text-center">
         <h4 class="text-light">
-            <strong>Store: </strong> {{store.name}}
+            <strong>Store: </strong> {% if store.is_verified%} {{store.name}} {% else %} #{{store.id}} {%endif%}
         </h4>
     </div>
 </div>

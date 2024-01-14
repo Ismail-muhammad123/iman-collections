@@ -13,9 +13,6 @@ class Payment(models.Model):
         (1, "Pending"),
         (2, "Success"),
     ]
-
-    order = models.OneToOneField(
-        Order, on_delete=models.CASCADE, related_name='payment')
     user = models.ForeignKey(
         User, on_delete=models.SET_NULL, null=True, related_name="payments")
     device = models.CharField(

@@ -1,0 +1,58 @@
+{% extends 'base/base.html' %}
+{% block title %}
+Update Seller account Plan
+{% endblock %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<div class="py-5 container my-5">
+    {% for message in messages %}
+    <div class="container-fluid p-0">
+        <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="True">&times;</span>
+            </button>
+            {{ message }}
+        </div>
+    </div>
+    {% endfor %}
+    <form action="{% url 'create_new_store' %}" method="post">
+        {% csrf_token %}
+        <h1 class="text-center text-uppercase h1 mb-3" style="color: purple; font-weight: 700;">Select a prepared Plan
+            for your store</h1>
+        <div class="form-row">
+            <div class="col-10 mt-3">
+                <h5 class="text-uppercase fw-bold " style="color: purple;">Banking Information
+                </h5>
+                <i class="text-success">Two weeks free trial for new users</i>
+            </div>
+            <div class="row">
+                <div class="col-6 my-1">
+                    <div class="form-floating">
+                        <select class="form-control" name="plan" id="plans">
+                            {% for plan in plans %}
+                            <option value="{{plan.id}}" selected>{{plan.name}} (&#8358; {{plan.price|intcomma}} /month)
+                            </option>
+                            {% endfor %}
+                        </select>
+                        <label for="plans">Select Plan<span class="text-danger">*</span></label>
+                    </div>
+                </div>
+                <div class="col-6 my-1">
+                    <div class="form-floating">
+                        <select class="form-control" disabled name="frequescy" id="frequescy">
+                            <option value="1" selected>Monthly</option>
+                            <option value="12">Yearly</option>
+                        </select>
+                        <label for="frequescy">Select Frequescy<span class="text-danger">*</span></label>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <button class="w-100 my-2 btn btn-lg btn-primary" type="submit">Submit </button>
+    </form>
+</div>
+{% endblock %}

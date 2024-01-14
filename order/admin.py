@@ -52,29 +52,16 @@ class OrderAdmin(admin.ModelAdmin):
     list_display = [
         "id",
         "name",
-        "seller",
         "items",
         "country",
         "state",
         "zip_code",
         "delivery_address",
-        "tracking_id",
-        "total_amount",
-        "tax",
-        "delivery_fee",
-        "status",
-        "delivery_status",
-        "payment_status",
-        "delivery_date",
-        "date_added",
         "by",
     ]
 
     list_filter = [
-        "status",
-        "delivery_date",
         "date_added",
-        "delivery_status",
     ]
 
     # actions = [
@@ -85,11 +72,7 @@ class OrderAdmin(admin.ModelAdmin):
         return obj.user if obj.user else "Guest"
 
     def has_view_permission(self, request: HttpRequest, obj=None) -> bool:
-        return (
-            request.user.is_authenticated
-            and request.user.is_admin
-            or obj.seller == request.user.store
-        )
+        return request.user.is_admin or (obj and obj.seller == request.user.store)
 
     def has_add_permission(self, request, obj=None):
         return False
@@ -124,6 +107,24 @@ class OrderItemAdmin(admin.ModelAdmin):
     def color(self, obj):
         return obj.product.color
 
+    def payment_status(self, obj):
+        if obj.order.payment:
+            display_text = "<a href={}>{}</a>".format(
+                reverse(
+                    "admin:{}_{}_changelist".format(
+                        Payment._meta.app_label, Payment._meta.model_name
+                    ),
+                )
+                + f"?q={obj.pk}",
+                obj.order.payment.get_status_display(),
+            )
+        else:
+            display_text = "-"
+
+        if display_text:
+            return mark_safe(display_text)
+        return "-"
+
     def product_image(self, obj):
         display_text = "<a href={}>{}</a>".format(
             reverse(
@@ -140,7 +141,9 @@ class OrderItemAdmin(admin.ModelAdmin):
         return "-"
 
     def has_view_permission(self, request, obj=None) -> bool:
-        return request.user.is_admin or obj.order.seller == request.user.store
+        return request.user.is_admin or (
+            obj and obj.product.store == request.user.store
+        )
 
     def has_add_permission(self, request, obj=None):
         return False
@@ -149,7 +152,9 @@ class OrderItemAdmin(admin.ModelAdmin):
         return False
 
     def has_change_permission(self, request, obj=None):
-        return False
+        return request.user.is_admin or (
+            obj and obj.product.product.store == request.user.store
+        )
 
     list_display = [
         "product",
@@ -157,6 +162,13 @@ class OrderItemAdmin(admin.ModelAdmin):
         "color",
         "buyer",
         "price",
+        "tax",
+        "delivery_fee",
+        "status",
+        "tracking_id",
+        "delivery_status",
+        "payment_status",
+        "delivery_date",
         "quantity",
         "date",
         "product_image",

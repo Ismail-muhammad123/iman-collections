@@ -85,12 +85,6 @@ def add_order(request):
     total_delivery_fee = 0
     tax = 0
 
-    for item in cart_items:
-        sub_total += item.product_variant.price * item.quantity
-        total_delivery_fee += item.product_variant.delivery_fee
-
-    total_amount = tax + sub_total + total_delivery_fee
-
     order = Order(
         full_name=full_name,
         email=email,
@@ -99,24 +93,33 @@ def add_order(request):
         state=state,
         zip_code=zip_code,
         delivery_address=delivery_address,
-        tax=tax,
-        delivery_fee=total_delivery_fee,
-        total_amount=total_amount,
     )
-
-    if request.user.is_authenticated:
-        order.user = request.user
-    else:
-        order.device = request.COOKIES["device"]
     order.save()
 
     for item in cart_items:
+        sub_total += item.product_variant.price * item.quantity
+        total_delivery_fee += item.product_variant.delivery_fee
+
+        if request.user.is_authenticated:
+            order.user = request.user
+        else:
+            order.device = request.COOKIES["device"]
+
+        # for item in cart_items:
         order_item = OrderItem(
-            product=item.product_variant, quantity=item.quantity, order=order
+            product=item.product_variant,
+            quantity=item.quantity,
+            order=order,
+            seller=item.product.store,
+            tax=0,
+            delivery_fee=item.product.delivery_fee,
+            status=4,
+            delivery_status=1,
+            delivery_date=datetime.datetime.today()
+            + datetime.timedelta(days=item.product.product.delivery_days),
         )
 
         order_item.save()
-
     return redirect(reverse("order_checkout", kwargs={"order_id": order.id}))
 
 

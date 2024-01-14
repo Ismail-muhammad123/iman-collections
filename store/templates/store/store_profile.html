@@ -1,0 +1,117 @@
+{% extends 'base/base.html' %}
+{% block title %}
+Seller Store Profile
+{% endblock %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<div class="py-5 container my-5">
+    {% for message in messages %}
+    <div class="container-fluid p-0">
+        <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+            {{ message }}
+        </div>
+    </div>
+    {% endfor %}
+
+    {% csrf_token %}
+    <h1 class="text-center text-uppercase h1 mb-3" style="color: purple; font-weight: 700;">Store Profile</h1>
+    <div class="col-12 text-center">
+        <a href="{% url 'create_new_store' %}" class="btn btn-secondary">Edit Store Profile</a>
+        <a href="/admin" class="btn btn-success">Open Dashboard</a>
+    </div>
+    <div class="form-row">
+        <div class="col-12 ">
+            <h5 class="text-uppercase fw-bold" style="color: purple;">Store Information</h5>
+        </div>
+        <div class="col-12 my-1">
+            <strong>Business Name: </strong> <span>{{store.business_name}}</span>
+        </div>
+        <div class="col-6 my-1">
+            <strong>Business Address: </strong> <span>{{store.business_address}}, {{store.country}}</span>
+        </div>
+        <div class="row">
+            <div class="col-6 my-1">
+                <strong>Email: </strong> <span>{{store.email}}</span>
+
+            </div>
+            <div class="col-6 my-1">
+                <strong>Alternate Email: </strong> <span>{{store.alternate_email}}</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 my-1">
+                <strong>Phone Number: </strong> <span>{{store.phone_number}}</span>
+            </div>
+            <div class="col-6 my-1">
+                <strong>Alternate Phone Number: </strong> <span>{{store.alternte_phone_number}}</span>
+
+            </div>
+        </div>
+        <div class="col-12 my-1">
+            <strong>About: </strong> <span>{{store.about}}</span>
+
+        </div>
+        <!-- <div class="col-12 my-1">
+            <div class="form-floating">
+                <input type="file" accept="image/*" class="form-control rounded" id="profile_picture"
+                    name="profile_picture" placeholder="profile_picture your business" />
+                <label for="profile_picture">Profile Picture </label>
+            </div>
+        </div> -->
+        <hr />
+        <div class="col-10 mt-3">
+            <h5 class="text-uppercase fw-bold " style="color: purple;">Business Registration
+                Information
+            </h5>
+        </div>
+        <div class="row">
+            <div class="col-12 my-1">
+                <strong>Phone Number: </strong>
+                <span>{% if store.is_registred %} Registred {% else%} Not Registred {% endif %}</span>
+            </div>
+            <div class="col-6 my-1">
+                <strong>Tax Identification Number: </strong> <span>{{store.tin}}</span>
+            </div>
+            <div class="col-6 my-1">
+                <strong>RC Number : </strong> <span>{{store.rc_number}}</span>
+            </div>
+            <!--             
+            <div class="col-12 my-1">
+                <div class="form-floating">
+                    <input type="file" class="form-control rounded" id="registration_certificate"
+                        name="registration_certificate">
+                    <label for="registration_certificate">Registration certificate </label>
+                </div>
+            </div> -->
+        </div>
+        <hr />
+        <div class="col-10 mt-3">
+            <h5 class="text-uppercase fw-bold " style="color: purple;">Banking Information
+            </h5>
+        </div>
+        <div class="row">
+            <div class="col-6 my-1">
+                <strong>Bank name : </strong> <span>{{store.bank_name}}</span>
+            </div>
+            <div class="col-6 my-1">
+                <strong>Account Number : </strong> <span>{{store.account_number}}</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 my-1">
+                <strong>Account Name : </strong> <span>{{store.account_name}}</span>
+
+            </div>
+            <div class="col-6 my-1">
+                <strong>Bank Name : </strong> <span>{{store.bank_name}}</span>
+
+            </div>
+        </div>
+        <hr />
+
+
+    </div>
+
+</div>
+{% endblock %}
