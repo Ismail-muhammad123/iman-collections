@@ -54,6 +54,7 @@ class OrderAdmin(admin.ModelAdmin):
         "name",
         "status",
         "items",
+        "payment_status",
         "country",
         "state",
         "zip_code",
@@ -68,6 +69,24 @@ class OrderAdmin(admin.ModelAdmin):
     # actions = [
 
     # ]
+
+    def payment_status(self, obj):
+        if obj.payment:
+            display_text = "<a href={}>{}</a>".format(
+                reverse(
+                    "admin:{}_{}_changelist".format(
+                        Payment._meta.app_label, Payment._meta.model_name
+                    ),
+                )
+                + f"?q={obj.pk}",
+                obj.payment.get_status_display(),
+            )
+        else:
+            display_text = "-"
+
+        if display_text:
+            return mark_safe(display_text)
+        return "-"
 
     def by(self, obj):
         return obj.user if obj.user else "Guest"
@@ -108,24 +127,6 @@ class OrderItemAdmin(admin.ModelAdmin):
     def color(self, obj):
         return obj.product.color
 
-    def payment_status(self, obj):
-        if obj.order.payment:
-            display_text = "<a href={}>{}</a>".format(
-                reverse(
-                    "admin:{}_{}_changelist".format(
-                        Payment._meta.app_label, Payment._meta.model_name
-                    ),
-                )
-                + f"?q={obj.pk}",
-                obj.order.payment.get_status_display(),
-            )
-        else:
-            display_text = "-"
-
-        if display_text:
-            return mark_safe(display_text)
-        return "-"
-
     def product_image(self, obj):
         display_text = "<a href={}>{}</a>".format(
             reverse(
@@ -135,6 +136,21 @@ class OrderItemAdmin(admin.ModelAdmin):
             )
             + f"?q={obj.product.pk}",
             f"<img src={obj.product.image.url} width='100px' height='100px'/>",
+        )
+
+        if display_text:
+            return mark_safe(display_text)
+        return "-"
+
+    def order_delivery_status(self, obj):
+        style = (
+            "background-color: orange;"
+            if obj.delivery_status == 1
+            else "background-color: green;"
+        )
+
+        display_text = (
+            f"<div style='{style}'>{obj.get_delivery_status_display()} </div>"
         )
 
         if display_text:
@@ -153,9 +169,22 @@ class OrderItemAdmin(admin.ModelAdmin):
         return False
 
     def has_change_permission(self, request, obj=None):
-        return request.user.is_admin or (
-            obj and obj.product.product.store == request.user.store
-        )
+        return request.user.is_admin
+
+    def mark_as_fullfiled(self, request, queryset):
+        for obj in queryset:
+            obj.delivery_status = 2
+            obj.save()
+
+    def mark_as_unfullfiled(self, request, queryset):
+        for obj in queryset:
+            obj.delivery_status = 1
+            obj.save()
+
+    actions = [
+        "mark_as_fullfiled",
+        "mark_as_unfullfiled",
+    ]
 
     list_display = [
         "product",
@@ -166,8 +195,7 @@ class OrderItemAdmin(admin.ModelAdmin):
         "tax",
         "delivery_fee",
         "tracking_id",
-        "delivery_status",
-        "payment_status",
+        "order_delivery_status",
         "delivery_date",
         "quantity",
         "date",
@@ -175,6 +203,10 @@ class OrderItemAdmin(admin.ModelAdmin):
     ]
 
     list_display_links = []
+
+    list_filter = [
+        "delivery_status",
+    ]
 
     search_fields = [
         "order__id",
