@@ -1,2 +1,2 @@
 #!/bin/bash
-python manage.py collectstatic && gunicorn --workers 2 imanClothing.wsgi
+python manage.py collectstatic && gunicorn --workers 2 e-commerce/imanClothing.wsgi
