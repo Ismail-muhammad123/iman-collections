@@ -11,7 +11,7 @@ djangorestframework
 gunicorn
 idna
 packaging
-psycopg2
+psycopg2-binary
 python-dateutil
 pillow
 pytz
