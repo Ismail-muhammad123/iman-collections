@@ -1,1 +1,1 @@
-web: gunicorn imanClothing.wsgi --log-file -
+web: python manage.py migrate && gunicorn --worker-tmp-dir /dev/shm imanClothing.wsgi:application

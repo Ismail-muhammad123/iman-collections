@@ -202,7 +202,7 @@ class ProductAdmin(admin.ModelAdmin):
         return obj.product_variants.count()
 
     def seller(self, obj):
-        return obj.store.name
+        return obj.store.business_name
 
     inlines = [
         ProductImageInline,
