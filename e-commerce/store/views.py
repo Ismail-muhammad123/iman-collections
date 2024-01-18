@@ -34,7 +34,7 @@ def create_store(request):
             store.phone_number = data["phone_number"]
             store.alternate_phone_number = data["alternate_phone_number"]
             store.about = data["about"]
-            store.is_registered = data.get("is_registered", False)
+            store.is_registered = data.get("registration_status", "0") == "1"
             store.tin = data["tin"]
             store.rc_number = data["rc_number"]
             store.bank_name = data["bank_name"]
@@ -64,7 +64,7 @@ def create_store(request):
             store.phone_number = data["phone_number"]
             store.alternate_phone_number = data["alternate_phone_number"]
             store.about = data["about"]
-            store.is_registered = data.get("is_registered", False)
+            store.is_registered = data.get("registration_status", "0") == "1"
             store.tin = data["tin"]
             store.rc_number = data["rc_number"]
             store.save()

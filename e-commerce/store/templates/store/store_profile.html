@@ -67,8 +67,8 @@ Seller Store Profile
         </div>
         <div class="row">
             <div class="col-12 my-1">
-                <strong>Phone Number: </strong>
-                <span>{% if store.is_registred %} Registred {% else%} Not Registred {% endif %}</span>
+                <strong>Business Registration Status: </strong>
+                <span>{% if store.is_registred %} Registred {% else %} Not Registred {% endif %}</span>
             </div>
             <div class="col-6 my-1">
                 <strong>Tax Identification Number: </strong> <span>{{store.tin}}</span>
@@ -76,14 +76,6 @@ Seller Store Profile
             <div class="col-6 my-1">
                 <strong>RC Number : </strong> <span>{{store.rc_number}}</span>
             </div>
-            <!--             
-            <div class="col-12 my-1">
-                <div class="form-floating">
-                    <input type="file" class="form-control rounded" id="registration_certificate"
-                        name="registration_certificate">
-                    <label for="registration_certificate">Registration certificate </label>
-                </div>
-            </div> -->
         </div>
         <hr />
         <div class="col-10 mt-3">

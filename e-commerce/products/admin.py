@@ -23,19 +23,19 @@ class SizeAdmin(admin.ModelAdmin):
     ]
 
     def has_view_permission(self, request: HttpRequest, obj=None):
-        return request.user.is_admin
+        return request.user.is_authenticated and request.user.is_admin
 
     def has_change_permission(self, request: HttpRequest, obj=None) -> bool:
-        return request.user.is_admin
+        return request.user.is_authenticated and request.user.is_admin
 
     def has_add_permission(self, request: HttpRequest, obj=None) -> bool:
-        return request.user.is_admin
+        return request.user.is_authenticated and request.user.is_admin
 
     def has_delete_permission(self, request: HttpRequest, obj=None) -> bool:
-        return request.user.is_admin
+        return request.user.is_authenticated and request.user.is_admin
 
     def has_module_permission(self, request: HttpRequest, obj=None) -> bool:
-        return request.user.is_admin
+        return request.user.is_authenticated and request.user.is_admin
 
 
 @admin.register(Color)
@@ -47,19 +47,19 @@ class ColorAdmin(admin.ModelAdmin):
     ]
 
     def has_view_permission(self, request, obj=None):
-        return request.user.is_admin
+        return request.user.is_authenticated and request.user.is_admin
 
     def has_change_permission(self, request, obj=None) -> bool:
-        return request.user.is_admin
+        return request.user.is_authenticated and request.user.is_admin
 
     def has_add_permission(self, request, obj=None) -> bool:
-        return request.user.is_admin
+        return request.user.is_authenticated and request.user.is_admin
 
     def has_delete_permission(self, request, obj=None) -> bool:
-        return request.user.is_admin
+        return request.user.is_authenticated and request.user.is_admin
 
     def has_module_permission(self, request: HttpRequest, obj=None) -> bool:
-        return request.user.is_admin
+        return request.user.is_authenticated and request.user.is_admin
 
 
 @admin.register(Category)
@@ -108,19 +108,19 @@ class CategoryAdmin(admin.ModelAdmin):
         return super().save_model(request, obj, form, change)
 
     def has_module_permission(self, request: HttpRequest, obj=None) -> bool:
-        return request.user.is_admin
+        return request.user.is_authenticated and request.user.is_admin
 
     def has_view_permission(self, request: HttpRequest, obj=None) -> bool:
-        return request.user.is_admin
+        return request.user.is_authenticated and request.user.is_admin
 
     def has_add_permission(self, request, obj=None):
-        return request.user.is_admin
+        return request.user.is_authenticated and request.user.is_admin
 
     def has_delete_permission(self, request, obj=None):
-        return request.user.is_admin
+        return request.user.is_authenticated and request.user.is_admin
 
     def has_change_permission(self, request, obj=None):
-        return request.user.is_admin
+        return request.user.is_authenticated and request.user.is_admin
 
 
 @admin.register(SubCategory)
@@ -166,19 +166,19 @@ class SubCategoryAdmin(admin.ModelAdmin):
         return super().save_model(request, obj, form, change)
 
     def has_module_permission(self, request: HttpRequest, obj=None) -> bool:
-        return request.user.is_admin
+        return request.user.is_authenticated and request.user.is_admin
 
     def has_view_permission(self, request: HttpRequest, obj=None) -> bool:
-        return request.user.is_admin
+        return request.user.is_authenticated and request.user.is_admin
 
     def has_add_permission(self, request, obj=None):
-        return request.user.is_admin
+        return request.user.is_authenticated and request.user.is_admin
 
     def has_delete_permission(self, request, obj=None):
-        return request.user.is_admin
+        return request.user.is_authenticated and request.user.is_admin
 
     def has_change_permission(self, request, obj=None):
-        return request.user.is_admin
+        return request.user.is_authenticated and request.user.is_admin
 
 
 class ProductVariantInline(admin.TabularInline):
@@ -251,21 +251,31 @@ class ProductAdmin(admin.ModelAdmin):
             obj.save()
 
     def has_view_permission(self, request: HttpRequest, obj=None) -> bool:
-        return request.user.is_admin or (
-            request.user.is_seller and (obj and request.user.store == obj.store)
+        return (
+            request.user.is_authenticated
+            and request.user.is_admin
+            or (request.user.is_seller and (obj and request.user.store == obj.store))
         )
 
     def has_add_permission(self, request: HttpRequest, obj=None):
-        return request.user.is_admin or (request.user.is_seller)
+        return (
+            request.user.is_authenticated
+            and request.user.is_admin
+            or (request.user.is_seller)
+        )
 
     def has_delete_permission(self, request: HttpRequest, obj=None):
-        return request.user.is_admin or (
-            request.user.is_seller and (obj and request.user.store == obj.store)
+        return (
+            request.user.is_authenticated
+            and request.user.is_admin
+            or (request.user.is_seller and (obj and request.user.store == obj.store))
         )
 
     def has_change_permission(self, request: HttpRequest, obj=None):
-        return request.user.is_admin or (
-            request.user.is_seller and (obj and request.user.store == obj.store)
+        return (
+            request.user.is_authenticated
+            and request.user.is_admin
+            or (request.user.is_seller and (obj and request.user.store == obj.store))
         )
 
     def save_model(self, request, obj, form, change):
@@ -297,21 +307,40 @@ class ProductVariantAdmin(admin.ModelAdmin):
     ]
 
     def has_view_permission(self, request: HttpRequest, obj=None) -> bool:
-        return request.user.is_admin or (
-            request.user.is_seller and (obj and request.user.store == obj.product.store)
+        return (
+            request.user.is_authenticated
+            and request.user.is_admin
+            or (
+                request.user.is_seller
+                and (obj and request.user.store == obj.product.store)
+            )
         )
 
     def has_add_permission(self, request, obj=None):
-        return request.user.is_admin or (request.user.is_seller)
+        return (
+            request.user.is_authenticated
+            and request.user.is_admin
+            or (request.user.is_seller)
+        )
 
     def has_delete_permission(self, request, obj=None):
-        return request.user.is_admin or (
-            request.user.is_seller and (obj and request.user.store == obj.product.store)
+        return (
+            request.user.is_authenticated
+            and request.user.is_admin
+            or (
+                request.user.is_seller
+                and (obj and request.user.store == obj.product.store)
+            )
         )
 
     def has_change_permission(self, request, obj=None):
-        return request.user.is_admin or (
-            request.user.is_seller and (obj and request.user.store == obj.product.store)
+        return (
+            request.user.is_authenticated
+            and request.user.is_admin
+            or (
+                request.user.is_seller
+                and (obj and request.user.store == obj.product.store)
+            )
         )
 
 
@@ -332,21 +361,40 @@ class ProductImageAdmin(admin.ModelAdmin):
     ]
 
     def has_view_permission(self, request: HttpRequest, obj=None) -> bool:
-        return request.user.is_admin or (
-            request.user.is_seller and (obj and request.user.store == obj.product.store)
+        return (
+            request.user.is_authenticated
+            and request.user.is_admin
+            or (
+                request.user.is_seller
+                and (obj and request.user.store == obj.product.store)
+            )
         )
 
     def has_add_permission(self, request, obj=None):
-        return request.user.is_admin or (request.user.is_seller)
+        return (
+            request.user.is_authenticated
+            and request.user.is_admin
+            or (request.user.is_seller)
+        )
 
     def has_delete_permission(self, request, obj=None):
-        return request.user.is_admin or (
-            request.user.is_seller and (obj and request.user.store == obj.product.store)
+        return (
+            request.user.is_authenticated
+            and request.user.is_admin
+            or (
+                request.user.is_seller
+                and (obj and request.user.store == obj.product.store)
+            )
         )
 
     def has_change_permission(self, request, obj=None):
-        return request.user.is_admin or (
-            request.user.is_seller and (obj and request.user.store == obj.product.store)
+        return (
+            request.user.is_authenticated
+            and request.user.is_admin
+            or (
+                request.user.is_seller
+                and (obj and request.user.store == obj.product.store)
+            )
         )
 
 
@@ -383,16 +431,16 @@ class CartAdmin(admin.ModelAdmin):
     exclude = ["added_by", "added_at"]
 
     def has_module_permission(self, request: HttpRequest, obj=None) -> bool:
-        return request.user.is_admin
+        return request.user.is_authenticated and request.user.is_admin
 
     def has_view_permission(self, request: HttpRequest, obj=None) -> bool:
-        return request.user.is_admin
+        return request.user.is_authenticated and request.user.is_admin
 
     def has_add_permission(self, request, obj=None):
-        return request.user.is_admin
+        return request.user.is_authenticated and request.user.is_admin
 
     def has_delete_permission(self, request, obj=None):
-        return request.user.is_admin
+        return request.user.is_authenticated and request.user.is_admin
 
     def has_change_permission(self, request, obj=None):
-        return request.user.is_admin
+        return request.user.is_authenticated and request.user.is_admin

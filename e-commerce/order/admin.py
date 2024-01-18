@@ -92,7 +92,11 @@ class OrderAdmin(admin.ModelAdmin):
         return obj.user if obj.user else "Guest"
 
     def has_view_permission(self, request: HttpRequest, obj=None) -> bool:
-        return request.user.is_admin or (obj and obj.seller == request.user.store)
+        return (
+            request.user.is_authenticated
+            and request.user.is_admin
+            or (obj and obj.seller == request.user.store)
+        )
 
     def has_add_permission(self, request, obj=None):
         return False
@@ -158,8 +162,10 @@ class OrderItemAdmin(admin.ModelAdmin):
         return "-"
 
     def has_view_permission(self, request, obj=None) -> bool:
-        return request.user.is_admin or (
-            obj and obj.product.store == request.user.store
+        return (
+            request.user.is_authenticated
+            and request.user.is_admin
+            or (obj and obj.product.store == request.user.store)
         )
 
     def has_add_permission(self, request, obj=None):
@@ -169,7 +175,7 @@ class OrderItemAdmin(admin.ModelAdmin):
         return False
 
     def has_change_permission(self, request, obj=None):
-        return request.user.is_admin
+        return request.user.is_authenticated and request.user.is_admin
 
     def mark_as_fullfiled(self, request, queryset):
         for obj in queryset:
