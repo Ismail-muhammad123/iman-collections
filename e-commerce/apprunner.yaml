@@ -4,10 +4,7 @@ build:
   commands:
     build:
       - pip install -r ../requirements.txt
-# run:
-#   command: python manage.py collectstatic --noinput && gunicorn imanClothing.wsgi
-#   network:
-#     port: 8000
-
-startCommand: python manage.py collectstatic --noinput && gunicorn --workers 2 imanClothing.wsgi
-port: 8000
+run:
+  command: gunicorn imanClothing.wsgi
+  network:
+    port: 8000
