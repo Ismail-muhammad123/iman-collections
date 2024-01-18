@@ -47,6 +47,7 @@ REST_FRAMEWORK = {
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -112,13 +113,23 @@ else:
         # -------------------------------------------------------------------------------------------------
         # allowned hosts
         ALLOWED_HOSTS = [
-            "www.imanclothing.net",
-            "imanclothing.net",
-            "admin.imanclothing.net",
+            # "www.imanclothing.net",
+            # "imanclothing.net",
+            # "admin.imanclothing.net",
+            ".awsapprunner.com"
         ]
 
+        STORAGES = {
+            "default": {
+                "BACKEND": "django.core.files.storage.FileSystemStorage",
+            },
+            "staticfiles": {
+                "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+            },
+        }
+
         # ssl forcing
-        SECURE_SSL_REDIRECT = True
+        # SECURE_SSL_REDIRECT = True
 
         # static and media files
         AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
