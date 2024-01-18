@@ -8,3 +8,4 @@ gunicorn
 pillow
 requests
 whitenoise
+django_heroku
