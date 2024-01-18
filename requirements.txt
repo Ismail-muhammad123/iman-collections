@@ -2,7 +2,6 @@ boto3
 botocore
 dj-database-url
 Django
-django-heroku
 django-storages
 djangorestframework
 gunicorn
