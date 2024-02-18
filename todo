@@ -21,4 +21,8 @@ order app
     order list
 
 
-
+* individual orders and tracking IDs for product variants
+* mail notifications for new orders and successfully recieved orders
+* mail account activation and password recovery
+* home/landing page design
+* store approval status check *

@@ -15,10 +15,20 @@ Seller Store Profile
     {% endfor %}
 
     {% csrf_token %}
-    <h1 class="text-center text-uppercase h1 mb-3" style="color: purple; font-weight: 700;">Store Profile</h1>
-    <div class="col-12 text-center">
-        <a href="{% url 'create_new_store' %}" class="btn btn-secondary">Edit Store Profile</a>
-        <a href="/admin" class="btn btn-success">Open Dashboard</a>
+    <h1 class="text-center text-uppercase h1 mb-3" style="color: purple; font-weight: 700;">Store Profile
+    </h1>
+    <div class="text-center">
+        {% if not store.is_approved %}
+        <span class="badge bg-warning mb-1">Waiting for Approval</span>
+        {% endif %}
+        <div class="col-12 text-center">
+            <a href="{% url 'create_new_store' %}" class="btn btn-secondary shadow">Edit Store Information</a>
+            {% if store.is_approved and request.user.is_active %}
+            <a href="/admin" class="btn btn-success shadow}">Open
+                Dashboard
+            </a>
+            {% endif %}
+        </div>
     </div>
     <div class="form-row">
         <div class="col-12 ">

@@ -99,11 +99,12 @@ class Store(models.Model):
 
     # Store State
     is_verified = models.BooleanField(default=False)
+    is_approved = models.BooleanField(default=False)
     is_open = models.BooleanField(default=False)
     last_viewed = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.business_name
+        return self.business_name or ""
 
     def trial_expired(self):
         return (datetime.now() - self.created_at).days >= 14

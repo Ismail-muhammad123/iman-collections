@@ -34,9 +34,9 @@ def create_store(request):
             store.phone_number = data["phone_number"]
             store.alternate_phone_number = data["alternate_phone_number"]
             store.about = data["about"]
-            store.is_registered = data.get("registration_status", "0") == "1"
-            store.tin = data["tin"]
-            store.rc_number = data["rc_number"]
+            # store.is_registered = data.get("registration_status", "0") == "1"
+            # store.tin = data["tin"]
+            # store.rc_number = data["rc_number"]
             store.bank_name = data["bank_name"]
             store.account_name = data["account_name"]
             store.account_number = data["account_number"]
@@ -58,15 +58,16 @@ def create_store(request):
             return render(request, "store/store_profile.html", context={"store": store})
 
         else:
+            store.business_name = data["business_name"]
             store.business_address = data["business_address"]
             store.email = data["email"]
             store.alternate_email = data["alternate_email"]
             store.phone_number = data["phone_number"]
             store.alternate_phone_number = data["alternate_phone_number"]
             store.about = data["about"]
-            store.is_registered = data.get("registration_status", "0") == "1"
-            store.tin = data["tin"]
-            store.rc_number = data["rc_number"]
+            # store.is_registered = data.get("registration_status", "0") == "1"
+            # store.tin = data["tin"]
+            # store.rc_number = data["rc_number"]
             store.save()
 
             messages.add_message(

@@ -97,8 +97,8 @@
             <a class="nav-link" href="{% url 'categories' %}">Categories</a>
           </li> -->
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" id="category_nav" data-toggle="dropdown" href="#" role="button"
-              aria-haspopup="true" aria-expanded="false">Categories</a>
+            <span class="nav-link dropdown-toggle" id="category_nav" data-toggle="dropdown" href="#" role="button"
+              aria-haspopup="true" aria-expanded="false">Categories</span>
             <div id="cat-menu-items" class="dropdown-menu">
               <a class="dropdown-item" href="{% url 'categories' %}">All</a>
               <a class="dropdown-item" href="{% url 'categories' %}/trending">Trending</a>
@@ -342,6 +342,7 @@
             dataType: 'json',
             success: function (data) {
               // Once the data is successfully fetched, proceed
+              console.log(data);
               initializePage(data);
             },
             error: function (error) {

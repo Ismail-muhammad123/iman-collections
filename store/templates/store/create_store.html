@@ -84,41 +84,6 @@ Create Seller Profile
                     <label for="about">About <span class="text-danger">*</span></label>
                 </div>
             </div>
-
-            <hr />
-            <div class="col-10 mt-3">
-                <h5 class="text-uppercase fw-bold " style="color: purple;">Business Registration
-                    Information
-                </h5>
-            </div>
-            <div class="row">
-                <div class="col-12 my-1">
-                    <div class="form-floating">
-                        <select class="form-control" name="registration_status" id="registration_status">
-                            <option {% if not store.is_registered %} selected {%endif%} value="0">Not Registered
-                            </option>
-                            <option {% if store.is_registered %} selected {%endif%} value="1">Registered</option>
-                        </select>
-                        <label class="form-check-label" for="registration_status">
-                            Business is registered
-                        </label>
-                    </div>
-                </div>
-                <div class="col-6 my-1">
-                    <div class="form-floating">
-                        <input type="text" class="form-control rounded" value="{{store.tin}}" id="tin" name="tin"
-                            placeholder="name">
-                        <label for="tin">Tax Identification Number <span class="text-danger">*</span></label>
-                    </div>
-                </div>
-                <div class="col-6 my-1">
-                    <div class="form-floating">
-                        <input type="text" class="form-control rounded" value="{{store.rc_number}}" id="rc_number"
-                            name="rc_number">
-                        <label for="rc_number">RC Number <span class="text-danger">*</span></label>
-                    </div>
-                </div>
-            </div>
             <hr />
             <div class="col-10 mt-3">
                 <h5 class="text-uppercase fw-bold" style="color: purple;">Banking Information

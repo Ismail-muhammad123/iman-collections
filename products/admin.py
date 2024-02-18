@@ -250,39 +250,48 @@ class ProductAdmin(admin.ModelAdmin):
         for obj in queryset:
             obj.save()
 
-    def has_view_permission(self, request: HttpRequest, obj=None) -> bool:
-        return (
-            request.user.is_authenticated
-            and request.user.is_admin
-            or (request.user.is_seller and (obj and request.user.store == obj.store))
+    def has_view_permission(self, request, obj=None):
+
+        return request.user.is_authenticated and (
+            request.user.is_admin
+            or (
+                request.user.is_seller
+                and ((obj and request.user.store == obj.store) or obj is None)
+            )
         )
 
     def has_add_permission(self, request: HttpRequest, obj=None):
-        return (
-            request.user.is_authenticated
-            and request.user.is_admin
-            or (request.user.is_seller)
+        return request.user.is_authenticated and (
+            request.user.is_admin or request.user.is_seller
         )
 
     def has_delete_permission(self, request: HttpRequest, obj=None):
         return (
             request.user.is_authenticated
             and request.user.is_admin
-            or (request.user.is_seller and (obj and request.user.store == obj.store))
+            or (
+                request.user.is_seller
+                and ((obj and request.user.store == obj.store) or obj is None)
+            )
         )
 
     def has_change_permission(self, request: HttpRequest, obj=None):
         return (
             request.user.is_authenticated
             and request.user.is_admin
-            or (request.user.is_seller and (obj and request.user.store == obj.store))
+            or (
+                request.user.is_seller
+                and ((obj and request.user.store == obj.store) or obj is None)
+            )
         )
 
     def save_model(self, request, obj, form, change):
         obj.added_by = request.user
         if request.user.store is not None:
             obj.store = request.user.store
-        return super().save_model(request, obj, form, change)
+            return super().save_model(request, obj, form, change)
+        else:
+            raise Exception("Current User has no store attached to it")
 
 
 @admin.register(ProductVariant)
@@ -312,7 +321,7 @@ class ProductVariantAdmin(admin.ModelAdmin):
             and request.user.is_admin
             or (
                 request.user.is_seller
-                and (obj and request.user.store == obj.product.store)
+                and ((obj and request.user.store == obj.product.store) or obj is None)
             )
         )
 
@@ -329,7 +338,7 @@ class ProductVariantAdmin(admin.ModelAdmin):
             and request.user.is_admin
             or (
                 request.user.is_seller
-                and (obj and request.user.store == obj.product.store)
+                and ((obj and request.user.store == obj.product.store) or obj is None)
             )
         )
 
@@ -339,7 +348,7 @@ class ProductVariantAdmin(admin.ModelAdmin):
             and request.user.is_admin
             or (
                 request.user.is_seller
-                and (obj and request.user.store == obj.product.store)
+                and ((obj and request.user.store == obj.product.store) or obj is None)
             )
         )
 
@@ -366,7 +375,7 @@ class ProductImageAdmin(admin.ModelAdmin):
             and request.user.is_admin
             or (
                 request.user.is_seller
-                and (obj and request.user.store == obj.product.store)
+                and ((obj and request.user.store == obj.product.store) or obj is None)
             )
         )
 
@@ -383,7 +392,7 @@ class ProductImageAdmin(admin.ModelAdmin):
             and request.user.is_admin
             or (
                 request.user.is_seller
-                and (obj and request.user.store == obj.product.store)
+                and ((obj and request.user.store == obj.product.store) or obj is None)
             )
         )
 
@@ -393,7 +402,7 @@ class ProductImageAdmin(admin.ModelAdmin):
             and request.user.is_admin
             or (
                 request.user.is_seller
-                and (obj and request.user.store == obj.product.store)
+                and ((obj and request.user.store == obj.product.store) or obj is None)
             )
         )
 
