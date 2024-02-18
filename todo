@@ -10,7 +10,7 @@ store app
 
 product app 
     product creation  
-        variety creation  
+    variety creation  
     product editing
     product viewing
     product deleting

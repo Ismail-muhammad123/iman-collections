@@ -55,6 +55,9 @@ class OrderAdmin(admin.ModelAdmin):
         "status",
         "items",
         "payment_status",
+        "full_name",
+        "email",
+        "phone_number",
         "country",
         "state",
         "zip_code",
@@ -67,7 +70,6 @@ class OrderAdmin(admin.ModelAdmin):
     ]
 
     # actions = [
-
     # ]
 
     def payment_status(self, obj):
@@ -110,6 +112,7 @@ class OrderAdmin(admin.ModelAdmin):
 
 @admin.register(OrderItem)
 class OrderItemAdmin(admin.ModelAdmin):
+    # ==================== cutome fields ===========================
     def buyer(self, obj):
         if obj.order.user:
             return f"{obj.order.user.first_name} {obj.order.user.last_name}"
@@ -161,36 +164,26 @@ class OrderItemAdmin(admin.ModelAdmin):
             return mark_safe(display_text)
         return "-"
 
-    def has_view_permission(self, request, obj=None) -> bool:
-        return (
-            request.user.is_authenticated
-            and request.user.is_admin
-            or (obj and obj.product.store == request.user.store)
-        )
+    def payment_status(self, obj):
+        return obj.order.payment_status
 
-    def has_add_permission(self, request, obj=None):
-        return False
+    def email(self, obj):
+        return obj.order.email
 
-    def has_delete_permission(self, request, obj=None):
-        return False
+    def phone_number(self, obj):
+        return obj.order.phone_number
 
-    def has_change_permission(self, request, obj=None):
-        return request.user.is_authenticated and request.user.is_admin
+    def country(self, obj):
+        return obj.order.country
 
-    def mark_as_fullfiled(self, request, queryset):
-        for obj in queryset:
-            obj.delivery_status = 2
-            obj.save()
+    def state(self, obj):
+        return obj.order.state
 
-    def mark_as_unfullfiled(self, request, queryset):
-        for obj in queryset:
-            obj.delivery_status = 1
-            obj.save()
+    def zip_code(self, obj):
+        return obj.order.zip_code
 
-    actions = [
-        "mark_as_fullfiled",
-        "mark_as_unfullfiled",
-    ]
+    def delivery_address(self, obj):
+        return obj.order.delivery_address
 
     list_display = [
         "product",
@@ -201,6 +194,13 @@ class OrderItemAdmin(admin.ModelAdmin):
         "tax",
         "delivery_fee",
         "tracking_id",
+        "payment_status",
+        "email",
+        "phone_number",
+        "country",
+        "state",
+        "zip_code",
+        "delivery_address",
         "order_delivery_status",
         "delivery_date",
         "quantity",
@@ -217,3 +217,36 @@ class OrderItemAdmin(admin.ModelAdmin):
     search_fields = [
         "order__id",
     ]
+
+    # ====================== actions ================================
+    def mark_as_fullfiled(self, request, queryset):
+        for obj in queryset:
+            obj.delivery_status = 2
+            obj.save()
+
+    def mark_as_unfullfiled(self, request, queryset):
+        for obj in queryset:
+            obj.delivery_status = 1
+            obj.save()
+
+    actions = [
+        "mark_as_fullfiled",
+        "mark_as_unfullfiled",
+    ]
+
+    # Permissions
+    def has_view_permission(self, request, obj=None) -> bool:
+        return (
+            request.user.is_authenticated
+            and request.user.is_admin
+            or ((obj and obj.product.store == request.user.store) or obj is None)
+        )
+
+    def has_add_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return request.user.is_authenticated and request.user.is_admin

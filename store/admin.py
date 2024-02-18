@@ -3,8 +3,6 @@ from django.http import HttpRequest
 
 from store.models import Payout, Store, Plan, Subscription, SubscriptionPayment
 
-# Register your models here.
-
 
 @admin.register(Plan)
 class PlanAdmin(admin.ModelAdmin):
