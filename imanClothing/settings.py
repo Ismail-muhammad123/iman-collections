@@ -88,6 +88,9 @@ EMAIL_PORT = ""
 # EMAIL_HOST_PASSWORD =""
 EMAIL_FROM_ADDRESS = "noreply.notifications@imanStores.com"
 
+PAYMENT_GATEAWAY_URL = "https://api.paystack.co/transaction/initialize"
+PAYMENT_VERIFICATION_URL = " https://api.paystack.co/transaction/verify/"
+
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -103,7 +106,17 @@ if DEV:
     STATIC_URL = "/static/"
     STATIC_ROOT = BASE_DIR / "static"
     ALLOWED_HOSTS = ["*"]
+
+    # Mail backend
+    # EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+    PAYMENT_GATEAWAY_SECRET_KEY = "sk_test_a6ab34905d1976de1021fd6ff3ec79b9305b17e5"
+    PAYMENT_GATEAWAY_PUBLIC_KEY = "pk_test_4113a8e663d336eb320548c07ea77b4f06ce8ad8"
+    REDIRECT_URL = "http://127.0.0.1:8000/checkout/verify"
 else:
+    PAYMENT_GATEAWAY_SECRET_KEY = os.environ.get("PAYMENT_GATEAWAY_SECRET_KEY")
+    PAYMENT_GATEAWAY_PUBLIC_KEY = os.environ.get("PAYMENT_GATEAWAY_PUBLIC_KEY")
+    REDIRECT_URL = "https://www.imanclothing.net/checkout/verify"
     if DEBUG == True:
         DATABASES = {
             "default": {
@@ -184,7 +197,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Africa/Lagos"
 
 USE_I18N = True
 
@@ -208,20 +221,3 @@ LOGIN_URL = "/account/login"
 # Default primary key field type
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
-# payment gateaway
-PAYMENT_GATEAWAY_URL = "https://api.paystack.co/transaction/initialize"
-PAYMENT_VERIFICATION_URL = " https://api.paystack.co/transaction/verify/"
-PAYMENT_GATEAWAY_SECRET_KEY = (
-    os.environ.get("PAYMENT_GATEAWAY_SECRET_KEY")
-    if not DEV
-    else "sk_test_a6ab34905d1976de1021fd6ff3ec79b9305b17e5"
-)
-PAYMENT_GATEAWAY_PUBLIC_KEY = (
-    os.environ.get("PAYMENT_GATEAWAY_PUBLIC_KEY")
-    if not DEV
-    else "pk_test_4113a8e663d336eb320548c07ea77b4f06ce8ad8"
-)
-
-REDIRECT_URL = "https://www.imanclothing.net/checkout/verify"
-# REDIRECT_URL = "http://127.0.0.1:8000/checkout/verify"

@@ -31,12 +31,13 @@ order app
 * mail notifications 
     - for new sales *
     - orders reciepts *
-    - account activation
-    - password recovery
-    - new account creation success
-    - store approval
-    - store suspension
-    - payout
-    - new product post from a followed store
-
+    - account activation *
+    - password recovery *
+    - store approval 
+    - store suspension 
+    - payout 
+    - new product post from a followed store 
+* reporting a product
+* reporting a seller
+* following a seller
 * home/landing page design
