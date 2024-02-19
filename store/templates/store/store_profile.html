@@ -13,21 +13,16 @@ Seller Store Profile
         </div>
     </div>
     {% endfor %}
-
     {% csrf_token %}
     <h1 class="text-center text-uppercase h1 mb-3" style="color: purple; font-weight: 700;">Store Profile
     </h1>
     <div class="text-center">
         {% if not store.is_approved %}
-        <span class="badge bg-warning mb-1">Waiting for Approval</span>
+        <span class="badge bg-warning mb-1">Waiting for Store Approval</span>
         {% endif %}
         <div class="col-12 text-center">
             <a href="{% url 'create_new_store' %}" class="btn btn-secondary shadow">Edit Store Information</a>
-            {% if store.is_approved and request.user.is_active %}
-            <a href="/admin" class="btn btn-success shadow}">Open
-                Dashboard
-            </a>
-            {% endif %}
+            <a href="/admin" class="btn btn-success shadow}">Open Dashboard</a>
         </div>
     </div>
     <div class="form-row">
@@ -55,20 +50,11 @@ Seller Store Profile
             </div>
             <div class="col-6 my-1">
                 <strong>Alternate Phone Number: </strong> <span>{{store.alternte_phone_number}}</span>
-
             </div>
         </div>
         <div class="col-12 my-1">
             <strong>About: </strong> <span>{{store.about}}</span>
-
         </div>
-        <!-- <div class="col-12 my-1">
-            <div class="form-floating">
-                <input type="file" accept="image/*" class="form-control rounded" id="profile_picture"
-                    name="profile_picture" placeholder="profile_picture your business" />
-                <label for="profile_picture">Profile Picture </label>
-            </div>
-        </div> -->
         <hr />
         <div class="col-10 mt-3">
             <h5 class="text-uppercase fw-bold " style="color: purple;">Business Registration
@@ -103,17 +89,12 @@ Seller Store Profile
         <div class="row">
             <div class="col-6 my-1">
                 <strong>Account Name : </strong> <span>{{store.account_name}}</span>
-
             </div>
             <div class="col-6 my-1">
                 <strong>Bank Name : </strong> <span>{{store.bank_name}}</span>
-
             </div>
         </div>
         <hr />
-
-
     </div>
-
 </div>
 {% endblock %}

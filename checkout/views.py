@@ -1,21 +1,17 @@
 from datetime import datetime
 from django.conf import settings
 from django.utils.timezone import make_aware
-from json import JSONDecoder
-from pprint import pprint
 from django.shortcuts import render, redirect
-from django.conf import settings
 import uuid
 from django.shortcuts import get_object_or_404
-
 from products.models import Cart
 from .models import Payment
 from order.models import Order
 import requests
 from django.contrib import messages
 from django.urls import reverse
-from django.http import Http404, HttpResponseBadRequest
-from django.contrib.auth.decorators import login_required
+from django.http import Http404
+from mail_services import order_notifications
 
 
 def checkout(request, order_id):
@@ -131,13 +127,18 @@ def verify_payment(request):
             #     raise Http404
             # empty the cart
 
+            # load users cart content
             cart = (
                 request.user.cart
                 if request.user.is_authenticated
                 else Cart.objects.filter(device=request.COOKIES["device"])
             )
 
+            # clear cart
             [item.delete() for item in cart]
+
+            # send notification to sellers and customer
+            order_notifications.send_order_notifications(order)
 
             # redirect to order-tracking page
             return redirect(reverse("track_order"))

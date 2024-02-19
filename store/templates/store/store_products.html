@@ -1,8 +1,7 @@
 {% extends 'base/base.html' %}
 {% load static %}
 {% block title%}
-{% if store_name %} {{store_name}} {% endif %}
-{% if category_name %} {{category_name}} {% else %} Products {% endif %}
+Iman Store: #{{store.id}} | {% if category_name %} {{category_name}} {% else %} Products {% endif %}
 {% endblock %}
 {% block content %}
 

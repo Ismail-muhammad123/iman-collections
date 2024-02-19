@@ -81,6 +81,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "imanClothing.wsgi.application"
 
+# Mail
+EMAIL_HOST = ""
+EMAIL_PORT = ""
+# EMAIL_HOST_USER = ""
+# EMAIL_HOST_PASSWORD =""
+EMAIL_FROM_ADDRESS = "noreply.notifications@imanStores.com"
+
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases

@@ -9,6 +9,7 @@ from django.http import Http404
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.core import mail
 
 
 def new_order(request):
@@ -134,3 +135,4 @@ def track_order(request):
     context = {"orders": orders}
 
     return render(request, "order/order.html", context=context)
+
